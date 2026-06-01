@@ -368,6 +368,19 @@ function renderDiffResult() {
 }
 
 function startAssessmentFromDiff(specialty, diagnosis) {
+  // 保存完整的鉴别诊断结果到 sessionStorage
+  var fullResult = diffState ? {
+    diagnosis: diagnosis,
+    specialty: specialty,
+    label: diffState.tree.result(diffState.answers).label,
+    confidence: diffState.tree.result(diffState.answers).confidence,
+    reason: diffState.tree.result(diffState.answers).reason
+  } : null;
+  
+  if (fullResult) {
+    sessionStorage.setItem('rx-diff-result', JSON.stringify(fullResult));
+  }
+  
   sessionStorage.setItem('rx-specialty', specialty);
   sessionStorage.setItem('rx-diagnosis', diagnosis || '');
   sessionStorage.setItem('rx-symptoms', diffState ? diffState.keyword : '');
