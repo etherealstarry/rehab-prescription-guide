@@ -476,24 +476,21 @@
   function nextStep() {
     collectStepData(steps[currentStep]);
 
-    // 检查红旗症状
-    if (currentStep === steps.length - 1) {
-      var rf = checkRedFlagsFromForm();
-      if (rf && rf.isRedFlag) {
-        showRedFlagAlert(rf);
-        return;
-      }
-    }
-
     if (currentStep < steps.length - 1) {
       currentStep++;
       renderStepIndicator();
       renderStep();
     } else {
-      // 最后一步 → 生成处方
+      // 最后一步 → 保存数据并跳转到处方页
+      var rf = checkRedFlagsFromForm();
+      if (rf && rf.isRedFlag) {
+        sessionStorage.setItem('rx-redflags', JSON.stringify(rf));
+      } else {
+        sessionStorage.removeItem('rx-redflags');
+      }
       sessionStorage.setItem('rx-assessment-data', JSON.stringify(formData));
       sessionStorage.setItem('rx-specialty', specialty);
-      showPrescription();
+      window.location.href = 'prescription.html';
     }
   }
 
