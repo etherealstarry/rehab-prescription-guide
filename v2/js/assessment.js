@@ -35,8 +35,14 @@ var assessmentFlow = {
 
   // 根据鉴别诊断结果，生成个性化评估流程
   buildFlow: function(diffResult) {
+    // 调试日志
+    console.log('[assessment.js] buildFlow() 收到 diffResult:', diffResult);
+    
     var diagnosis = diffResult ? diffResult.diagnosis : 'unknown';
     var specialty = diffResult ? diffResult.specialty : 'general';
+    
+    // 调试日志
+    console.log('[assessment.js] diagnosis:', diagnosis, '| specialty:', specialty);
 
     // 基础流程（所有患者共用）
     var flow = {
@@ -118,9 +124,15 @@ var assessmentFlow = {
   // 根据诊断生成 ROM/肌力评估卡片
   buildROMCards: function(diagnosis, specialty) {
     var cards = [];
+    
+    // 调试日志
+    console.log('[assessment.js] buildROMCards() 收到: diagnosis=' + diagnosis + ', specialty=' + specialty);
 
     // 肘管综合征 / 尺神经卡压 / 手外科相关
-    if (specialty === 'hand' || diagnosis === 'cubital_tunnel' || diagnosis === 'ulnar_canal' || diagnosis === 'cervical_radiculopathy') {
+    // 修复：添加更多匹配条件，确保能正确匹配
+    if (specialty === 'hand' || specialty === 'cervical' || 
+        diagnosis === 'cubital_tunnel' || diagnosis === 'ulnar_canal' || 
+        diagnosis === 'cervical_radiculopathy' || diagnosis === 'cervical_myelopathy') {
       cards = [
         {
           id: 'rom_elbow',
