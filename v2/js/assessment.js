@@ -81,13 +81,13 @@ var assessmentFlow = {
       {
         id: 'functional_limit',
         type: 'radio_card',
-        title: '功能受限程度',
+        title: '对日常生活的影响程度',
         subtitle: '请选择最符合您当前状态的表述',
         options: [
-          { value: 'mild', label: '轻度受限', desc: '能完成大部分日常活动，仅个别动作有影响', icon: '🟢' },
-          { value: 'moderate', label: '中度受限', desc: '日常活动明显受影响，需要想办法克服', icon: '🟡' },
-          { value: 'severe', label: '重度受限', desc: '很多日常活动无法独立完成', icon: '🟠' },
-          { value: 'extreme', label: '极重度受限', desc: '基本无法独立生活，需要他人帮助', icon: '🔴' }
+          { value: 'mild', label: '影响不大', desc: '能正常工作/学习，只是拿筷子、系扣子稍微有点笨拙', icon: '🟢' },
+          { value: 'moderate', label: '有些影响', desc: '写字、用剪刀、开瓶盖这些精细动作明显变差，需要放慢速度', icon: '🟡' },
+          { value: 'severe', label: '影响很大', desc: '扣纽扣、拉拉链、拧毛巾都困难，可能需要用另一只手帮忙', icon: '🟠' },
+          { value: 'extreme', label: '几乎做不了', desc: '连拿手机、翻书页都困难，基本做不了精细动作', icon: '🔴' }
         ],
         key: 'functional_limit'
       }
