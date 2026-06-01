@@ -102,7 +102,17 @@ function doSearch(keyword) {
 
   var matches = DiagnosisTree.matchSymptoms(keyword);
   if (!matches || matches.length === 0) {
-    showNoResult(keyword);
+    showResults(keyword, matches);
+    return;
+  }
+
+  // 检查是否有追问树（交互式鉴别诊断）
+  var tree = null;
+  if (window.DifferentialEngine) {
+    tree = DifferentialEngine.getTree(keyword);
+  }
+  if (tree) {
+    showDifferential(tree, keyword);
     return;
   }
 
@@ -222,4 +232,145 @@ function switchMode() {
     var link2 = document.getElementById('rx-mode-link');
     if (link2) link2.textContent = '切换回普通版 →';
   }
+}
+
+/* ============================================================
+   交互式追问评估（Differential Diagnosis）
+   ============================================================ */
+var diffState = null; // { tree, keyword, currentStep, answers }
+
+function showDifferential(tree, keyword) {
+  diffState = { tree: tree, keyword: keyword, currentStep: 0, answers: {} };
+
+  var defaultCards = document.getElementById('rx-default-cards');
+  var results = document.getElementById('rx-results');
+  if (defaultCards) defaultCards.style.display = 'none';
+  if (results) results.style.display = 'block';
+
+  var count = document.getElementById('rx-results-count');
+  if (count) count.textContent = '根据您描述的症状「' + keyword + '」，系统将通过几个简单问题帮您判断具体情况';
+
+  renderDiffStep();
+}
+
+function renderDiffStep() {
+  var list = document.getElementById('rx-results-list');
+  if (!list) return;
+
+  var step = diffState.tree.steps[diffState.currentStep];
+  if (!step) { renderDiffResult(); return; }
+
+  // 如果是 RED_FLAG 步骤且已触发，直接显示警告
+  if (step.next === 'RED_FLAG' && diffState.answers[step.id] === 'redflag') {
+    renderDiffResult();
+    return;
+  }
+
+  var html = '<div class="rx-diff-card">';
+  html += '<div class="rx-diff-step-indicator">问题 ' + (diffState.currentStep + 1) + '/' + diffState.tree.steps.length + '</div>';
+  html += '<div class="rx-diff-question">' + step.question + '</div>';
+  if (step.guide) {
+    html += '<div class="rx-diff-guide">💡 ' + step.guide + '</div>';
+  }
+  html += '<div class="rx-diff-options">';
+
+  if (step.type === 'radio') {
+    step.options.forEach(function(opt, idx) {
+      var checked = diffState.answers[step.id] === opt.value ? ' checked' : '';
+      html += '<label class="rx-diff-option-label">';
+      html += '<input type="radio" name="diff_' + step.id + '" value="' + opt.value + '"' + checked + '>';
+      html += '<span class="rx-diff-option-text">' + opt.label + '</span>';
+      html += '</label>';
+    });
+  } else if (step.type === 'checkbox') {
+    step.options.forEach(function(opt, idx) {
+      var checked = (diffState.answers[step.id] || []).indexOf(opt.value) !== -1 ? ' checked' : '';
+      html += '<label class="rx-diff-option-label">';
+      html += '<input type="checkbox" name="diff_' + step.id + '" value="' + opt.value + '"' + checked + '>';
+      html += '<span class="rx-diff-option-text">' + opt.label + '</span>';
+      html += '</label>';
+    });
+  }
+
+  html += '</div>';
+  html += '<div class="rx-diff-actions">';
+  if (diffState.currentStep > 0) {
+    html += '<button class="rx-diff-btn rx-diff-btn-back" onclick="diffGoBack()">← 上一步</button>';
+  }
+  html += '<button class="rx-diff-btn rx-diff-btn-next" onclick="diffGoNext()">' + 
+          (diffState.currentStep < diffState.tree.steps.length - 1 ? '下一步 →' : '查看结果') + 
+          '</button>';
+  html += '</div></div>';
+
+  list.innerHTML = html;
+}
+
+function diffGoNext() {
+  var step = diffState.tree.steps[diffState.currentStep];
+  var inputName = 'diff_' + step.id;
+
+  if (step.type === 'radio') {
+    var checked = document.querySelector('input[name="' + inputName + '"]:checked');
+    if (!checked) { alert('请选择一个选项'); return; }
+    diffState.answers[step.id] = checked.value;
+  } else if (step.type === 'checkbox') {
+    var checkedBoxes = document.querySelectorAll('input[name="' + inputName + '"]:checked');
+    diffState.answers[step.id] = Array.from(checkedBoxes).map(function(cb) { return cb.value; });
+  }
+
+  // 检查是否 RED_FLAG
+  if (step.next === 'RED_FLAG' && diffState.answers[step.id] === 'redflag') {
+    renderDiffResult();
+    return;
+  }
+
+  diffState.currentStep++;
+  if (diffState.currentStep >= diffState.tree.steps.length) {
+    renderDiffResult();
+  } else {
+    renderDiffStep();
+  }
+}
+
+function diffGoBack() {
+  if (diffState.currentStep > 0) {
+    diffState.currentStep--;
+    renderDiffStep();
+  }
+}
+
+function renderDiffResult() {
+  var result = diffState.tree.result(diffState.answers);
+  var list = document.getElementById('rx-results-list');
+  if (!list) return;
+
+  if (result.redflag) {
+    list.innerHTML =
+      '<div class="rx-redflag-alert">' +
+      '  <div class="rx-redflag-icon">⚠️</div>' +
+      '  <div class="rx-redflag-title">安全红线警告</div>' +
+      '  <div class="rx-redflag-msg">' + result.redflagMsg + '</div>' +
+      '  <button class="rx-result-btn" onclick="location.reload()">重新描述症状</button>' +
+      '</div>';
+    return;
+  }
+
+  var html = '<div class="rx-diff-result">';
+  html += '<div class="rx-diff-result-title">🧐 您的评估结果</div>';
+  html += '<div class="rx-diff-result-label">' + result.label + '</div>';
+  html += '<div class="rx-diff-result-confidence">系统判断置信度：' + result.confidence + '%</div>';
+  html += '<div class="rx-diff-result-reason">判断依据：' + result.reason + '</div>';
+  html += '<div class="rx-diff-result-action">';
+  html += '<button class="rx-result-btn" onclick="startAssessmentFromDiff(\'' + result.specialty + '\', \'' + result.diagnosis + '\')">开始评估 →</button>';
+  html += '</div></div>';
+
+  list.innerHTML = html;
+}
+
+function startAssessmentFromDiff(specialty, diagnosis) {
+  sessionStorage.setItem('rx-specialty', specialty);
+  sessionStorage.setItem('rx-diagnosis', diagnosis || '');
+  sessionStorage.setItem('rx-symptoms', diffState ? diffState.keyword : '');
+  sessionStorage.setItem('rx-diff-answers', JSON.stringify(diffState ? diffState.answers : {}));
+  window.location.href = 'assessment.html?specialty=' + specialty;
 }
