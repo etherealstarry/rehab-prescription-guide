@@ -152,13 +152,6 @@ asFormConfigs.neuro = {
       icon: '🧠',
       fields: [
         {
-          id: 'neuro_diagnosis',
-          label: '诊断',
-          type: 'select',
-          options: ['缺血性脑卒中', '出血性脑卒中', 'TIA（短暂性脑缺血发作）', '脊髓损伤（颈段）', '脊髓损伤（胸段）', '脊髓损伤（腰段）', '帕金森病', '其他神经系统疾病'],
-          required: true
-        },
-        {
           id: 'onset_days',
           label: '发病/损伤距今时间',
           type: 'select',
@@ -482,13 +475,6 @@ asFormConfigs.knee = {
       icon: '🦵',
       fields: [
         {
-          id: 'knee_diagnosis',
-          label: '诊断',
-          type: 'select',
-          options: ['ACL断裂（前交叉韧带）', 'ACL重建术后', '半月板损伤/术后', '膝骨关节炎（Kellgren-Lawrence分级 I-IV）', '髌股关节疼痛综合征', '鹅足肌腱炎', '膝关节置换术后（TKA）', '其他'],
-          required: true
-        },
-        {
           id: 'knee_side',
           label: '患侧',
           type: 'select',
@@ -702,13 +688,6 @@ asFormConfigs.shoulder = {
       icon: '🦾',
       fields: [
         {
-          id: 'shoulder_diagnosis',
-          label: '诊断',
-          type: 'select',
-          options: ['肩袖损伤（冈上肌/冈下肌/小圆肌/肩胛下肌）', '冻结肩（原发性/继发性）', '肩峰下撞击综合征', '肩关节置换术后', '肩锁关节损伤', '其他'],
-          required: true
-        },
-        {
           id: 'shoulder_side',
           label: '患侧',
           type: 'select',
@@ -834,14 +813,6 @@ asFormConfigs.cervical = {
       icon: '🧠',
       fields: [
         {
-          id: 'cervical_diagnosis',
-          label: '颈椎病分型',
-          type: 'select',
-          options: ['颈型（局部型）', '神经根型（根性痛）', '脊髓型（步态不稳/病理征）', '椎动脉型（眩晕）', '交感神经型', '混合型', '不确定'],
-          required: true,
-          guide: '分型决定康复策略；脊髓型颈椎病禁忌暴力推拿，见《骨科康复学》Ch.4'
-        },
-        {
           id: 'cervical_onset',
           label: '病程',
           type: 'select',
@@ -963,14 +934,6 @@ asFormConfigs.lumbar = {
       title: '基础信息（腰椎）',
       icon: '🦴',
       fields: [
-        {
-          id: 'lumbar_diagnosis',
-          label: '诊断/症状类型',
-          type: 'select',
-          options: ['非特异性腰痛（不明原因）', '腰椎间盘突出症', '腰椎管狭窄', '腰椎滑脱（I-IV度）', '腰肌劳损', '骨质疏松性椎体压缩骨折', '其他'],
-          required: true,
-          guide: '非特异性腰痛占所有腰痛的85%以上；见APTA腰痛CPG 2021'
-        },
         {
           id: 'lumbar_onset',
           label: '病程分期',
@@ -1138,13 +1101,6 @@ asFormConfigs.cardio = {
       title: '基础信息（心肺康复）',
       icon: '❤️',
       fields: [
-        {
-          id: 'cardio_diagnosis',
-          label: '诊断',
-          type: 'select',
-          options: ['冠心病（稳定性心绞痛/MI后）', '心力衰竭（HFrEF/HFpEF）', 'COPD（慢性阻塞性肺疾病）', '哮喘', '肺纤维化', '心脏术后（CABG/瓣膜术）', '其他'],
-          required: true
-        },
         {
           id: 'cardio_onset',
           label: '病程/术后时间',
@@ -1321,13 +1277,6 @@ asFormConfigs.hand = {
       icon: '✋',
       fields: [
         {
-          id: 'hand_diagnosis',
-          label: '诊断',
-          type: 'select',
-          options: ['桡骨远端骨折（Colles骨折）', '屈肌腱损伤（Flexor Tendon）', '伸肌腱损伤（Extensor Tendon）', '腕管综合征（CTS）', '尺神经损伤（Guyon管综合征）', '桡神经损伤（垂腕）', '扳机指/腱鞘炎', '其他'],
-          required: true
-        },
-        {
           id: 'hand_side',
           label: '患侧',
           type: 'select',
@@ -1391,13 +1340,6 @@ asFormConfigs.icu = {
       title: '基础信息（ICU康复）',
       icon: '🏥',
       fields: [
-        {
-          id: 'icu_diagnosis',
-          label: '诊断/原发病',
-          type: 'select',
-          options: ['脑卒中（重症监护中）', '颅脑外伤', '脊髓损伤（高位）', 'COPD急性加重（有创/无创通气）', '心力衰竭（心源性休克）', '多器官功能障碍（MODS）', '外科术后（ICU滞留）', '其他'],
-          required: true
-        },
         {
           id: 'icu_days',
           label: 'ICU住院天数',
@@ -1690,6 +1632,9 @@ function submitAssessment() {
 
     // 自动计算量表评分
     asFormData.scores = calculateScores(asCurrentSpecialty, asFormData.specialtyData);
+
+    // 根据评估答案自动判断诊断（无需用户自行选择）
+    asFormData.diagnosis = autoDetermineDiagnosis(asCurrentSpecialty, asFormData.specialtyData, asFormData.scores);
   }
 
   // 安全检查：心肺/ICU 禁忌症拦截
@@ -1702,6 +1647,7 @@ function submitAssessment() {
   // 保存到 sessionStorage
   sessionStorage.setItem('rx-assessment-data', JSON.stringify(asFormData));
   sessionStorage.setItem('rx-specialty', asCurrentSpecialty);
+  sessionStorage.setItem('rx-diagnosis', asFormData.diagnosis || '');
 
   // 跳转到处方页面
   window.location.href = 'prescription.html';
@@ -1891,8 +1837,8 @@ function checkRedFlags(specialty, formData) {
 
   // 颈椎红线（脊髓型）
   if (specialty === 'cervical') {
-    var d = formData.specialtyData || {};
-    if (d.cervical_diagnosis && d.cervical_diagnosis.indexOf('脊髓型') !== -1) {
+    var dx = formData.diagnosis || '';
+    if (dx === 'cervical_myelopathy') {
       flags.push('【警告】脊髓型颈椎病确诊，禁忌暴力推拿与颈部过度后伸。康复处方以温和活动为主，建议骨科会诊评估手术指征。');
     }
   }
@@ -1905,6 +1851,82 @@ function showRedFlagAlert(flags) {
             flags.join('\n\n') +
             '\n\n系统已拦截处方生成。请先处理上述问题后重新评估。';
   alert(msg);
+}
+
+/* ============================================================
+   九、自动判断诊断（根据评估答案，无需用户自行选择）
+   ============================================================ */
+function autoDetermineDiagnosis(specialty, data, scores) {
+  var dx = 'unknown';
+
+  if (specialty === 'cervical') {
+    // 根据根性痛放射部位 + 是否步态不稳 判断分型
+    var rad = data.cervical_radicular_arm || '';
+    var gait = data.cervical_gait || '';
+    var dizzy = data.cervical_dizzy || '';
+    if (gait && gait.indexOf('不稳') !== -1)              dx = 'cervical_myelopathy';    // 脊髓型
+    else if (rad && rad.indexOf('手指') !== -1)            dx = 'cervical_radiculopathy'; // 神经根型 C8
+    else if (rad && rad.indexOf('无放射') === -1)          dx = 'cervical_radiculopathy'; // 神经根型
+    else if (dizzy && dizzy.indexOf('是') !== -1)         dx = 'cervical_vertebrobasilar'; // 椎动脉型
+    else                                                  dx = 'cervical_somatic';      // 颈型（局部型）
+  }
+
+  else if (specialty === 'lumbar') {
+    var pattern = data.lumbar_pattern || '';
+    var radiate = data.lumbar_radiate || '';
+    if (pattern.indexOf('稳定机制异常') !== -1)           dx = 'lumbar_instability';      // 腰椎不稳
+    else if (radiate && radiate.indexOf('无放射') === -1) dx = 'lumbar_disc_herniation'; // 腰椎间盘突出症
+    else if (pattern.indexOf('活动度受限') !== -1)         dx = 'lumbar_stiffness';        // 活动度受限
+    else                                                  dx = 'lumbar_nonspecific';     // 非特异性腰痛
+  }
+
+  else if (specialty === 'knee') {
+    var trauma = data.knee_trauma || '';
+    var age = parseInt(data.base_age) || 0;
+    if (trauma && trauma.indexOf('是') !== -1)             dx = 'knee_acl';                // ACL/创伤性
+    else if (age > 50)                                    dx = 'knee_oa';                 // 膝OA
+    else                                                  dx = 'knee_patellofemoral';    // 髌股关节疼痛
+  }
+
+  else if (specialty === 'shoulder') {
+    var romActive = data.shoulder_rom_active || '';
+    var romPassive = data.shoulder_rom_passive || '';
+    if (romActive && romPassive &&
+        romActive === romPassive &&
+        romActive.indexOf('严重受限') !== -1)              dx = 'shoulder_frozen';          // 冻结肩
+    else                                                  dx = 'shoulder_rotator_cuff';   // 肩袖损伤
+  }
+
+  else if (specialty === 'neuro') {
+    var onset = data.onset_days || '';
+    var trauma = data.neuro_trauma || '';
+    if (trauma && trauma.indexOf('是') !== -1)             dx = 'sci';                     // 脊髓损伤
+    else if (onset)                                       dx = 'stroke';                  // 脑卒中（默认）
+    else                                                  dx = 'stroke';
+  }
+
+  else if (specialty === 'cardio') {
+    var angina = data.cardio_angina || '';
+    var hf = data.cardio_hf || '';
+    if (hf && hf.indexOf('是') !== -1)                    dx = 'heart_failure';
+    else if (angina && angina.indexOf('是') !== -1)       dx = 'cad';                      // 冠心病
+    else                                                  dx = 'copd';                    // 默认COPD
+  }
+
+  else if (specialty === 'hand') {
+    var numb = data.hand_numb_dist || '';
+    var trauma = data.hand_trauma || '';
+    if (numb && numb.indexOf('小指') !== -1)              dx = 'cervical_radiculopathy';  // 颈椎病 C8（会放射到手）
+    else if (trauma && trauma.indexOf('是') !== -1)       dx = 'hand_fracture';           // 骨折
+    else if (numb && numb.indexOf('拇指') !== -1)         dx = 'cts';                     // 腕管综合征
+    else                                                  dx = 'hand_soft_tissue';       // 软组织损伤
+  }
+
+  else if (specialty === 'icu') {
+    dx = 'icu_general';  // ICU 无需细分，安全红线已覆盖
+  }
+
+  return dx;
 }
 
 /* ============================================================

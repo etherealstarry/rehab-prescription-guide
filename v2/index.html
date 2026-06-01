@@ -4,7 +4,61 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>康复处方助手</title>
-  <link rel="stylesheet" href="css/style.css?v=20260601">
+  <style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;background:#F5F7FA;color:#1F2937;line-height:1.6}
+.rx-hero{max-width:640px;margin:0 auto;padding:3.5rem 1.2rem 2.5rem;text-align:center;}
+.rx-logo{display:flex;align-items:baseline;justify-content:center;gap:.5rem;margin-bottom:1.8rem}
+.logo-rx{font-size:2.4rem;font-weight:800;color:#1565C0;letter-spacing:-1px}
+.logo-name{font-size:1.4rem;font-weight:600;color:#1F2937}
+.logo-badge{font-size:.65rem;font-weight:600;color:#fff;background:#F59E0B;padding:2px 7px;border-radius:4px;vertical-align:super}
+.rx-search-form{max-width:520px;margin:0 auto}
+.rx-search-box{display:flex;align-items:center;gap:.6rem;background:#fff;border:2px solid #D1D5DB;border-radius:40px;padding:.2rem .3rem .2rem 1rem;transition:border-color .2s;}
+.rx-search-box:focus-within{border-color:#1565C0;box-shadow:0 0 0 3px rgba(21,101,192,.12)}
+.rx-search-icon{flex-shrink:0;color:#9CA3AF}
+.rx-search-input{flex:1;border:none;outline:none;font-size:.95rem;background:transparent;padding:.55rem 0;color:#1F2937;}
+.rx-search-input::placeholder{color:#9CA3AF}
+.rx-search-actions{display:flex;gap:.3rem;flex-shrink:0}
+.rx-mic-btn{width:36px;height:36px;border-radius:50%;border:1px solid #D1D5DB;background:#fff;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;}
+.rx-mic-btn:hover{background:#F3F4F6}
+.rx-search-btn{padding:.55rem 1.3rem;border:none;border-radius:40px;background:#1565C0;color:#fff;font-size:.9rem;font-weight:500;cursor:pointer;white-space:nowrap;transition:background .15s;}
+.rx-search-btn:hover{background:#0D47A1}
+.rx-tags{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem;margin-top:1.2rem;align-items:center}
+.rx-tag-label{font-size:.82rem;color:#6B7280}
+.rx-tag{padding:.38rem .85rem;border:1px solid #D1D5DB;border-radius:20px;font-size:.8rem;color:#374151;background:#fff;cursor:pointer;transition:all .15s;}
+.rx-tag:hover{background:#EFF6FF;border-color:#1565C0;color:#1565C0}
+.rx-results{display:none;max-width:540px;margin:1.5rem auto 0;text-align:left}
+.rx-results-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.7rem}
+#rx-results-count{font-size:.85rem;color:#374151;font-weight:500}
+.rx-clear-btn{font-size:.8rem;color:#9CA3AF;background:none;border:none;cursor:pointer;padding:.2rem .5rem}
+.rx-clear-btn:hover{color:#EF4444}
+.rx-result-card{background:#fff;border:1px solid #E5E7EB;border-radius:10px;padding:.9rem 1.1rem;margin-bottom:.6rem;transition:box-shadow .15s;}
+.rx-result-card:hover{box-shadow:0 2px 12px rgba(0,0,0,.08)}
+.rx-result-title{font-size:.95rem;font-weight:600;color:#1F2937;margin-bottom:.2rem}
+.rx-result-desc{font-size:.8rem;color:#6B7280;margin-bottom:.5rem}
+.rx-result-meta{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
+.rx-specialty-tag{font-size:.7rem;padding:2px 8px;border-radius:4px;background:#EFF6FF;color:#1565C0;font-weight:500}
+.rx-evidence-tag{font-size:.7rem;padding:2px 8px;border-radius:4px;background:#F0FDF4;color:#15803D}
+.rx-result-btn{display:block;width:100%;margin-top:.7rem;padding:.5rem;border:1px solid #1565C0;border-radius:8px;background:#fff;color:#1565C0;font-size:.85rem;cursor:pointer;transition:all .15s;}
+.rx-result-btn:hover{background:#1565C0;color:#fff}
+.rx-no-result{color:#9CA3AF;font-size:.88rem;line-height:1.8}
+.rx-no-result ul{padding-left:1.2rem;margin-top:.4rem}
+.rx-default-cards{max-width:640px;margin:2.5rem auto 0;padding:0 1rem}
+.rx-section-title{font-size:.92rem;font-weight:600;color:#374151;margin-bottom:1rem}
+.rx-card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:.8rem}
+.rx-card{background:#fff;border:1px solid #E5E7EB;border-radius:12px;padding:1.1rem .9rem;text-align:center;cursor:pointer;transition:all .2s;}
+.rx-card:hover{border-color:#1565C0;box-shadow:0 4px 16px rgba(21,101,192,.1);transform:translateY(-2px)}
+.rx-card-icon{font-size:1.8rem;margin-bottom:.5rem}
+.rx-card-title{font-size:.9rem;font-weight:600;color:#1F2937;margin-bottom:.25rem}
+.rx-card-desc{font-size:.75rem;color:#9CA3AF}
+.rx-steps-grid{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;justify-content:center;margin-top:.5rem}
+.rx-step-card{display:flex;align-items:center;gap:.5rem;font-size:.85rem;color:#374151}
+.rx-step-num{width:26px;height:26px;border-radius:50%;background:#1565C0;color:#fff;font-size:.75rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.rx-step-arrow{color:#D1D5DB;font-size:1.1rem}
+.rx-pro-link{text-align:center;margin-top:2rem}
+.rx-pro-link a{font-size:.82rem;color:#1565C0;text-decoration:none}
+.rx-pro-link a:hover{text-decoration:underline}
+  </style>
 </head>
 <body>
 

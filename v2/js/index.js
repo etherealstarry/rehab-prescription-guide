@@ -64,8 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
       var btn = e.target.closest('.rx-result-btn');
       if (btn) {
         var specialty = btn.dataset.specialty;
-        var diagnosis = btn.dataset.diagnosis;
-        startAssessment(specialty, diagnosis);
+        startAssessment(specialty);
       }
     });
   }
@@ -116,33 +115,67 @@ function showResults(keyword, matches) {
   if (defaultCards) defaultCards.style.display = 'none';
   if (results) results.style.display = 'block';
 
+  // 按 specialty 分组，同一专科只显示一个卡片
+  var specialtyMap = {};
+  matches.forEach(function(m) {
+    var sp = m.specialty;
+    if (!specialtyMap[sp]) specialtyMap[sp] = [];
+    specialtyMap[sp].push(m);
+  });
+
+  var specialtyLabel = {
+    'neurologic': '神经康复',
+    'orthopedic': '骨科康复',
+    'cardio':     '心肺康复',
+    'cervical':   '颈椎康复',
+    'lumbar':     '腰椎康复',
+    'hand':       '手功能康复',
+    'knee':      '膝关节康复',
+    'shoulder':   '肩关节康复',
+    'fever':     '发热/内科'
+  };
+
   var count = document.getElementById('rx-results-count');
-  if (count) count.textContent = '找到 ' + matches.length + ' 个相关康复方向';
+  var keys = Object.keys(specialtyMap);
+  if (count) count.textContent = '根据「' + keyword + '」，建议进行以下专科评估';
 
   var list = document.getElementById('rx-results-list');
   if (!list) return;
   list.innerHTML = '';
 
-  matches.forEach(function(m) {
-    var specLabel = m.specialty === 'neurologic' ? '神经康复' :
-                   m.specialty === 'orthopedic' ? '骨科康复' : '心肺康复';
+  // 描述文字
+  var hint = document.createElement('div');
+  hint.className = 'rx-result-hint';
+  hint.textContent = '系统将根据您的回答自动判断具体问题，无需自行诊断。';
+  list.appendChild(hint);
+
+  keys.forEach(function(sp) {
+    var group = specialtyMap[sp];
+    var first = group[0];
     var card = document.createElement('div');
     card.className = 'rx-result-card';
+
+    // 列出该专科可能涉及的问题（帮助患者理解）
+    var questionList = group.slice(0, 3).map(function(g) {
+      return g.label;
+    }).join('、');
+
     card.innerHTML =
-      '<div class="rx-result-title">' + (m.icon || '📋') + ' ' + m.label + '</div>' +
-      '<div class="rx-result-desc">' + (m.description || '') + '</div>' +
+      '<div class="rx-result-title">' + (first.icon || '📋') + ' ' + (specialtyLabel[sp] || sp) + '</div>' +
+      '<div class="rx-result-desc">可能涉及：' + questionList + '等。评估将帮助系统自动判断您的具体情况。</div>' +
       '<div class="rx-result-meta">' +
-        '<span class="rx-specialty-tag">' + specLabel + '</span>' +
-        '<span class="rx-evidence-tag">循证等级：' + (m.evidenceLevel || 'B') + '</span>' +
+        '<span class="rx-specialty-tag">' + (specialtyLabel[sp] || sp) + '</span>' +
+        '<span class="rx-evidence-tag">循证等级：' + (first.evidenceLevel || 'B') + '</span>' +
       '</div>' +
-      '<button class="rx-result-btn" data-specialty="' + m.specialty + '" data-diagnosis="' + (m.diagnosis || '') + '">开始评估 →</button>';
+      '<button class="rx-result-btn" data-specialty="' + sp + '">开始评估 →</button>';
     list.appendChild(card);
   });
 }
 
-function startAssessment(specialty, diagnosis) {
+function startAssessment(specialty) {
   sessionStorage.setItem('rx-specialty', specialty);
-  sessionStorage.setItem('rx-diagnosis', diagnosis || '');
+  // 不预设诊断，由评估表单的问题结果自动判断
+  sessionStorage.removeItem('rx-diagnosis');
   var input = document.getElementById('rx-search-input');
   sessionStorage.setItem('rx-symptoms', input ? input.value : '');
   window.location.href = 'assessment.html?specialty=' + specialty;
