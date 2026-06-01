@@ -368,17 +368,12 @@ function renderDiffResult() {
 }
 
 function startAssessmentFromDiff(specialty, diagnosis) {
-  // 保存完整的鉴别诊断结果到 sessionStorage
-  var fullResult = diffState ? {
-    diagnosis: diagnosis,
-    specialty: specialty,
-    label: diffState.tree.result(diffState.answers).label,
-    confidence: diffState.tree.result(diffState.answers).confidence,
-    reason: diffState.tree.result(diffState.answers).reason
-  } : null;
+  // 计算完整的鉴别诊断结果（只调用一次 result() 函数）
+  var result = diffState ? diffState.tree.result(diffState.answers) : null;
   
-  if (fullResult) {
-    sessionStorage.setItem('rx-diff-result', JSON.stringify(fullResult));
+  // 保存完整的鉴别诊断结果到 sessionStorage
+  if (result) {
+    sessionStorage.setItem('rx-diff-result', JSON.stringify(result));
   }
   
   sessionStorage.setItem('rx-specialty', specialty);
