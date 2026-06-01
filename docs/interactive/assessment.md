@@ -134,7 +134,7 @@
   RxStepper._init('assessment-steps', config, function(formData) {
     sessionStorage.setItem('rx-assessment-data', JSON.stringify(formData));
     sessionStorage.setItem('rx-specialty', specialty);
-    window.location.href = 'prescription.html';
+    window.location.href = 'prescription/';
   });
 })();
 </script>

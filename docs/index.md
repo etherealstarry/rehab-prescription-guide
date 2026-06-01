@@ -98,8 +98,7 @@ function submitSearch() {
   // 存入 sessionStorage，跳转到评估页
   sessionStorage.setItem('rx-query', q);
   sessionStorage.setItem('rx-mode', mode);
-  window.location.href = 'interactive/assessment.html?q=' + encodeURIComponent(q) + '&mode=' + mode;
-}
+  window.location.href = 'interactive/assessment/?q=' + encodeURIComponent(q) + '&mode=' + mode;}
 
 function switchMode(mode, btn) {
   document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
