@@ -323,12 +323,18 @@ const DifferentialEngine = {
   },
 
   /* ——— 根据症状关键词匹配追问树 ——— */
+  /*  匹配规则：
+   *  - 只有非常具体的关键词才触发追问树（如"小指麻木"、"腕管综合征"）
+   *  - 通用症状（如"手麻"、"手指麻"）不触发追问树，走普通评估流程
+   *  - 原因：通用症状的追问树会错误假设症状细节，导致用户体验差
+   */
   getTree: function(keyword) {
     var k = keyword.replace(/疼/g, '痛').replace(/\s+/g, '');
-    // 手麻/小指麻木
-    if (k.indexOf('小指') !== -1 || k.indexOf('手麻') !== -1 || k.indexOf('手指麻') !== -1 || k.indexOf('手掌麻') !== -1) {
+    // "小指麻木" → 尺神经/颈椎C8 追问树（只有非常具体的关键词才触发）
+    if (k.indexOf('小指麻木') !== -1 || k.indexOf('小指发麻') !== -1 || k.indexOf('尺侧麻木') !== -1) {
       return this.trees.hand_numb;
     }
+    // 通用症状（手麻/手指麻/手掌麻）不触发追问树，走普通评估流程
     // 腰痛
     if (k.indexOf('腰痛') !== -1 || k.indexOf('腰疼') !== -1 || k.indexOf('腰僵') !== -1 || k.indexOf('腰椎') !== -1) {
       return this.trees.low_back_pain;
