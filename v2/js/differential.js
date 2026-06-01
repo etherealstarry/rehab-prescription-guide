@@ -85,7 +85,7 @@ const DifferentialEngine = {
         if (loc && loc.indexOf('cubital') !== -1) {
           var elbow = answers.elbow_test;
           if (elbow && elbow.indexOf('cubital_pos') !== -1) {
-            result.diagnosis = 'cubital_tunnel_syndrome';
+            result.diagnosis = 'cubital_tunnel';
             result.confidence = 90;
             result.specialty = 'hand';
             result.label = '肘管综合征（尺神经卡压）';
@@ -94,7 +94,7 @@ const DifferentialEngine = {
           }
         }
         if (loc && loc.indexOf('ulnar_canal') !== -1) {
-          result.diagnosis = 'ulnar_canal_syndrome';
+          result.diagnosis = 'ulnar_canal';
           result.confidence = 80;
           result.specialty = 'hand';
           result.label = '腕尺管综合征（Guyon管综合征）';

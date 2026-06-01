@@ -119,8 +119,8 @@ var assessmentFlow = {
   buildROMCards: function(diagnosis, specialty) {
     var cards = [];
 
-    // 肘管综合征 / 尺神经卡压
-    if (diagnosis === 'cubital_tunnel' || diagnosis === 'ulnar_neuropathy') {
+    // 肘管综合征 / 尺神经卡压 / 手外科相关
+    if (specialty === 'hand' || diagnosis === 'cubital_tunnel' || diagnosis === 'ulnar_canal' || diagnosis === 'cervical_radiculopathy') {
       cards = [
         {
           id: 'rom_elbow',
@@ -185,8 +185,8 @@ var assessmentFlow = {
         }
       ];
     }
-    // 腰痛
-    else if (diagnosis === 'lumbar_pain' || diagnosis === 'lumbar_disc' || specialty === 'lumbar') {
+    // 腰痛（根据 specialty 或 diagnosis 匹配）
+    else if (specialty === 'lumbar' || specialty === 'cervical') {
       cards = [
         {
           id: 'rom_lumbar',
@@ -240,8 +240,8 @@ var assessmentFlow = {
         }
       ];
     }
-    // 肩痛
-    else if (diagnosis === 'shoulder_pain' || diagnosis === 'rotator_cuff' || specialty === 'shoulder') {
+    // 肩痛（根据 specialty 匹配）
+    else if (specialty === 'shoulder') {
       cards = [
         {
           id: 'rom_shoulder',
