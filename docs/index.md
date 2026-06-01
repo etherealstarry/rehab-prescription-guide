@@ -15,7 +15,8 @@ hide:
     输入症状或疾病，获取循证康复运动处方
   </p>
 
-  <div class="search-box" id="home-search-box">
+  <!-- 用 form 包裹，确保 Enter 键一定能触发 -->
+  <form class="search-box" id="home-search-form" onsubmit="return doSearch();">
     <div class="search-input-wrap">
       <svg class="search-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
         <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
@@ -28,25 +29,25 @@ hide:
         autocomplete="off"
         spellcheck="false"
       />
-      <kbd class="search-kbd">↵</kbd>
+      <button type="submit" class="search-go-btn" aria-label="搜索">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+      </button>
     </div>
     <div class="search-tags">
-      <span class="tag-label">热门搜索：</span>
-      <button class="search-tag" onclick="fillSearch('脑卒中')">脑卒中</button>
-      <button class="search-tag" onclick="fillSearch('前交叉韧带重建')">前交叉韧带重建</button>
-      <button class="search-tag" onclick="fillSearch('COPD')">COPD</button>
-      <button class="search-tag" onclick="fillSearch('帕金森病')">帕金森病</button>
-      <button class="search-tag" onclick="fillSearch('脊髓损伤')">脊髓损伤</button>
+      <span class="tag-label">热门：</span>
+      <button type="button" class="search-tag" data-q="脑卒中">脑卒中</button>
+      <button type="button" class="search-tag" data-q="前交叉韧带重建">前交叉韧带重建</button>
+      <button type="button" class="search-tag" data-q="COPD">COPD</button>
+      <button type="button" class="search-tag" data-q="帕金森病">帕金森病</button>
+      <button type="button" class="search-tag" data-q="脊髓损伤">脊髓损伤</button>
     </div>
-  </div>
+  </form>
 
   <div class="search-modes">
-    <button class="mode-btn active" data-mode="patient" onclick="switchMode('patient', this)">
-      🧑⚕️ 患者模式
-    </button>
-    <button class="mode-btn" data-mode="pro" onclick="switchMode('pro', this)">
-      🩺 专业模式
-    </button>
+    <button type="button" class="mode-btn active" data-mode="patient">🧑⚕️ 患者模式</button>
+    <button type="button" class="mode-btn" data-mode="pro">🩺 专业模式</button>
   </div>
 
 </div>
@@ -76,33 +77,34 @@ hide:
 </div>
 
 <script>
-// 搜索框交互
-const input = document.getElementById('home-search-input');
+(function() {
+  // 模式切换
+  document.querySelectorAll('.mode-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.mode-btn').forEach(function(b) { b.classList.remove('active'); });
+      this.classList.add('active');
+    });
+  });
 
-input.addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') {
-    e.preventDefault();
-    submitSearch();
-  }
-});
+  // 热门标签点击
+  document.querySelectorAll('.search-tag').forEach(function(tag) {
+    tag.addEventListener('click', function() {
+      var input = document.getElementById('home-search-input');
+      input.value = this.getAttribute('data-q');
+      input.focus();
+    });
+  });
+})();
 
-function fillSearch(text) {
-  input.value = text;
-  input.focus();
-}
-
-function submitSearch() {
-  const q = input.value.trim();
-  if (!q) { input.focus(); return; }
-  const mode = document.querySelector('.mode-btn.active')?.dataset.mode || 'patient';
-  // 存入 sessionStorage，跳转到评估页
+function doSearch() {
+  var input = document.getElementById('home-search-input');
+  var q = input.value.trim();
+  if (!q) { input.focus(); return false; }
+  var mode = document.querySelector('.mode-btn.active')?.getAttribute('data-mode') || 'patient';
   sessionStorage.setItem('rx-query', q);
   sessionStorage.setItem('rx-mode', mode);
-  window.location.href = 'interactive/assessment/?q=' + encodeURIComponent(q) + '&mode=' + mode;}
-
-function switchMode(mode, btn) {
-  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
+  window.location.href = 'interactive/assessment/?q=' + encodeURIComponent(q) + '&mode=' + mode;
+  return false;
 }
 </script>
 
@@ -183,15 +185,21 @@ function switchMode(mode, btn) {
   font-family: inherit;
 }
 .search-input::placeholder { color: #9ca3af; }
-.search-kbd {
-  font-size: 0.7rem;
-  color: #9ca3af;
-  background: #F3F4F6;
-  border: 1px solid #E5E7EB;
-  border-radius: 6px;
-  padding: 2px 8px;
-  font-family: monospace;
+.search-go-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: #1565C0;
+  color: #fff;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.15s;
 }
+.search-go-btn:hover { background: #0D47A1; }
 
 /* 热门标签 */
 .search-tags {
