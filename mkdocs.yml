@@ -1,9 +1,7 @@
 site_name: 康复处方指南
 site_url: https://etherealstarry.github.io/rehab-prescription-guide/
-site_description: 基于循证医学的康复运动处方查询平台，面向康复患者与康复专业人士
+site_description: 基于循证医学的康复运动处方查询平台
 repo_url: https://github.com/etherealstarry/rehab-prescription-guide
-repo_name: etherealstarry/rehab-prescription-guide
-edit_uri: blob/main/docs/
 
 theme:
   name: material
@@ -11,33 +9,24 @@ theme:
   language: zh
   features:
     - navigation.instant
-    - navigation.tracking
-    - navigation.sections
-    - navigation.expand
     - search.suggest
     - search.highlight
-    - content.code.copy
-    - content.action.edit
   palette:
     - scheme: default
-      primary: light-blue
-      accent: cyan
-      toggle:
-        icon: material/account-heart
-        name: 患者模式
-    - scheme: slate
-      primary: blue
+      primary: custom
       accent: indigo
-      toggle:
-        icon: material/stethoscope
-        name: 专业模式
+    - scheme: slate
+      primary: custom
+      accent: green
   icon:
     logo: material/run
 
 plugins:
   - search:
       lang: zh
-  - awesome-pages
+
+extra_css:
+  - assets/css/custom.css
 
 extra_javascript:
   - assets/javascripts/redflags.js
@@ -45,36 +34,5 @@ extra_javascript:
   - assets/javascripts/prescription.js
   - assets/javascripts/evidence.js
   - assets/javascripts/mode-toggle.js
-
-extra_css:
-  - assets/css/custom.css
-
-nav:
-  - 首页: index.md
-  - 使用指南:
-      - guide/how-to-use.md
-      - guide/fitt-vp.md
-      - guide/evidence-levels.md
-      - guide/disclaimer.md
-  - 症状导诊与处方:
-      - interactive/assessment.md
-      - interactive/prescription.md
-  - 疾病与康复:
-      - 神经康复:
-          - conditions/neurologic/index.md
-          - conditions/neurologic/stroke.md
-      - 骨科康复:
-          - conditions/orthopedic/index.md
-          - conditions/orthopedic/acl-reconstruction.md
-      - 心肺康复:
-          - conditions/cardiopulmonary/index.md
-          - conditions/cardiopulmonary/copd.md
-      - 儿童康复:
-          - conditions/pediatric/index.md
-      - 老年康复:
-          - conditions/geriatric/index.md
-      - 重症康复:
-          - conditions/critical-care/index.md
-      - 言语康复:
-          - conditions/speech/index.md
-  - 关于: about.md
+  - assets/javascripts/drawer.js
+  - assets/javascripts/stepper.js

@@ -1,95 +1,293 @@
-# 康复处方指南
-
-> 基于循证医学（EBM）的康复运动处方查询平台
-> 面向康复患者 · 康复师 · 物理治疗师
-
+---
+hide:
+  - navigation
+  - toc
 ---
 
-## ⚠️ 重要声明
+<div class="search-hero">
 
-本网站提供的信息**仅供参考，不构成医疗建议**。
-请在**专业康复医师或治疗师**指导下进行康复训练。
-如出现红旗症状（胸痛、意识障碍、剧烈疼痛等），请**立即就医**。
+  <div class="search-logo">
+    <span class="logo-rx">Rx</span><span class="logo-name">康复处方</span>
+    <span class="logo-badge">BETA</span>
+  </div>
 
-[查看完整免责声明 →](guide/disclaimer.md)
+  <p class="search-subtitle">
+    输入症状或疾病，获取循证康复运动处方
+  </p>
 
----
+  <div class="search-box" id="home-search-box">
+    <div class="search-input-wrap">
+      <svg class="search-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+      <input
+        type="text"
+        id="home-search-input"
+        class="search-input"
+        placeholder="输入症状或疾病，如：脑卒中、膝关节疼痛、COPD..."
+        autocomplete="off"
+        spellcheck="false"
+      />
+      <kbd class="search-kbd">↵</kbd>
+    </div>
+    <div class="search-tags">
+      <span class="tag-label">热门搜索：</span>
+      <button class="search-tag" onclick="fillSearch('脑卒中')">脑卒中</button>
+      <button class="search-tag" onclick="fillSearch('前交叉韧带重建')">前交叉韧带重建</button>
+      <button class="search-tag" onclick="fillSearch('COPD')">COPD</button>
+      <button class="search-tag" onclick="fillSearch('帕金森病')">帕金森病</button>
+      <button class="search-tag" onclick="fillSearch('脊髓损伤')">脊髓损伤</button>
+    </div>
+  </div>
 
-## 🔍 开始使用
-
-<div class="grid cards" markdown>
-
--   :material-heart-pulse:{ .lg .primary } **我有症状，想查原因**
-    
-    输入您的症状，系统将智能导诊并排查急危重症（Red Flags）
-    
-    [开始导诊 →](interactive/assessment.md)
-
--   :material-dumbbell:{ .lg .primary } **我已确诊，想要运动处方**
-    
-    选择疾病类型，完成标准化评估，生成个性化 FITT-VP 运动处方
-    
-    [获取处方 →](interactive/assessment.md)
-
--   :material-book-open-variant:{ .lg .primary } **我想学习康复知识**
-    
-    浏览各亚专科的康复指南和循证文献
-    
-    [浏览指南 →](guide/how-to-use.md)
+  <div class="search-modes">
+    <button class="mode-btn active" data-mode="patient" onclick="switchMode('patient', this)">
+      🧑⚕️ 患者模式
+    </button>
+    <button class="mode-btn" data-mode="pro" onclick="switchMode('pro', this)">
+      🩺 专业模式
+    </button>
+  </div>
 
 </div>
 
----
-
-## 🏥 康复亚专科
-
-| 🧠 神经康复 | 脑卒中、脊髓损伤、帕金森病、周围神经病变 | [查看 →](conditions/neurologic/index.md) |
-| 🦴 骨科康复 | 前交叉韧带重建、肩袖损伤、腰痛、关节置换 | [查看 →](conditions/orthopedic/index.md) |
-| 🫀 心肺康复 | COPD、心梗术后、心力衰竭、新冠后康复 | [查看 →](conditions/cardiopulmonary/index.md) |
-| 👶 儿童康复 | 脑瘫、发育迟缓、自闭症谱系、感觉统合障碍 | [查看 →](conditions/pediatric/index.md) |
-| 👴 老年康复 | 肌少症、跌倒风险、骨质疏松、多病共存 | [查看 →](conditions/geriatric/index.md) |
-| 🛏️ 重症康复 | ICU获得性衰弱、长期卧床、呼吸机脱机训练 | [查看 →](conditions/critical-care/index.md) |
-| 🗣️ 言语康复 | 吞咽障碍、失语症、构音障碍、认知沟通障碍 | [查看 →](conditions/speech/index.md) |
-
----
-
-## 📚 循证等级说明
-
-本网站所有康复方案均标注循证医学证据等级：
-
-| 等级 | 含义 | 推荐强度 |
-|------|------|----------|
-| **Ia** | 多项RCT的Meta分析 | ⭐⭐⭐⭐⭐ 强烈推荐 |
-| **Ib** | 至少一项RCT | ⭐⭐⭐⭐ 推荐 |
-| **IIa** | 设计良好的非随机对照研究 | ⭐⭐⭐ 可选 |
-| **IIb** | 准实验研究 | ⭐⭐ 谨慎参考 |
-| **III** | 描述性研究（病例系列） | ⭐ 仅作参考 |
-| **IV** | 专家意见/共识 | 💡 经验指导 |
-
-[详细了解循证等级 →](guide/evidence-levels.md)
-
----
-
-## 💊 运动处方 FITT-VP 原则
-
-所有处方均遵循美国运动医学会（ACSM）FITT-VP 标准：
-
-| 要素 | 含义 | 说明 |
-|------|------|------|
-| **F**requency | 频次 | 每周训练次数 |
-| **I**ntensity | 强度 | 靶心率 / RPE / 负荷重量 |
-| **T**ime | 时间 | 每次训练时长 |
-| **T**ype | 类型 | 有氧 / 抗阻 / 神经肌肉训练 |
-| **V**olume | 总量 | 每周总运动量 |
-| **P**rogression | 渐进 | 负荷进阶原则 |
-
-[详细了解 FITT-VP →](guide/fitt-vp.md)
-
----
-
-<div class="disclaimer-footer" markdown>
-
-⚠️ **免责声明**：本网站内容不能替代专业医疗建议。
-请在使用前阅读[完整免责声明](guide/disclaimer.md)。
-
+<div class="features-minimal">
+  <div class="feature-item">
+    <div class="feature-icon">⚠️</div>
+    <div>
+      <strong>Red Flags 拦截</strong>
+      <p>急危重症自动预警，安全第一</p>
+    </div>
+  </div>
+  <div class="feature-item">
+    <div class="feature-icon">📋</div>
+    <div>
+      <strong>FITT-VP 处方</strong>
+      <p>频次·强度·时间·类型·总量·进阶</p>
+    </div>
+  </div>
+  <div class="feature-item">
+    <div class="feature-icon">📚</div>
+    <div>
+      <strong>循证等级标注</strong>
+      <p>Ia / Ib / IIa 证据来源可追溯</p>
+    </div>
+  </div>
 </div>
+
+<script>
+// 搜索框交互
+const input = document.getElementById('home-search-input');
+
+input.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    submitSearch();
+  }
+});
+
+function fillSearch(text) {
+  input.value = text;
+  input.focus();
+}
+
+function submitSearch() {
+  const q = input.value.trim();
+  if (!q) { input.focus(); return; }
+  const mode = document.querySelector('.mode-btn.active')?.dataset.mode || 'patient';
+  // 存入 sessionStorage，跳转到评估页
+  sessionStorage.setItem('rx-query', q);
+  sessionStorage.setItem('rx-mode', mode);
+  window.location.href = 'interactive/assessment.html?q=' + encodeURIComponent(q) + '&mode=' + mode;
+}
+
+function switchMode(mode, btn) {
+  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+</script>
+
+<style>
+/* 搜索首页极简风格 */
+.search-hero {
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem 1rem;
+  text-align: center;
+}
+
+.search-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.logo-rx {
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: #1565C0;
+  letter-spacing: -2px;
+}
+.logo-name {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #1a1a2e;
+}
+.logo-badge {
+  font-size: 0.6rem;
+  background: #FFC107;
+  color: #1a1a2e;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.search-subtitle {
+  color: #6b7280;
+  font-size: 1.05rem;
+  margin-bottom: 2rem;
+}
+
+/* 搜索框 */
+.search-box {
+  width: 100%;
+  max-width: 620px;
+  margin-bottom: 1.2rem;
+}
+.search-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  border: 2px solid #E8EDF2;
+  border-radius: 28px;
+  padding: 0.9rem 1.4rem;
+  background: #fff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 12px rgba(21,101,192,0.06);
+}
+.search-input-wrap:focus-within {
+  border-color: #1565C0;
+  box-shadow: 0 4px 20px rgba(21,101,192,0.13);
+}
+.search-icon { color: #9ca3af; flex-shrink: 0; }
+.search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 1.05rem;
+  color: #1a1a2e;
+  background: transparent;
+  font-family: inherit;
+}
+.search-input::placeholder { color: #9ca3af; }
+.search-kbd {
+  font-size: 0.7rem;
+  color: #9ca3af;
+  background: #F3F4F6;
+  border: 1px solid #E5E7EB;
+  border-radius: 6px;
+  padding: 2px 8px;
+  font-family: monospace;
+}
+
+/* 热门标签 */
+.search-tags {
+  margin-top: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.tag-label {
+  font-size: 0.82rem;
+  color: #9ca3af;
+}
+.search-tag {
+  font-size: 0.82rem;
+  color: #1565C0;
+  background: #EBF3FE;
+  border: 1px solid #D1E4FD;
+  border-radius: 20px;
+  padding: 4px 14px;
+  cursor: pointer;
+  transition: background 0.15s;
+  font-family: inherit;
+}
+.search-tag:hover { background: #D1E4FD; }
+
+/* 模式切换 */
+.search-modes {
+  display: flex;
+  gap: 0.7rem;
+  margin-top: 1.5rem;
+}
+.mode-btn {
+  font-size: 0.88rem;
+  padding: 8px 20px;
+  border-radius: 24px;
+  border: 2px solid #E8EDF2;
+  background: #fff;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+.mode-btn.active {
+  border-color: #1565C0;
+  background: #EBF3FE;
+  color: #1565C0;
+  font-weight: 600;
+}
+.mode-btn:hover:not(.active) { border-color: #9ca3af; }
+
+/* 底部功能说明 */
+.features-minimal {
+  display: flex;
+  justify-content: center;
+  gap: 2.5rem;
+  padding: 2rem 1rem 3rem;
+  flex-wrap: wrap;
+  border-top: 1px solid #F0F2F5;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  max-width: 220px;
+  text-align: left;
+}
+.feature-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.feature-item strong {
+  display: block;
+  font-size: 0.92rem;
+  color: #1a1a2e;
+  margin-bottom: 0.2rem;
+}
+.feature-item p {
+  font-size: 0.82rem;
+  color: #9ca3af;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* 移动端适配 */
+@media (max-width: 640px) {
+  .search-logo { flex-wrap: wrap; justify-content: center; }
+  .logo-rx { font-size: 2.2rem; }
+  .logo-name { font-size: 1.3rem; }
+  .search-subtitle { font-size: 0.95rem; }
+  .features-minimal { flex-direction: column; align-items: center; gap: 1.5rem; }
+  .feature-item { max-width: 100%; }
+}
+</style>
