@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>快速测试 - 康复处方指南</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 2rem; max-width: 600px; margin: 0 auto; }
+    h1 { color: #1565C0; }
+    .btn { display: block; width: 100%; padding: 1rem; margin: 1rem 0; border: none; border-radius: 10px; font-size: 1rem; cursor: pointer; }
+    .btn-primary { background: #1565C0; color: #fff; }
+    .btn-secondary { background: #F3F4F6; color: #374151; }
+    .info { background: #F0F9FF; border: 1px solid #BAE6FD; border-radius: 10px; padding: 1rem; margin: 1rem 0; font-size: 0.9rem; color: #0C4A6E; }
+  </style>
+</head>
+<body>
+  <h1>🧪 快速测试页面</h1>
+  <p class="info">这个页面会自动生成模拟数据，让你快速测试评估页和处方页。</p>
+
+  <button class="btn btn-primary" onclick="testAssessment()">测试评估页（左手小指麻木）</button>
+  <button class="btn btn-primary" onclick="testPrescription()">测试处方页（肘管综合征）</button>
+  <button class="btn btn-secondary" onclick="clearData()">清除所有测试数据</button>
+
+  <div id="log" style="margin-top: 2rem; padding: 1rem; background: #F9FAFB; border-radius: 10px; font-size: 0.85rem; color: #6B7280;"></div>
+
+  <script>
+    function log(msg) {
+      var logEl = document.getElementById('log');
+      logEl.innerHTML += '<div>' + new Date().toLocaleTimeString() + ': ' + msg + '</div>';
+    }
+
+    function testAssessment() {
+      log('设置测试数据（左手小指麻木 → 肘管综合征）...');
+      
+      // 模拟鉴别诊断结果
+      var diffResult = {
+        diagnosis: 'cubital_tunnel',
+        specialty: 'hand',
+        label: '肘管综合征（尺神经卡压）',
+        confidence: 90,
+        reason: '手背尺侧受累 + 肘屈曲诱发加重，符合肘管综合征'
+      };
+      
+      sessionStorage.setItem('rx-diff-result', JSON.stringify(diffResult));
+      sessionStorage.setItem('rx-specialty', 'hand');
+      sessionStorage.setItem('rx-diagnosis', 'cubital_tunnel');
+      sessionStorage.setItem('rx-symptoms', '左手小指麻木');
+      
+      log('数据已保存，跳转到评估页...');
+      setTimeout(function() {
+        window.location.href = 'assessment.html?specialty=hand';
+      }, 500);
+    }
+
+    function testPrescription() {
+      log('设置测试数据（肘管综合征处方）...');
+      
+      // 模拟评估数据
+      var assessmentData = {
+        vas_pain: 4,
+        vas_numbness: 6,
+        functional_limit: 'moderate',
+        rom_elbow: 'limited',
+        rom_finger: 'weak',
+        redflag: 'none'
+      };
+      
+      sessionStorage.setItem('rx-assessment-data', JSON.stringify(assessmentData));
+      sessionStorage.setItem('rx-specialty', 'hand');
+      sessionStorage.setItem('rx-diagnosis', 'cubital_tunnel');
+      
+      log('数据已保存，跳转到处方页...');
+      setTimeout(function() {
+        window.location.href = 'prescription.html';
+      }, 500);
+    }
+
+    function clearData() {
+      sessionStorage.clear();
+      log('已清除所有测试数据');
+      alert('✅ 已清除所有测试数据');
+    }
+
+    log('测试页面已加载，请选择要测试的页面。');
+  </script>
+</body>
+</html>
