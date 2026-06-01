@@ -3,70 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>康复处方结果 — Rx 康复处方</title>
+  <title>康复处方结果 — 康复处方助手</title>
   <link rel="stylesheet" href="css/style.css">
-  <style>
-    body { background: #F5F7FA; margin: 0; font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif; }
-    .rx-nav { display: flex; align-items: center; gap: 0.7rem; padding: 0.8rem 1.2rem; background: #fff; border-bottom: 1px solid #E5E7EB; }
-    .rx-nav-logo { font-size: 1.1rem; font-weight: 700; color: #1565C0; cursor: pointer; }
-    .rx-nav-back { font-size: 0.85rem; color: #6B7280; cursor: pointer; }
-    .rx-container { max-width: 720px; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
-    .rx-page-title { font-size: 1.3rem; font-weight: 700; color: #1F2937; margin-bottom: 0.3rem; }
-    .rx-page-sub { font-size: 0.88rem; color: #6B7280; margin-bottom: 1.5rem; }
-
-    /* 处方卡片 */
-    .rx-prescription-card { background: #fff; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.2rem; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
-    .rx-prescription-card h3 { font-size: 1rem; font-weight: 600; color: #1565C0; margin: 0 0 1rem; padding-bottom: 0.6rem; border-bottom: 2px solid #E8F5F0; }
-    .rx-fittvp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
-    .rx-fittvp-item { background: #F0F9FF; border-radius: 8px; padding: 0.7rem 1rem; }
-    .rx-fittvp-label { font-size: 0.75rem; color: #6B7280; margin-bottom: 0.2rem; }
-    .rx-fittvp-value { font-size: 0.95rem; font-weight: 600; color: #1F2937; }
-    .rx-exercise-list { list-style: none; padding: 0; margin: 0; }
-    .rx-exercise-list li { padding: 0.6rem 0; border-bottom: 1px solid #F3F4F6; display: flex; gap: 0.6rem; align-items: flex-start; }
-    .rx-exercise-list li:last-child { border-bottom: none; }
-    .rx-exercise-num { background: #1565C0; color: #fff; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; flex-shrink: 0; margin-top: 1px; }
-    .rx-exercise-name { font-weight: 600; color: #1F2937; font-size: 0.9rem; }
-    .rx-exercise-detail { font-size: 0.82rem; color: #6B7280; margin-top: 0.15rem; }
-    .rx-exercise-note { font-size: 0.78rem; color: #F59E0B; margin-top: 0.15rem; }
-
-    /* 证据标签 */
-    .rx-evidence-bar { display: flex; align-items: center; gap: 0.5rem; padding: 0.6rem 0.9rem; background: #F0FDF4; border-radius: 8px; margin-top: 1rem; font-size: 0.82rem; color: #166534; }
-    .rx-evidence-bar.incomplete { background: #FFFBEB; color: #92400E; }
-
-    /* 警告 */
-    .rx-warning { background: #FEF2F2; border-left: 4px solid #EF4444; padding: 0.8rem 1rem; border-radius: 0 8px 8px 0; margin-bottom: 1.2rem; font-size: 0.88rem; color: #991B1B; }
-
-    /* 操作按钮 */
-    .rx-actions { display: flex; gap: 0.8rem; margin-top: 1.5rem; flex-wrap: wrap; }
-    .rx-btn-primary { background: #1565C0; color: #fff; border: none; border-radius: 8px; padding: 0.7rem 1.5rem; font-size: 0.92rem; cursor: pointer; font-weight: 500; }
-    .rx-btn-secondary { background: #F3F4F6; color: #374151; border: none; border-radius: 8px; padding: 0.7rem 1.5rem; font-size: 0.92rem; cursor: pointer; font-weight: 500; }
-
-    .rx-empty { text-align: center; padding: 4rem 1rem; color: #9CA3AF; }
-    .rx-empty-icon { font-size: 3rem; margin-bottom: 1rem; }
-  </style>
 </head>
 <body>
 
-  <div class="rx-nav">
-    <span class="rx-nav-logo" onclick="location.href='index.html'">📋 Rx 康复处方</span>
-    <span class="rx-nav-back" onclick="location.href='assessment.html'">← 重新评估</span>
+  <div class="nav-bar">
+    <span class="nav-logo" onclick="location.href='index.html'">📋 Rx 康复处方</span>
+    <span class="nav-back" onclick="location.href='assessment.html'">← 重新评估</span>
   </div>
 
-  <div class="rx-container" id="rx-container">
-    <div class="rx-empty" id="rx-empty">
-      <div class="rx-empty-icon">📋</div>
-      <p>暂无处方数据</p>
-      <p style="font-size:0.85rem;margin-top:0.5rem;">请先完成 <a href="assessment.html" style="color:#1565C0;">康复评估</a></p>
-    </div>
+  <div class="rx-container" id="prescription-result">
+    <!-- 由 prescription.js 的 initPrescriptionPage() 动态渲染 -->
+  </div>
+
+  <div class="rx-actions" id="rx-actions" style="display:none; justify-content:center; padding:1rem;">
+    <button class="rx-btn-secondary" id="rx-print-btn" onclick="window.print()">🖨️ 打印处方</button>
+    <button class="rx-btn-primary" id="rx-back-btn" onclick="location.href='assessment.html'">← 重新评估</button>
   </div>
 
   <script src="js/redflags.js"></script>
   <script src="js/diagnosis-tree.js"></script>
   <script src="js/prescription.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      renderPrescription();
-    });
-  </script>
 </body>
 </html>
