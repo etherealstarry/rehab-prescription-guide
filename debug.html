@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>调试 - 检查 sessionStorage</title>
+  <style>
+    body { font-family: monospace; padding: 2rem; background: #f5f5f5; }
+    .section { background: #fff; padding: 1rem; margin-bottom: 1rem; border-radius: 8px; }
+    .key { font-weight: bold; color: #1565C0; }
+    .value { color: #059669; word-break: break-all; }
+    .error { color: #DC2626; }
+    button { padding: 0.5rem 1rem; margin: 0.5rem; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>🔍 调试工具 - 检查 sessionStorage 数据</h1>
+  
+  <div class="section">
+    <h2>当前 sessionStorage 内容：</h2>
+    <div id="storage-content">加载中...</div>
+  </div>
+  
+  <div class="section">
+    <h2>操作：</h2>
+    <button onclick="clearStorage()">清空 sessionStorage</button>
+    <button onclick="setTestData()">设置测试数据（模拟左手小指麻木）</button>
+    <button onclick="location.reload()">刷新页面</button>
+    <button onclick="window.location.href='v2/assessment.html?specialty=hand'">跳转到评估页</button>
+  </div>
+  
+  <div class="section">
+    <h2>快速测试链接：</h2>
+    <p><a href="v2/index.html" target="_blank">首页</a></p>
+    <p><a href="v2/assessment.html?specialty=hand" target="_blank">评估页（hand）</a></p>
+    <p><a href="v2/assessment.html?specialty=lumbar" target="_blank">评估页（lumbar）</a></p>
+  </div>
+
+  <script>
+    function displayStorage() {
+      var html = '';
+      for (var i = 0; i < sessionStorage.length; i++) {
+        var key = sessionStorage.key(i);
+        var value = sessionStorage.getItem(key);
+        html += '<div><span class="key">' + key + ':</span> <span class="value">' + value + '</span></div>';
+      }
+      if (!html) html = '<div class="error">sessionStorage 为空！</div>';
+      document.getElementById('storage-content').innerHTML = html;
+    }
+    
+    function clearStorage() {
+      sessionStorage.clear();
+      displayStorage();
+      alert('已清空 sessionStorage');
+    }
+    
+    function setTestData() {
+      var testResult = {
+        diagnosis: 'cubital_tunnel',
+        specialty: 'hand',
+        label: '肘管综合征（尺神经卡压）',
+        confidence: 90,
+        reason: '手背尺侧受累 + 肘屈曲诱发加重，符合肘管综合征'
+      };
+      sessionStorage.setItem('rx-diff-result', JSON.stringify(testResult));
+      sessionStorage.setItem('rx-specialty', 'hand');
+      sessionStorage.setItem('rx-diagnosis', 'cubital_tunnel');
+      sessionStorage.setItem('rx-symptoms', '左手小指麻木');
+      displayStorage();
+      alert('已设置测试数据！现在可以点击"跳转到评估页"按钮测试。');
+    }
+    
+    // 页面加载时显示
+    displayStorage();
+    
+    // 每秒刷新一次（监听变化）
+    setInterval(displayStorage, 1000);
+  </script>
+</body>
+</html>
