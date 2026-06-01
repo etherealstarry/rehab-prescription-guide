@@ -3,412 +3,300 @@ hide:
   - navigation
   - toc
 ---
+<script src="assets/javascripts/redflags.js"></script>
+<script src="assets/javascripts/diagnosis-tree.js"></script>
 
-<div class="dx-hero">
-
+<div class="rx-hero">
   <!-- Logo -->
-  <div class="dx-logo">
+  <div class="rx-logo">
     <span class="logo-rx">Rx</span><span class="logo-name">康复处方</span>
     <span class="logo-badge">BETA</span>
   </div>
 
-  <!-- 主标题 -->
-  <p class="dx-subtitle">输入您的症状，系统帮您判断可能的疾病，并生成个性化康复处方</p>
+  <!-- 搜索框（核心交互） -->
+  <form class="rx-search-form" id="rx-search-form" onsubmit="return false;">
+    <div class="rx-search-box">
+      <svg class="rx-search-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#9ca3af" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+      </svg>
+      <input
+        type="text"
+        id="rx-search-input"
+        class="rx-search-input"
+        placeholder="描述您的症状或疾病，例如：手麻、膝关节疼痛、气喘..."
+        autocomplete="off"
+      />
+      <div class="rx-search-actions">
+        <button type="button" class="rx-mic-btn" onclick="toggleVoice()" title="语音输入">🎙</button>
+        <button type="submit" class="rx-search-btn" id="rx-search-btn">搜索</button>
+      </div>
+    </div>
 
-  <!-- 步骤指示器 -->
-  <div class="dx-steps-bar">
-    <div class="dx-step active" data-step="1">
-      <div class="dx-step-num">1</div>
-      <span>描述症状</span>
+    <!-- 快速标签 -->
+    <div class="rx-tags">
+      <span class="rx-tag-label">快速选择：</span>
+      <button class="rx-tag" onclick="fillInput('一侧肢体无力、口角歪斜、言语不清')">🧠 疑似脑卒中</button>
+      <button class="rx-tag" onclick="fillInput('膝关节疼痛、肿胀，行走时打软腿')">🦴 膝关节问题</button>
+      <button class="rx-tag" onclick="fillInput('肩膀疼痛、抬臂困难，夜间痛加重')">🦴 肩关节问题</button>
+      <button class="rx-tag" onclick="fillInput('气喘、呼吸困难，活动后加重')">🫀 呼吸困难</button>
+      <button class="rx-tag" onclick="fillInput('手抖、动作缓慢、走路小步')">🧠 疑似帕金森</button>
     </div>
-    <div class="dx-step-line"></div>
-    <div class="dx-step" data-step="2">
-      <div class="dx-step-num">2</div>
-      <span>鉴别诊断</span>
+  </form>
+
+  <!-- 搜索结果区域（动态生成） -->
+  <div class="rx-results" id="rx-results" style="display:none;">
+    <div class="rx-results-header">
+      <span id="rx-results-count"></span>
+      <button class="rx-clear-btn" onclick="clearResults()">✕ 清除</button>
     </div>
-    <div class="dx-step-line"></div>
-    <div class="dx-step" data-step="3">
-      <div class="dx-step-num">3</div>
-      <span>康复评估</span>
-    </div>
-    <div class="dx-step-line"></div>
-    <div class="dx-step" data-step="4">
-      <div class="dx-step-num">4</div>
-      <span>运动处方</span>
-    </div>
+    <div class="rx-results-list" id="rx-results-list"></div>
   </div>
 
-  <!-- 步骤1：输入症状 -->
-  <div class="dx-panel" id="panel-1">
-    <div class="dx-panel-icon">🩺</div>
-    <h2>请描述您的症状</h2>
-    <p class="dx-panel-desc">请尽可能详细地描述您的症状，系统将据此进行初步判断</p>
-
-    <div class="dx-textarea-wrap">
-      <textarea
-        id="dx-symptom-input"
-        class="dx-textarea"
-        placeholder="例如：右侧肢体无力3天，伴有言语不清，血压偏高..."
-        rows="4"
-      ></textarea>
+  <!-- 首页默认展示的卡片（未搜索时显示） -->
+  <div class="rx-default-cards" id="rx-default-cards">
+    <div class="rx-section-title">常见康复方向</div>
+    <div class="rx-card-grid">
+      <div class="rx-card" onclick="fillInput('脑卒中康复')">
+        <div class="rx-card-icon">🧠</div>
+        <div class="rx-card-title">神经康复</div>
+        <div class="rx-card-desc">脑卒中、脊髓损伤、帕金森</div>
+      </div>
+      <div class="rx-card" onclick="fillInput('膝关节术后康复')">
+        <div class="rx-card-icon">🦴</div>
+        <div class="rx-card-title">骨科康复</div>
+        <div class="rx-card-desc">ACL重建、关节置换、半月板</div>
+      </div>
+      <div class="rx-card" onclick="fillInput('慢阻肺康复')">
+        <div class="rx-card-icon">🫀</div>
+        <div class="rx-card-title">心肺康复</div>
+        <div class="rx-card-desc">COPD、心梗术后、心衰</div>
+      </div>
+      <div class="rx-card" onclick="fillInput('儿童康复')">
+        <div class="rx-card-icon">👶</div>
+        <div class="rx-card-title">儿童康复</div>
+        <div class="rx-card-desc">脑瘫、发育迟缓</div>
+      </div>
     </div>
 
-    <div class="dx-tags">
-      <span class="dx-tag-label">快速选择常见症状：</span>
-      <button class="dx-tag" onclick="fillSymptom('一侧肢体无力、口角歪斜、言语不清')">🧠 疑似脑卒中</button>
-      <button class="dx-tag" onclick="fillSymptom('膝关节疼痛、肿胀，行走时打软腿')">🦴 膝关节问题</button>
-      <button class="dx-tag" onclick="fillSymptom('肩膀疼痛、抬臂困难，夜间痛加重')">🦴 肩关节问题</button>
-      <button class="dx-tag" onclick="fillSymptom('气喘、呼吸困难，活动后加重')">🫀 呼吸困难</button>
-      <button class="dx-tag" onclick="fillSymptom('手抖、动作缓慢、走路小步')">🧠 疑似帕金森</button>
-    </div>
-
-    <button class="dx-btn-primary" onclick="startDiagnosis()">
-      开始分析 →
-    </button>
-  </div>
-
-  <!-- 步骤2：鉴别诊断（动态生成选择题） -->
-  <div class="dx-panel" id="panel-2" style="display:none;">
-    <div class="dx-panel-icon">🔍</div>
-    <h2>鉴别诊断</h2>
-    <p class="dx-panel-desc" id="dx-specialty-hint"></p>
-
-    <div id="dx-triage-questions"></div>
-
-    <div class="dx-btn-row">
-      <button class="dx-btn-secondary" onclick="goToStep(1)">← 重新描述</button>
-      <button class="dx-btn-primary" onclick="submitTriage()">确认，进入评估 →</button>
-    </div>
-  </div>
-
-  <!-- 步骤3：康复评估 -->
-  <div class="dx-panel" id="panel-3" style="display:none;">
-    <div class="dx-panel-icon">📋</div>
-    <h2>康复评估</h2>
-    <p class="dx-panel-desc">请完成以下评估，以便生成精准的运动处方</p>
-
-    <div id="dx-assessment-steps"></div>
-
-    <div class="dx-btn-row">
-      <button class="dx-btn-secondary" onclick="goToStep(2)">← 上一步</button>
-    </div>
-  </div>
-
-  <!-- 步骤4：处方生成中 -->
-  <div class="dx-panel" id="panel-4" style="display:none;">
-    <div class="dx-loading-wrap">
-      <div class="dx-spinner"></div>
-      <h2>正在生成康复处方...</h2>
-      <p class="dx-loading-status" id="dx-loading-status">正在检索权威文献...</p>
-      <div class="dx-progress-bar">
-        <div class="dx-progress-fill" id="dx-progress-fill"></div>
+    <div class="rx-section-title" style="margin-top:2rem;">如何使用</div>
+    <div class="rx-steps-grid">
+      <div class="rx-step-card">
+        <div class="rx-step-num">1</div>
+        <div class="rx-step-text">描述您的症状或疾病</div>
+      </div>
+      <div class="rx-step-arrow">→</div>
+      <div class="rx-step-card">
+        <div class="rx-step-num">2</div>
+        <div class="rx-step-text">系统智能匹配康复方向</div>
+      </div>
+      <div class="rx-step-arrow">→</div>
+      <div class="rx-step-card">
+        <div class="rx-step-num">3</div>
+        <div class="rx-step-text">完成评估，生成处方</div>
       </div>
     </div>
   </div>
 
+  <!-- 专业版入口 -->
+  <div class="rx-pro-link">
+    <a href="javascript:switchMode()" id="rx-mode-link">切换专业版 →</a>
+  </div>
 </div>
 
-<script src="assets/javascripts/diagnosis-tree.js"></script>
 <script>
-var currentStep = 1;
-var dxData = {};
-
-function fillSymptom(text) {
-  document.getElementById('dx-symptom-input').value = text;
+// ========== 搜索交互 ==========
+function fillInput(text) {
+  document.getElementById('rx-search-input').value = text;
+  doSearch(text);
 }
 
-function startDiagnosis() {
-  var input = document.getElementById('dx-symptom-input').value.trim();
-  if (!input) {
-    alert('请先描述您的症状');
-    return;
-  }
-  dxData.symptoms = input;
-
-  // 匹配症状
-  var matches = DiagnosisTree.matchSymptoms(input);
-  dxData.matches = matches;
-  dxData.specialty = matches[0].specialty;
-  dxData.diagnosis = matches[0].diagnosis;
-
-  // 显示分诊问题
-  var triageEl = document.getElementById('dx-triage-questions');
-  triageEl.innerHTML = '';
-  var triage = matches[0].triage;
-
-  var hintText = '根据您描述的症状，系统初步判断属于<b>' + 
-    (matches[0].specialty === 'neurologic' ? '神经康复' : 
-     matches[0].specialty === 'orthopedic' ? '骨科康复' : 
-     matches[0].specialty === 'cardiopulmonary' ? '心肺康复' : '康复') + 
-    '</b>方向。请回答以下问题以进一步确认：';
-  document.getElementById('dx-specialty-hint').innerHTML = hintText;
-
-  triage.forEach(function(q, i) {
-    var card = document.createElement('div');
-    card.className = 'dx-question-card';
-    if (q.isRedFlag) {
-      card.classList.add('dx-redflag-card');
-    }
-    var optionsHtml = q.options.map(function(opt) {
-      return '<label class="dx-radio-label"><input type="radio" name="triage-' + q.key + '" value="' + opt + '" /> ' + opt + '</label>';
-    }).join('');
-
-    card.innerHTML = '<div class="dx-question-title">' + (q.isRedFlag ? '⚠️ ' : '') + q.q + '</div><div class="dx-radio-group">' + optionsHtml + '</div>';
-    triageEl.appendChild(card);
-  });
-
-  goToStep(2);
-}
-
-function submitTriage() {
-  // 收集分诊答案
-  var triage = dxData.matches[0].triage;
-  var triageAnswers = {};
-  var allAnswered = true;
-
-  triage.forEach(function(q) {
-    var checked = document.querySelector('input[name="triage-' + q.key + '"]:checked');
-    if (checked) {
-      triageAnswers[q.key] = checked.value;
-    } else {
-      allAnswered = false;
-    }
-  });
-
-  if (!allAnswered) {
-    alert('请回答所有问题后再继续');
-    return;
-  }
+function doSearch(keyword) {
+  if (!keyword) keyword = document.getElementById('rx-search-input').value.trim();
+  if (!keyword) return;
 
   // 检查红旗症状
-  if (triageAnswers.redFlags && triageAnswers.redFlags.indexOf('以上都没有') === -1 && triageAnswers.redFlags.indexOf('无') === -1) {
-    if (confirm('⚠️ 检测到可能的红旗症状！\n\n建议您立即就医，不要延误。\n\n是否仍要继续查看参考处方？（仅供参考，不替代医疗建议）')) {
-      // 继续
-    } else {
-      return;
-    }
+  var rf = checkRedFlags(keyword);
+  if (rf.isRedFlag) {
+    showRedFlagAlert(rf);
+    return;
   }
 
-  dxData.triageAnswers = triageAnswers;
+  // 匹配症状
+  var matches = DiagnosisTree.matchSymptoms(keyword);
+  if (!matches || matches.length === 0) {
+    showNoResult(keyword);
+    return;
+  }
 
-  // 加载评估问卷
-  var assessment = DiagnosisTree.getAssessmentForSpecialty(dxData.specialty, dxData.diagnosis);
-  renderAssessment(assessment);
-  goToStep(3);
+  // 显示结果
+  showResults(keyword, matches);
 }
 
-function renderAssessment(config) {
-  var container = document.getElementById('dx-assessment-steps');
-  container.innerHTML = '';
-  dxData.assessmentAnswers = {};
+function showResults(keyword, matches) {
+  document.getElementById('rx-default-cards').style.display = 'none';
+  document.getElementById('rx-results').style.display = 'block';
+  document.getElementById('rx-results-count').textContent = '找到 ' + matches.length + ' 个相关康复方向';
 
-  config.forEach(function(step, stepIdx) {
+  var list = document.getElementById('rx-results-list');
+  list.innerHTML = '';
+
+  matches.forEach(function(m) {
     var card = document.createElement('div');
-    card.className = 'dx-question-card';
-    card.id = 'dx-step-' + stepIdx;
-
-    var fieldsHtml = step.fields.map(function(f) {
-      if (f.type === 'select') {
-        var opts = f.options.map(function(opt) {
-          if (typeof opt === 'object') return '<option value="' + opt.value + '">' + opt.label + '</option>';
-          return '<option>' + opt + '</option>';
-        }).join('');
-        return '<div class="dx-field"><label>' + f.label + '</label><select id="dx-field-' + f.name + '" class="dx-select"><option value="">请选择</option>' + opts + '</select></div>';
-      }
-      if (f.type === 'range') {
-        return '<div class="dx-field"><label>' + f.label + '</label><input type="range" id="dx-field-' + f.name + '" min="' + (f.min||0) + '" max="' + (f.max||10) + '" value="' + (f.min||0) + '" class="dx-range" oninput="this.nextElementSibling.textContent=this.value" /><span class="dx-range-val">' + (f.min||0) + '</span></div>';
-      }
-      if (f.type === 'textarea') {
-        return '<div class="dx-field"><label>' + f.label + '</label><textarea id="dx-field-' + f.name + '" class="dx-textarea-small" placeholder="' + (f.placeholder||'') + '"></textarea></div>';
-      }
-      return '<div class="dx-field"><label>' + f.label + '</label><input type="number" id="dx-field-' + f.name + '" class="dx-input" placeholder="' + (f.placeholder||'') + '" /></div>';
-    }).join('');
-
-    card.innerHTML = '<div class="dx-question-title">' + (stepIdx+1) + '/' + config.length + ' ' + step.title + '</div>' + fieldsHtml;
-
-    if (stepIdx < config.length - 1) {
-      var btn = document.createElement('button');
-      btn.className = 'dx-btn-primary';
-      btn.textContent = '下一步 →';
-      btn.onclick = function() { /* 简单滚动到下一步 */ };
-      card.appendChild(btn);
-    } else {
-      var btn2 = document.createElement('button');
-      btn2.className = 'dx-btn-primary';
-      btn2.textContent = '生成处方 →';
-      btn2.onclick = generatePrescription;
-      card.appendChild(btn2);
-    }
-
-    container.appendChild(card);
+    card.className = 'rx-result-card';
+    card.innerHTML =
+      '<div class="rx-result-title">' + (m.icon||'📋') + ' ' + m.label + '</div>' +
+      '<div class="rx-result-desc">' + (m.description||'') + '</div>' +
+      '<div class="rx-result-meta">' +
+        '<span class="rx-specialty-tag">' + (m.specialty==='neurologic'?'神经康复':m.specialty==='orthopedic'?'骨科康复':'心肺康复') + '</span>' +
+        '<span class="rx-evidence-tag">循证等级：' + (m.evidenceLevel||'B') + '</span>' +
+      '</div>' +
+      '<button class="rx-result-btn" onclick="startAssessment(\'' + m.specialty + '\',\'' + (m.diagnosis||'') + '\')">开始评估 →</button>';
+    list.appendChild(card);
   });
 }
 
-function generatePrescription() {
-  // 收集评估答案
-  var config = DiagnosisTree.getAssessmentForSpecialty(dxData.specialty, dxData.diagnosis);
-  var answers = {};
-  config.forEach(function(step) {
-    step.fields.forEach(function(f) {
-      var el = document.getElementById('dx-field-' + f.name);
-      if (el) answers[f.name] = el.value;
-    });
-  });
-  dxData.assessmentAnswers = answers;
-
-  // 保存到 sessionStorage
-  sessionStorage.setItem('rx-dx-data', JSON.stringify(dxData));
-
-  goToStep(4);
-
-  // 模拟加载进度
-  var progress = 0;
-  var fill = document.getElementById('dx-progress-fill');
-  var status = document.getElementById('dx-loading-status');
-  var statuses = ['正在检索权威文献...', '正在匹配康复指南...', '正在生成 FITT-VP 处方...', '正在标注循证等级...', '处方生成完成！'];
-  var idx = 0;
-
-  var timer = setInterval(function() {
-    progress += 20;
-    fill.style.width = Math.min(progress, 100) + '%';
-    if (idx < statuses.length) {
-      status.textContent = statuses[idx];
-      idx++;
-    }
-    if (progress >= 100) {
-      clearInterval(timer);
-      setTimeout(function() {
-        window.location.href = 'prescription/';
-      }, 600);
-    }
-  }, 500);
+function startAssessment(specialty, diagnosis) {
+  sessionStorage.setItem('rx-specialty', specialty);
+  sessionStorage.setItem('rx-diagnosis', diagnosis || '');
+  sessionStorage.setItem('rx-symptoms', document.getElementById('rx-search-input').value);
+  window.location.href = 'interactive/assessment/?specialty=' + specialty;
 }
 
-function goToStep(n) {
-  document.querySelectorAll('.dx-panel').forEach(function(p) { p.style.display = 'none'; });
-  document.getElementById('panel-' + n).style.display = 'block';
-  document.querySelectorAll('.dx-step').forEach(function(s) {
-    var stepNum = parseInt(s.getAttribute('data-step'));
-    s.classList.toggle('active', stepNum <= n);
-    s.classList.toggle('done', stepNum < n);
-  });
-  currentStep = n;
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+function showNoResult(keyword) {
+  document.getElementById('rx-default-cards').style.display = 'none';
+  document.getElementById('rx-results').style.display = 'block';
+  document.getElementById('rx-results-count').textContent = '未找到与「' + keyword + '」相关的结果';
+  document.getElementById('rx-results-list').innerHTML =
+    '<div class="rx-no-result">' +
+    '  <p>您可以尝试：</p>' +
+    '  <ul><li>使用更通用的症状描述（如"手麻"而非"左手麻木3天"）</li>' +
+    '  <li>检查是否有错别字</li>' +
+    '  <li>联系我们添加该疾病的康复方案</li></ul>' +
+    '</div>';
+}
+
+function clearResults() {
+  document.getElementById('rx-search-input').value = '';
+  document.getElementById('rx-results').style.display = 'none';
+  document.getElementById('rx-default-cards').style.display = 'block';
+}
+
+function toggleVoice() {
+  alert('语音输入功能开发中，敬请期待！');
+}
+
+// ========== 表单绑定 ==========
+document.getElementById('rx-search-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  doSearch();
+});
+
+document.getElementById('rx-search-input').addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    doSearch();
+  }
+});
+
+// ========== 模式切换 ==========
+function switchMode() {
+  var body = document.body;
+  if (body.classList.contains('professional-mode')) {
+    body.classList.remove('professional-mode');
+    document.getElementById('rx-mode-link').textContent = '切换专业版 →';
+  } else {
+    body.classList.add('professional-mode');
+    document.getElementById('rx-mode-link').textContent = '切换回普通版 →';
+  }
 }
 </script>
 
 <style>
-/* ===== 诊断决策树页面样式 ===== */
-.dx-hero {
+/* ===== 全局 ===== */
+.rx-hero {
   max-width: 720px;
   margin: 0 auto;
   padding: 2rem 1rem 4rem;
 }
 
-.dx-logo {
+/* ===== Logo ===== */
+.rx-logo {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   justify-content: center;
-  margin-bottom: 0.3rem;
+  margin-bottom: 2rem;
 }
 .logo-rx { font-size: 2.4rem; font-weight: 800; color: #1565C0; letter-spacing: -2px; }
 .logo-name { font-size: 1.4rem; font-weight: 600; color: #1a1a2e; }
 .logo-badge { font-size: 0.55rem; background: #FFC107; color: #1a1a2e; padding: 2px 6px; border-radius: 4px; font-weight: 700; letter-spacing: 1px; }
 
-.dx-subtitle {
-  text-align: center;
-  color: #6b7280;
-  font-size: 0.95rem;
-  margin-bottom: 2rem;
-}
-
-/* 步骤条 */
-.dx-steps-bar {
+/* ===== 搜索框 ===== */
+.rx-search-form { margin-bottom: 2rem; }
+.rx-search-box {
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin-bottom: 2.5rem;
-  gap: 0;
-}
-.dx-step {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.3rem;
-  opacity: 0.4;
-  transition: all 0.3s;
-}
-.dx-step.active { opacity: 1; }
-.dx-step.done { opacity: 0.7; }
-.dx-step-num {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: #E8EDF2;
-  color: #6b7280;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.8rem;
-  font-weight: 700;
-}
-.dx-step.active .dx-step-num { background: #1565C0; color: #fff; }
-.dx-step.done .dx-step-num { background: #2E7D32; color: #fff; }
-.dx-step span { font-size: 0.7rem; color: #6b7280; font-weight: 600; }
-.dx-step-line {
-  width: 40px;
-  height: 2px;
-  background: #E8EDF2;
-  margin: 0 0.3rem;
-  margin-bottom: 1rem;
-}
-
-/* 面板 */
-.dx-panel {
-  animation: dxFadeIn 0.4s ease;
-}
-@keyframes dxFadeIn {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.dx-panel-icon { font-size: 2.5rem; text-align: center; margin-bottom: 0.8rem; }
-.dx-panel h2 { text-align: center; font-size: 1.4rem; color: #1a1a2e; margin-bottom: 0.4rem; }
-.dx-panel-desc { text-align: center; color: #6b7280; font-size: 0.9rem; margin-bottom: 2rem; }
-
-/* 文本输入区 */
-.dx-textarea-wrap {
+  gap: 0.5rem;
   background: #fff;
   border: 2px solid #E8EDF2;
-  border-radius: 16px;
-  padding: 1rem;
-  margin-bottom: 1.2rem;
-  transition: border-color 0.2s;
+  border-radius: 28px;
+  padding: 6px 8px 6px 18px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
 }
-.dx-textarea-wrap:focus-within { border-color: #1565C0; }
-.dx-textarea {
-  width: 100%;
+.rx-search-box:focus-within {
+  border-color: #1565C0;
+  box-shadow: 0 2px 16px rgba(21,101,192,0.12);
+}
+.rx-search-icon { flex-shrink: 0; }
+.rx-search-input {
+  flex: 1;
   border: none;
   outline: none;
   font-size: 1rem;
   color: #1a1a2e;
   font-family: inherit;
-  resize: vertical;
-  min-height: 80px;
   background: transparent;
+  min-width: 0;
 }
-.dx-textarea::placeholder { color: #9ca3af; }
+.rx-search-input::placeholder { color: #9ca3af; }
+.rx-search-actions { display: flex; gap: 0.3rem; flex-shrink: 0; }
+.rx-mic-btn {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: #F3F4F6;
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s;
+}
+.rx-mic-btn:hover { background: #E5E7EB; }
+.rx-search-btn {
+  padding: 8px 20px;
+  border-radius: 20px;
+  border: none;
+  background: #1565C0;
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+.rx-search-btn:hover { background: #0D47A1; }
 
-/* 快速标签 */
-.dx-tags {
+/* ===== 快速标签 ===== */
+.rx-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
   align-items: center;
-  margin-bottom: 1.5rem;
+  margin-top: 1rem;
+  justify-content: center;
 }
-.dx-tag-label { font-size: 0.8rem; color: #9ca3af; }
-.dx-tag {
+.rx-tag-label { font-size: 0.8rem; color: #9ca3af; }
+.rx-tag {
   font-size: 0.8rem;
   color: #1565C0;
   background: #EBF3FE;
@@ -419,141 +307,163 @@ function goToStep(n) {
   transition: background 0.15s;
   font-family: inherit;
 }
-.dx-tag:hover { background: #D1E4FD; }
+.rx-tag:hover { background: #D1E4FD; }
 
-/* 按钮 */
-.dx-btn-primary {
-  display: block;
-  width: 100%;
-  padding: 14px;
-  border-radius: 12px;
-  border: none;
-  background: linear-gradient(135deg, #1565C0, #0D47A1);
-  color: #fff;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: opacity 0.15s;
-  font-family: inherit;
-}
-.dx-btn-primary:hover { opacity: 0.9; }
-.dx-btn-secondary {
-  padding: 10px 20px;
-  border-radius: 10px;
-  border: 2px solid #E8EDF2;
-  background: #fff;
+/* ===== 默认卡片区 ===== */
+.rx-default-cards { animation: rxFadeIn 0.4s ease; }
+.rx-section-title {
+  font-size: 0.85rem;
+  font-weight: 700;
   color: #6b7280;
-  font-size: 0.9rem;
-  cursor: pointer;
-  font-family: inherit;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 1rem;
 }
-.dx-btn-row {
-  display: flex;
+.rx-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 1rem;
-  margin-top: 2rem;
+  margin-bottom: 1.5rem;
 }
-.dx-btn-row .dx-btn-primary { flex: 1; }
-
-/* 问题卡片 */
-.dx-question-card {
+.rx-card {
   background: #fff;
   border: 1px solid #E8EDF2;
   border-radius: 16px;
-  padding: 1.5rem;
-  margin-bottom: 1.2rem;
+  padding: 1.2rem 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
   box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
-.dx-redflag-card {
-  border-color: #F44336;
-  background: #FFF8F8;
+.rx-card:hover {
+  border-color: #1565C0;
+  box-shadow: 0 4px 16px rgba(21,101,192,0.1);
+  transform: translateY(-2px);
 }
-.dx-question-title {
-  font-weight: 600;
-  color: #1a1a2e;
-  margin-bottom: 1rem;
-  font-size: 1rem;
-}
-.dx-radio-group {
+.rx-card-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+.rx-card-title { font-size: 0.95rem; font-weight: 700; color: #1a1a2e; margin-bottom: 0.3rem; }
+.rx-card-desc { font-size: 0.78rem; color: #6b7280; }
+
+/* ===== 使用步骤 ===== */
+.rx-steps-grid {
   display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
+  align-items: center;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  justify-content: center;
 }
-.dx-radio-label {
+.rx-step-card {
+  background: #F9FAFB;
+  border: 1px solid #E8EDF2;
+  border-radius: 12px;
+  padding: 0.8rem 1.2rem;
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  padding: 10px 14px;
-  border: 1px solid #E8EDF2;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.15s;
-  font-size: 0.92rem;
-  color: #374151;
+  flex: 1;
+  min-width: 140px;
 }
-.dx-radio-label:hover { border-color: #1565C0; background: #F0F7FF; }
-.dx-radio-label input[type="radio"] { accent-color: #1565C0; width: 18px; height: 18px; }
-
-/* 表单元素 */
-.dx-select, .dx-input {
-  width: 100%;
-  padding: 10px 14px;
-  border: 1px solid #E8EDF2;
-  border-radius: 10px;
-  font-size: 0.95rem;
-  color: #1a1a2e;
-  background: #FAFBFC;
-  font-family: inherit;
-  margin-top: 0.3rem;
-}
-.dx-textarea-small {
-  width: 100%;
-  padding: 10px 14px;
-  border: 1px solid #E8EDF2;
-  border-radius: 10px;
-  font-size: 0.95rem;
-  min-height: 60px;
-  resize: vertical;
-  font-family: inherit;
-  margin-top: 0.3rem;
-}
-.dx-range { width: 100%; accent-color: #1565C0; margin-top: 0.5rem; }
-.dx-range-val { font-weight: 700; color: #1565C0; margin-left: 0.5rem; }
-.dx-field { margin-bottom: 1.2rem; }
-.dx-field label { font-size: 0.9rem; font-weight: 600; color: #374151; display: block; margin-bottom: 0.3rem; }
-
-/* 加载动画 */
-.dx-loading-wrap { text-align: center; padding: 3rem 1rem; }
-.dx-spinner {
-  width: 48px;
-  height: 48px;
-  border: 4px solid #E8EDF2;
-  border-top-color: #1565C0;
+.rx-step-num {
+  width: 28px; height: 28px;
   border-radius: 50%;
-  animation: dxSpin 0.8s linear infinite;
-  margin: 0 auto 1.5rem;
+  background: #1565C0;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  flex-shrink: 0;
 }
-@keyframes dxSpin { to { transform: rotate(360deg); } }
-.dx-loading-status { color: #6b7280; font-size: 0.9rem; margin-bottom: 1.2rem; }
-.dx-progress-bar {
-  width: 100%;
-  max-width: 320px;
-  height: 6px;
-  background: #E8EDF2;
-  border-radius: 3px;
-  margin: 0 auto;
-  overflow: hidden;
+.rx-step-text { font-size: 0.85rem; color: #374151; font-weight: 500; }
+.rx-step-arrow { color: #9ca3af; font-size: 1.2rem; }
+
+/* ===== 搜索结果 ===== */
+.rx-results { animation: rxFadeIn 0.3s ease; }
+.rx-results-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+  color: #6b7280;
 }
-.dx-progress-fill {
-  width: 0%;
-  height: 100%;
-  background: linear-gradient(90deg, #1565C0, #2E7D32);
-  border-radius: 3px;
-  transition: width 0.5s ease;
+.rx-clear-btn {
+  background: none;
+  border: none;
+  color: #1565C0;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-family: inherit;
+}
+.rx-result-card {
+  background: #fff;
+  border: 1px solid #E8EDF2;
+  border-radius: 12px;
+  padding: 1.2rem;
+  margin-bottom: 1rem;
+  transition: border-color 0.2s;
+}
+.rx-result-card:hover { border-color: #1565C0; }
+.rx-result-title { font-size: 1.05rem; font-weight: 700; color: #1a1a2e; margin-bottom: 0.4rem; }
+.rx-result-desc { font-size: 0.88rem; color: #6b7280; margin-bottom: 0.6rem; }
+.rx-result-meta { display: flex; gap: 0.6rem; margin-bottom: 0.8rem; }
+.rx-specialty-tag {
+  font-size: 0.75rem;
+  background: #E8F5E9;
+  color: #2E7D32;
+  padding: 2px 10px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+.rx-evidence-tag {
+  font-size: 0.75rem;
+  background: #FFF8E1;
+  color: #F57F17;
+  padding: 2px 10px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+.rx-result-btn {
+  padding: 8px 18px;
+  border-radius: 8px;
+  border: none;
+  background: #1565C0;
+  color: #fff;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+.rx-result-btn:hover { background: #0D47A1; }
+.rx-no-result { color: #6b7280; font-size: 0.9rem; }
+.rx-no-result ul { margin-top: 0.5rem; padding-left: 1.2rem; }
+.rx-no-result li { margin-bottom: 0.3rem; }
+
+/* ===== 专业版链接 ===== */
+.rx-pro-link {
+  text-align: center;
+  margin-top: 2.5rem;
+  font-size: 0.85rem;
+}
+.rx-pro-link a {
+  color: #9ca3af;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.rx-pro-link a:hover { color: #1565C0; }
+
+@keyframes rxFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
+/* ===== 响应式 ===== */
 @media (max-width: 640px) {
-  .dx-steps-bar { gap: 0; }
-  .dx-step span { font-size: 0.6rem; }
-  .dx-step-line { width: 20px; }
+  .rx-hero { padding: 1.2rem 0.8rem 3rem; }
+  .rx-card-grid { grid-template-columns: repeat(2, 1fr); }
+  .rx-steps-grid { flex-direction: column; }
+  .rx-step-arrow { transform: rotate(90deg); }
 }
 </style>
