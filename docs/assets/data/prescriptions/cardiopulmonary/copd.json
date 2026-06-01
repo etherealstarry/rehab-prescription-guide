@@ -1,0 +1,77 @@
+{
+  "specialty": "cardiopulmonary",
+  "condition": "copd",
+  "condition_zh": "慢性阻塞性肺病（COPD）",
+  "prescriptions": [
+
+    {
+      "id": "copd-rx-001",
+      "title_zh": "有氧训练（核心处方）",
+      "title_en": "Aerobic Exercise Training (Core Prescription)",
+      "frequency": "每周 3-5 次",
+      "intensity": "Borg RPE 12-14（有点费力）或 60-80% VO₂peak",
+      "time": "每次 20-60 分钟（可分段完成，每段≥10分钟）",
+      "type": "步行（首选）、功率自行车、上下肢联合训练",
+      "volume": "每周 ≥150 分钟中等强度",
+      "progression": "每 2 周评估 6MWT，提高强度 5-10%",
+      "exercises": [
+        { "name_zh": "平地步行训练", "name_en": "Level walking training", "description_zh": "平地步行，速度以 Borg 呼吸困难 3-4 级为准；每次 20-40 分钟，每周 3-5 次；可分段完成（如 10 分钟 × 3 次/天）", "description_en": "Level walking at speed corresponding to Borg dyspnea 3-4; 20-40 min/session, 3-5x/week; can be accumulated (e.g. 10 min × 3/day)" },
+        { "name_zh": "功率自行车训练", "name_en": "Stationary cycling", "description_zh": "适用于下肢骨关节炎或平衡障碍患者；负荷从 50W 开始，每 2 周增加 10-15W", "description_en": "Suitable for patients with lower limb OA or balance impairment; start at 50W, increase 10-15W every 2 weeks" },
+        { "name_zh": "上下肢联合训练", "name_en": "Combined upper-lower limb training", "description_zh": "同时激活上下肢肌群，改善整体运动耐力；上肢功率车 + 下肢步行/骑车", "description_en": "Combined UE + LE ergometry improves overall exercise tolerance; UE ergometer + LE walking/cycling" }
+      ],
+      "precautions": [
+        "运动前 SpO₂ <88% 且未吸氧时禁止运动",
+        "运动后 Borg 呼吸困难 >6 级禁止继续",
+        "运动中出现胸痛、眩晕、严重气促立即停止并就医",
+        "急性加重期（AECOPD）禁止高强度训练（仅可做床上活动）"
+      ],
+      "evidence_id": "g-copd-2023"
+    },
+
+    {
+      "id": "copd-rx-002",
+      "title_zh": "呼吸肌训练",
+      "title_en": "Inspiratory Muscle Training (IMT)",
+      "frequency": "每天 1-2 次",
+      "intensity": "30-60% MIP（最大吸气压）",
+      "time": "每次 15-30 分钟",
+      "type": "阈值负荷训练器（如 POWERbreathe）",
+      "volume": "每周 ≥150 次呼吸",
+      "progression": "每 1-2 周测定 MIP，增加负荷 5-10%",
+      "exercises": [
+        { "name_zh": "吸气肌训练（IMT）", "name_en": "Inspiratory muscle training", "description_zh": "使用阈值负荷训练器；从 30% MIP 开始，每天 2 次，每次 15 分钟；每 2 周测定 MIP，增加负荷", "description_en": "Use threshold loading device; start at 30% MIP, 2x/day, 15 min/session; reassess MIP q2weeks, progress load" },
+        { "name_zh": "呼气肌训练（EMT）", "name_en": "Expiratory muscle training (EMT)", "description_zh": "适用条件：咳痰无力、FEV₁ <50% 预计值；使用呼气阻力训练器；从 20% MEP 开始，每天 1 次，每次 10 分钟", "description_en": "Indicated for: ineffective cough, FEV₁ <50% predicted; use expiratory resistance device; start at 20% MEP, 1x/day, 10 min/session" }
+      ],
+      "precautions": [
+        "未测定 MIP/MEP 前，从最低阻力开始",
+        "训练中出现明显呼吸困难（Borg >4 级）暂停",
+        "近期气胸、咯血、未控制的高血压（>180/110 mmHg）暂缓 IMT"
+      ],
+      "evidence_id": "sr-copd-exercise-2022"
+    },
+
+    {
+      "id": "copd-rx-003",
+      "title_zh": "能量节约技术（Energy Conservation）",
+      "title_en": "Energy Conservation Techniques",
+      "frequency": "每天 1 次训练 + 日常活动贯穿",
+      "intensity": "以不诱发呼吸困难（Borg <3）为准",
+      "time": "每次 30-60 分钟训练 + 日常应用",
+      "type": "呼吸重训练（pacing）、节能技巧、辅助器具使用",
+      "volume": "持续学习并应用于日常活动",
+      "progression": "逐步增加复杂活动（如：从穿衣 → 做饭 → 购物）",
+      "exercises": [
+        { "name_zh": "呼吸重训练（Pacing）", "name_en": "Pacing with breathing", "description_zh": "活动与休息交替（如：活动 3 分钟 → 休息 1 分钟）；避免屏气或用气过度；日常活动前先做 2 分钟缓慢深呼吸", "description_en": "Alternate activity and rest (e.g. 3 min activity → 1 min rest); avoid breath-holding; perform 2 min slow deep breathing before ADL" },
+        { "name_zh": "节能体位与技巧", "name_en": "Energy-saving positions & techniques", "description_zh": "穿衣、洗漱时坐位完成；使用长柄取物器减少弯腰；烹饪使用高凳坐位操作", "description_en": "Dress/groom in sitting; use long-handled reacher to avoid bending; cook using high stool for sitting" },
+        { "name_zh": "助行器使用（如适用）", "name_en": "Walker use (if applicable)", "description_zh": "适用条件：6MWT <300m 或 Borg 静息 >2 级；使用带轮助行器（walker with seat），可随时休息", "description_en": "Indicated for: 6MWT <300m or resting Borg >2; use rollator with seat for rest breaks" }
+      ],
+      "precautions": [
+        "避免在饭后立即进行耗能活动（等待 1-2 小时）",
+        "高温、高湿环境避免户外训练",
+        "如出现沉默性低氧（SpO₂ 正常但气短），仍需降低活动强度"
+      ],
+      "evidence_id": null
+    }
+
+  ]
+}

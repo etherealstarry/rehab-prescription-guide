@@ -1,0 +1,71 @@
+{
+  "specialty": "pediatric",
+  "specialty_name_zh": "儿童康复",
+  "specialty_name_en": "Pediatric Rehabilitation",
+  "questions": [
+
+    {
+      "id": "p-q1",
+      "question_zh": "请问是哪种儿童康复问题？",
+      "question_en": "Which pediatric condition?",
+      "type": "select",
+      "options": [
+        {"value": "cerebral-palsy", "label_zh": "脑瘫（Cerebral Palsy）", "label_en": "Cerebral Palsy"},
+        {"value": "developmental-delay", "label_zh": "发育迟缓", "label_en": "Developmental Delay"},
+        {"value": "autism", "label_zh": "自闭症谱系障碍（ASD）", "label_en": "Autism Spectrum Disorder"},
+        {"value": "sensory-integration", "label_zh": "感觉统合障碍", "label_en": "Sensory Integration Disorder"},
+        {"value": "down-syndrome", "label_zh": "唐氏综合征", "label_en": "Down Syndrome"},
+        {"value": "muscular-dystrophy", "label_zh": "肌营养不良", "label_en": "Muscular Dystrophy"}
+      ]
+    },
+
+    {
+      "id": "p-q2",
+      "question_zh": "儿童年龄（岁）",
+      "question_en": "Child's age (years)?",
+      "type": "number",
+      "unit_zh": "岁",
+      "unit_en": "years"
+    },
+
+    {
+      "id": "p-q3",
+      "question_zh": "粗大运动功能（GMFM-88 分项）- 如未测请选"未评估"",
+      "question_en": "Gross Motor Function (GMFM-88 dimensions)?",
+      "type": "select",
+      "options": [
+        {"value": "not-assessed", "label_zh": "未评估", "label_en": "Not assessed"},
+        {"value": "severe", "label_zh": "卧位与翻身维度严重受限", "label_en": "Lying and rolling severely limited"},
+        {"value": "moderate", "label_zh": "坐位、爬行与跪位中度受限", "label_en": "Sitting, crawling, kneeling moderately limited"},
+        {"value": "mild", "label_zh": "站立与行走轻度受限/正常", "label_en": "Standing and walking mildly limited/normal"}
+      ]
+    },
+
+    {
+      "id": "p-q4",
+      "question_zh": "儿童是否能配合指令？",
+      "question_en": "Is the child able to follow instructions?",
+      "type": "select",
+      "options": [
+        {"value": "no", "label_zh": "不能（需家长协助）", "label_en": "No (parent assistance required)"},
+        {"value": "partial", "label_zh": "部分配合（注意力短）", "label_en": "Partially (short attention span)"},
+        {"value": "yes", "label_zh": "能配合完成训练", "label_en": "Yes, can complete training"}
+      ]
+    },
+
+    {
+      "id": "p-q5",
+      "question_zh": "是否存在以下情况？（可多选）",
+      "question_en": "Does the child have any of the following? (Multi-select)",
+      "type": "multiselect",
+      "options": [
+        {"value": "epilepsy", "label_zh": "癫痫（需控制发作）", "label_en": "Epilepsy (seizure control needed)"},
+        {"value": "feeding-difficulty", "label_zh": "进食/吞咽困难", "label_en": "Feeding/swallowing difficulty"},
+        {"value": "contracture", "label_zh": "关节挛缩", "label_en": "Joint contracture"},
+        {"value": "hearing-vision", "label_zh": "听力/视力障碍", "label_en": "Hearing/visual impairment"},
+        {"value": "none", "label_zh": "以上都没有", "label_en": "None of the above"}
+      ]
+    }
+
+  ]
+}

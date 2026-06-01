@@ -1,0 +1,72 @@
+{
+  "specialty": "speech",
+  "specialty_name_zh": "言语康复",
+  "specialty_name_en": "Speech and Swallowing Rehabilitation",
+  "questions": [
+
+    {
+      "id": "s-q1",
+      "question_zh": "请问是哪种言语/吞咽问题？",
+      "question_en": "Which speech/swallowing condition?",
+      "type": "select",
+      "options": [
+        {"value": "dysphagia", "label_zh": "吞咽障碍（中风后/神经疾病）", "label_en": "Dysphagia (post-stroke/neurological)"},
+        {"value": "aphasia", "label_zh": "失语症（语言表达/理解困难）", "label_en": "Aphasia (speech expression/comprehension)"},
+        {"value": "dysarthria", "label_zh": "构音障碍（发音不清）", "label_en": "Dysarthria (slurred speech)"},
+        {"value": "apraxia", "label_zh": "失用症（计划/协调言语困难）", "label_en": "Apraxia of speech"},
+        {"value": "cognitive-communication", "label_zh": "认知-沟通障碍", "label_en": "Cognitive-communication disorder"}
+      ]
+    },
+
+    {
+      "id": "s-q2",
+      "question_zh": "发病时间至今多久？（周）",
+      "question_en": "Time since onset? (weeks)",
+      "type": "number",
+      "unit_zh": "周",
+      "unit_en": "weeks"
+    },
+
+    {
+      "id": "s-q3",
+      "question_zh": "吞咽功能（洼田饮水试验）- 如未测请选"未评估"",
+      "question_en": "Swallowing (Kubota Water Swallow Test)?",
+      "type": "select",
+      "options": [
+        {"value": "not-assessed", "label_zh": "未评估", "label_en": "Not assessed"},
+        {"value": 1, "label_zh": "1级 - 能1次喝完，无呛咳", "label_en": "Grade 1 - Swallows once, no cough"},
+        {"value": 2, "label_zh": "2级 - 分2次以上喝完，无呛咳", "label_en": "Grade 2 - Swallows in 2+ sips, no cough"},
+        {"value": 3, "label_zh": "3级 - 1次喝完，有呛咳", "label_en": "Grade 3 - Swallows once, with cough"},
+        {"value": 4, "label_zh": "4级 - 分2次以上喝完，有呛咳", "label_en": "Grade 4 - Swallows in 2+ sips, with cough"},
+        {"value": 5, "label_zh": "5级 - 无法吞咽，频繁呛咳", "label_en": "Grade 5 - Cannot swallow, frequent cough"}
+      ]
+    },
+
+    {
+      "id": "s-q4",
+      "question_zh": "是否存在以下情况？（可多选）",
+      "question_en": "Do you have any of the following? (Multi-select)",
+      "type": "multiselect",
+      "options": [
+        {"value": "aspiration-risk", "label_zh": "误吸风险（进食咳嗽）", "label_en": "Aspiration risk (cough when eating)"},
+        {"value": "tube-feeding", "label_zh": "鼻饲管/胃造瘘进食", "label_en": "Tube feeding (NG tube/PEG)"},
+        {"value": "silent-aspiration", "label_zh": "沉默性误吸（无咳嗽但肺部反复感染）", "label_en": "Silent aspiration (recurrent chest infection)"},
+        {"value": "none", "label_zh": "以上都没有", "label_en": "None of the above"}
+      ]
+    },
+
+    {
+      "id": "s-q5",
+      "question_zh": "沟通需求（日常最主要的需求）？",
+      "question_en": "Primary communication need?",
+      "type": "select",
+      "options": [
+        {"value": "basic-needs", "label_zh": "基本需求表达（饿、渴、疼、如厕）", "label_en": "Basic needs (hunger, thirst, pain, toilet)"},
+        {"value": "conversation", "label_zh": "日常对话（与家人朋友交流）", "label_en": "Daily conversation (family/friends)"},
+        {"value": "professional", "label_zh": "工作/专业沟通", "label_en": "Work/professional communication"},
+        {"value": "reading-writing", "label_zh": "阅读与书写能力", "label_en": "Reading and writing"}
+      ]
+    }
+
+  ]
+}

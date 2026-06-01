@@ -1,0 +1,76 @@
+{
+  "specialty": "neurologic",
+  "condition": "stroke",
+  "condition_zh": "脑卒中（中风）",
+  "prescriptions": [
+
+    {
+      "id": "stroke-rx-001",
+      "title_zh": "上肢功能训练（任务导向性训练 TOT）",
+      "title_en": "Upper Limb Task-Oriented Training (TOT)",
+      "stage": ["subacute", "chronic"],
+      "frequency": "每周 3-5 次",
+      "intensity": "RPE 12-14（有点费力）",
+      "time": "每次 30-45 分钟",
+      "type": "任务导向性训练（TOT）+ 上肢机器人辅助（可选）",
+      "volume": "每周 ≥120 分钟",
+      "progression": "每 2 周评估 Fugl-Meyer，达标后增加任务难度",
+      "exercises": [
+        { "name_zh": "抓取训练", "name_en": "Reaching exercise", "description_zh": "坐位/立位，患侧上肢完成不同距离、方向的抓取动作，10-15 次/组 × 3 组", "description_en": "Reaching in sitting/standing, 10-15 reps × 3 sets" },
+        { "name_zh": "功能性任务训练", "name_en": "Functional task training", "description_zh": "进食、梳洗、穿衣等 ADL 动作分解训练，每次 5-8 个任务", "description_en": "ADL task practice: feeding, grooming, dressing" }
+      ],
+      "precautions": [
+        "Ashworth 评分 ≥3 级（严重痉挛）时，禁止强制被动活动",
+        "训练前测量血压，>180/110 mmHg 暂停训练",
+        "如训练中出现剧烈头痛或新发神经症状，立即停止并就医"
+      ],
+      "evidence_id": "sr-mirror-2019"
+    },
+
+    {
+      "id": "stroke-rx-002",
+      "title_zh": "镜像治疗（Mirror Therapy）",
+      "title_en": "Mirror Therapy (MT)",
+      "stage": ["subacute", "chronic"],
+      "frequency": "每周 5-7 次（每天可做）",
+      "intensity": "RPE 11-13（轻度费力）",
+      "time": "每次 20-30 分钟",
+      "type": "镜像治疗（Mirror Therapy）",
+      "volume": "每周 ≥140 分钟",
+      "progression": "从简单动作 → 功能性任务，每 2 周进阶",
+      "exercises": [
+        { "name_zh": "镜像箱训练", "name_en": "Mirror box training", "description_zh": "健侧手动作通过镜面反射为假象患侧手动作，进行抓取、伸展等训练，20 分钟/次", "description_en": "Mirror box: healthy hand movement reflected as affected hand, 20 min/session" }
+      ],
+      "precautions": [
+        "急性期（<48h）禁用",
+        "患侧上肢严重忽略症（Neglect）患者慎用，需治疗师引导",
+        "如有明显关节疼痛（VAS >3 分），减少训练时间"
+      ],
+      "evidence_id": "sr-mirror-2019"
+    },
+
+    {
+      "id": "stroke-rx-003",
+      "title_zh": "行走与平衡训练",
+      "title_en": "Gait and Balance Training",
+      "stage": ["subacute", "chronic"],
+      "frequency": "每周 4-5 次",
+      "intensity": "心率储备（HRR）40-60%",
+      "time": "每次 20-40 分钟（不含休息）",
+      "type": "平地步行 + 平衡训练 + 阶梯训练",
+      "volume": "每周 ≥150 分钟中等强度",
+      "progression": "辅助行走 → 独立行走 → 复杂地形行走",
+      "exercises": [
+        { "name_zh": "平地步行训练", "name_en": "Overground walking", "description_zh": "使用助行器/拐杖（必要时），目标：独立行走 50 米（Berg ≥41 分后）", "description_en": "Overground walking with assistive device as needed, target: 50m independent" },
+        { "name_zh": "平衡训练", "name_en": "Balance training", "description_zh": "双足站立 → 单足站立（扶杆）→ 闭眼站立，每天 10 分钟", "description_en": "Balance progression: double → single limb stance (with support) → eyes closed" }
+      ],
+      "precautions": [
+        "Berg 平衡量表 <21 分（跌倒高风险）时，禁止独立行走训练",
+        "台阶训练需在康复师监护下进行",
+        "如有体位性低血压（站立后收缩压下降 >20 mmHg），暂停站立训练"
+      ],
+      "evidence_id": "g-stroke-2021"
+    }
+
+  ]
+}

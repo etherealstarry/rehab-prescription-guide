@@ -1,0 +1,107 @@
+{
+  "specialty": "orthopedic",
+  "condition": "acl-reconstruction",
+  "condition_zh": "前交叉韧带重建术后",
+  "prescriptions": [
+
+    {
+      "id": "acl-rx-001",
+      "title_zh": "第一阶段：急性期训练（术后 0-2 周）",
+      "title_en": "Phase 1: Acute Stage (0-2 weeks post-op)",
+      "postop_weeks": [0, 1, 2],
+      "frequency": "每天 1-2 次（冰敷可多次）",
+      "intensity": "无痛范围内，RPE 8-10（非常轻松）",
+      "time": "每次 15-20 分钟",
+      "type": "踝泵、直腿抬高（SLR）、膝周等长收缩、冰敷",
+      "volume": "每周 ≥120 分钟（含冰敷时间）",
+      "progression": "术后 2 周，ROM 达 0-90° 可进入下一阶段",
+      "exercises": [
+        { "name_zh": "踝泵运动", "name_en": "Ankle pumps", "description_zh": "清醒时每 2 小时 20 次，预防 DVT", "description_en": "20 reps every 2 hours while awake, prevents DVT" },
+        { "name_zh": "直腿抬高（SLR）", "name_en": "Straight Leg Raise", "description_zh": "膝伸直，抬高 30cm，保持 5 秒，10 次 × 3 组", "description_en": "Knee extended, lift 30cm, hold 5s, 10 reps × 3 sets" },
+        { "name_zh": "膝周等长收缩", "name_en": "Quadriceps setting", "description_zh": "股四头肌等长收缩，10 秒 × 10 次 × 3 组", "description_en": "Quad isometry, 10s × 10 reps × 3 sets" },
+        { "name_zh": "冰敷", "name_en": "Ice pack", "description_zh": "每次 15-20 分钟，每天 3-5 次（术后 72 小时内尤其重要）", "description_en": "15-20 min, 3-5 times/day, especially first 72h" }
+      ],
+      "precautions": [
+        "术后 72 小时内冰敷最重要，每次不超过 20 分钟",
+        "禁止主动屈膝 >90°（术后 2 周内）",
+        "SLR 时髌骨上必须收紧（股四头肌激活），否则无效"
+      ],
+      "evidence_id": "g-acl-2023"
+    },
+
+    {
+      "id": "acl-rx-002",
+      "title_zh": "第二阶段：亚急性期训练（术后 3-6 周）",
+      "title_en": "Phase 2: Subacute Stage (3-6 weeks post-op)",
+      "postop_weeks": [3, 4, 5, 6],
+      "frequency": "每周 3-4 次",
+      "intensity": "RPE 12-14（有点费力）",
+      "time": "每次 30-40 分钟",
+      "type": "靠墙静蹲、蹬腿机（闭链）、本体感觉训练",
+      "volume": "每周 ≥150 分钟",
+      "progression": "ROM >120° + 无伸直滞缺，可开始轻度开链训练",
+      "exercises": [
+        { "name_zh": "靠墙静蹲", "name_en": "Wall sit", "description_zh": "屈膝 45-60°，保持 20-30 秒，5 次 × 3 组", "description_en": "45-60° knee flexion, hold 20-30s, 5 reps × 3 sets" },
+        { "name_zh": "蹬腿机（闭链）", "name_en": "Leg press (closed chain)", "description_zh": "重量 ≤ 体重 50%，12-15 次 × 3 组", "description_en": "≤50% body weight, 12-15 reps × 3 sets" },
+        { "name_zh": "本体感觉训练", "name_en": "Proprioception training", "description_zh": "平衡板单侧站立（扶杆），30 秒 × 3 组", "description_en": "Single leg stance on balance board (with support), 30s × 3 sets" },
+        { "name_zh": "平地步行训练", "name_en": "Level walking", "description_zh": "拄拐 → 部分负重 → 完全负重，逐步增加距离", "description_en": "Walker → partial WB → full WB, progressive distance" }
+      ],
+      "precautions": [
+        "避免长时间站立或行走（术后 6 周内）",
+        "蹬腿机禁止在 0-30° 范围大重量开链伸展",
+        "如步行后膝关节肿胀加重，减少行走距离"
+      ],
+      "evidence_id": "sr-acl-rehab-2021"
+    },
+
+    {
+      "id": "acl-rx-003",
+      "title_zh": "第三阶段：中期训练（术后 6 周 - 3 个月）",
+      "title_en": "Phase 3: Intermediate Stage (6 weeks - 3 months post-op)",
+      "postop_weeks": [6, 7, 8, 9, 10, 11, 12],
+      "frequency": "每周 4-5 次",
+      "intensity": "RPE 14-16（中度费力）",
+      "time": "每次 45-60 分钟",
+      "type": "开链 + 闭链结合、功率自行车、上下楼梯",
+      "volume": "每周 ≥200 分钟",
+      "progression": "单腿下蹲对称指数 ≥80%，可开始跑步前训练",
+      "exercises": [
+        { "name_zh": "开链膝伸展（谨慎！）", "name_en": "Open kinetic chain knee extension (caution!)", "description_zh": "术后 12 周开始，重量 ≤ 体重 30%，避免 0-30° 范围", "description_en": "Start at 12 weeks, ≤30% BW, avoid 0-30° range" },
+        { "name_zh": "功率自行车", "name_en": "Stationary bike", "description_zh": "无阻力 → 逐步增加阻力，15-20 分钟 × 每天", "description_en": "No resistance → progressive resistance, 15-20 min/day" },
+        { "name_zh": "单腿下蹲", "name_en": "Single leg squat", "description_zh": "患侧 : 健侧 对称指数 ≥80%，10 次 × 3 组", "description_en": "LSI ≥80%, 10 reps × 3 sets" },
+        { "name_zh": "上下楼梯训练", "name_en": "Stair climbing", "description_zh": "向前/侧向上下楼梯，模拟日常功能性活动", "description_en": "Forward and lateral stair climbing, functional training" }
+      ],
+      "precautions": [
+        "⚠️ 开链膝伸展在术后 <12 周进行可能给移植物造成过大前张力",
+        "必须在康复师指导下，从 0-30° 范围外开始",
+        "单侧楼梯训练必须有扶手保护，防止跌倒"
+      ],
+      "evidence_id": "sr-acl-rehab-2021"
+    },
+
+    {
+      "id": "acl-rx-004",
+      "title_zh": "第四阶段：后期训练（术后 3-6 个月）",
+      "title_en": "Phase 4: Advanced Stage (3-6 months post-op)",
+      "postop_weeks": [13, 14, 15, 16, 17, 18, 20, 22, 24],
+      "frequency": "每周 5-6 次（含专项训练）",
+      "intensity": "RPE 16-18（很费力）",
+      "time": "每次 60-90 分钟",
+      "type": "跳跃训练、敏捷性训练、专项运动模拟",
+      "volume": "每周 ≥300 分钟",
+      "progression": "通过单腿跳跃测试 ≥90% 对侧，可考虑重返运动",
+      "exercises": [
+        { "name_zh": "单腿跳跃测试训练", "name_en": "Single leg hop training", "description_zh": "前后跳、侧向跳、交叉跳，对称指数 ≥90% 对侧", "description_en": "Forward, medial/lateral, cross-body hop, LSI ≥90%" },
+        { "name_zh": "敏捷性训练", "name_en": "Agility training", "description_zh": "变向跑、急停急转、绳梯训练", "description_en": "Cutting, pivoting, ladder drills" },
+        { "name_zh": "专项运动模拟", "name_en": "Sport-specific training", "description_zh": "根据患者运动类型（足球/篮球/跑步等）定制", "description_en": "Customized by sport type (soccer/basketball/running etc.)" }
+      ],
+      "precautions": [
+        "重返运动必须满足所有标准（症状、功能、肌力、时间、心理）",
+        "仅依靠时间（>6 个月）是不够的，再断裂率显著增高",
+        "建议在康复师/运动医学医师评估后再开始接触性运动"
+      ],
+      "evidence_id": "g-acl-2023"
+    }
+
+  ]
+}

@@ -1,0 +1,163 @@
+{
+  "guidelines": [
+
+    {
+      "id": "g-stroke-2021",
+      "title_zh": "中国脑卒中早期康复治疗指南（2021版）",
+      "title_en": "China Stroke Early Rehabilitation Guideline (2021)",
+      "issuer_zh": "中华医学会物理医学与康复学分会",
+      "issuer_en": "Chinese Society of Physical Medicine and Rehabilitation",
+      "year": 2021,
+      "url": "https://doi.org/10.3760/cma.j.issn.0254-1424.2021.05.001",
+      "evidence_level": "Ia",
+      "related_conditions": ["stroke"],
+      "related_interventions": ["镜像治疗", "强制性使用疗法", "任务导向性训练", "神经肌肉电刺激"]
+    },
+
+    {
+      "id": "g-copd-2023",
+      "title_zh": "慢性阻塞性肺病康复指南（GOLD 2023版）",
+      "title_en": "GOLD 2023 Report: Global Strategy for COPD Management",
+      "issuer_zh": "全球慢性阻塞性肺病倡议（GOLD）",
+      "issuer_en": "Global Initiative for Chronic Obstructive Lung Disease (GOLD)",
+      "year": 2023,
+      "url": "https://goldcopd.org/2023-gold-report-2/",
+      "evidence_level": "Ia",
+      "related_conditions": ["copd"],
+      "related_interventions": ["有氧运动", "呼吸肌训练", "呼吸训练", "能量节约技术"]
+    },
+
+    {
+      "id": "g-acl-2023",
+      "title_zh": "前交叉韧带损伤管理临床实践指南（AAOS 2023）",
+      "title_en": "AAOS Clinical Practice Guideline: Management of ACL Injuries (2023)",
+      "issuer_zh": "美国骨科医师学会（AAOS）",
+      "issuer_en": "American Academy of Orthopaedic Surgeons",
+      "year": 2023,
+      "url": "https://www.aaos.org/acl-guideline",
+      "evidence_level": "Ia",
+      "related_conditions": ["acl-reconstruction"],
+      "related_interventions": ["开链运动", "闭链运动", "神经肌肉训练", "前交叉韧带重建术后康复"]
+    },
+
+    {
+      "id": "g-cardiac-rehab-2023",
+      "title_zh": "2023 AHA/ACC 心血管康复指南",
+      "title_en": "2023 AHA/ACC Guideline for Cardiac Rehabilitation",
+      "issuer_zh": "美国心脏协会/美国心脏病学会",
+      "issuer_en": "AHA/ACC",
+      "year": 2023,
+      "url": "https://doi.org/10.1161/CIR.0000000000001160",
+      "evidence_level": "Ia",
+      "related_conditions": ["post-mi", "heart-failure", "post-cabg"],
+      "related_interventions": ["有氧运动", "功率车间歇训练", "呼吸训练", "渐进性抗阻训练"]
+    },
+
+    {
+      "id": "g-lower-back-pain-2021",
+      "title_zh": "腰痛的临床评估与治疗指南（NICE 2021）",
+      "title_en": "NICE Guideline NG59: Low Back Pain and Sciatica (2021)",
+      "issuer_zh": "英国国家卫生与临床优化研究所（NICE）",
+      "issuer_en": "National Institute for Health and Care Excellence",
+      "year": 2021,
+      "url": "https://www.nice.org.uk/guidance/ng59",
+      "evidence_level": "Ia",
+      "related_conditions": ["low-back-pain"],
+      "related_interventions": ["运动疗法", "核心稳定性训练", "认知行为疗法", "多学科综合康复"]
+    },
+
+    {
+      "id": "g-icu-rehab-2024",
+      "title_zh": "ICU获得性衰弱康复指南（欧洲重症医学会 2024）",
+      "title_en": "ESICM Guidelines on Rehabilitation of ICU-Acquired Weakness (2024)",
+      "issuer_zh": "欧洲重症医学会（ESICM）",
+      "issuer_en": "European Society of Intensive Care Medicine",
+      "year": 2024,
+      "url": "https://doi.org/10.1007/s00134-024-07350-w",
+      "evidence_level": "Ia",
+      "related_conditions": ["icu-acquired-weakness"],
+      "related_interventions": ["早期床上活动", "被动关节活动", "体位管理", "早期离床训练"]
+    }
+
+  ],
+
+  "systematic_reviews": [
+
+    {
+      "id": "sr-mirror-2019",
+      "title_zh": "镜像治疗对脑卒中患者上肢功能的疗效：Cochrane 系统评价",
+      "title_en": "Mirror therapy for improving motor function after stroke: Cochrane systematic review",
+      "journal_zh": "Cochrane 系统评价数据库",
+      "journal_en": "Cochrane Database of Systematic Reviews",
+      "year": 2019,
+      "doi": "10.1002/14651858.CD008449.pub3",
+      "evidence_level": "Ia",
+      "main_finding_zh": "镜像治疗可显著改善脑卒中患者上肢运动功能（FMA评分提高≥5分），证据等级Ia。",
+      "related_conditions": ["stroke"],
+      "related_interventions": ["镜像治疗"]
+    },
+
+    {
+      "id": "sr-copd-exercise-2022",
+      "title_zh": "COPD患者运动训练疗效的系统评价与Meta分析",
+      "title_en": "Exercise training for COPD: systematic review and meta-analysis",
+      "journal_zh": "Cochrane 系统评价数据库",
+      "journal_en": "Cochrane Database of Systematic Reviews",
+      "year": 2022,
+      "doi": "10.1002/14651858.CD011050.pub2",
+      "evidence_level": "Ia",
+      "main_finding_zh": "规律有氧运动可显著改善COPD患者6分钟步行距离（平均提高35m），并降低呼吸困难评分。",
+      "related_conditions": ["copd"],
+      "related_interventions": ["有氧运动", "呼吸肌训练"]
+    },
+
+    {
+      "id": "sr-acl-rehab-2021",
+      "title_zh": "前交叉韧带重建术后康复方案的系统评价",
+      "title_en": "Systematic review of rehabilitation after ACL reconstruction",
+      "journal_zh": "美国运动医学杂志",
+      "journal_en": "American Journal of Sports Medicine",
+      "year": 2021,
+      "doi": "10.1177/0363546521997111",
+      "evidence_level": "Ia",
+      "main_finding_zh": "早期渐进性负重和闭链运动可显著改善ACL-R术后膝关节稳定性和功能恢复。",
+      "related_conditions": ["acl-reconstruction"],
+      "related_interventions": ["闭链运动", "渐进性抗阻训练", "神经肌肉训练"]
+    }
+
+  ],
+
+  "rct_studies": [
+
+    {
+      "id": "rct-stroke-robot-2023",
+      "title_zh": "机器人辅助训练对脑卒中患者上肢功能的RCT研究",
+      "title_en": "Robot-assisted training for upper limb function after stroke: a randomized controlled trial",
+      "journal_zh": "神经康复与神经工程",
+      "journal_en": "Neurorehabilitation and Neural Repair",
+      "year": 2023,
+      "doi": "10.1177/15459683231167890",
+      "sample_size": 120,
+      "evidence_level": "Ib",
+      "main_finding_zh": "机器人辅助训练联合常规治疗，较单纯常规治疗更显著改善上肢FMA评分（提高8.3分 vs 4.1分）。",
+      "related_conditions": ["stroke"],
+      "related_interventions": ["机器人辅助训练", "上肢功能训练"]
+    },
+
+    {
+      "id": "rct-copd-hiit-2022",
+      "title_zh": "功率车间歇训练对COPD患者运动能力的RCT",
+      "title_en": "High-intensity interval training vs moderate-intensity training in COPD: a RCT",
+      "journal_zh": "美国呼吸与重症监护医学杂志",
+      "journal_en": "American Journal of Respiratory and Critical Care Medicine",
+      "year": 2022,
+      "doi": "10.1164/rccm.202201-0123OC",
+      "sample_size": 88,
+      "evidence_level": "Ib",
+      "main_finding_zh": "HIIT较中等强度持续训练更显著提高COPD患者峰值摄氧量（VO2peak提高15% vs 8%）。",
+      "related_conditions": ["copd"],
+      "related_interventions": ["功率车间歇训练", "有氧运动"]
+    }
+
+  ]
+}

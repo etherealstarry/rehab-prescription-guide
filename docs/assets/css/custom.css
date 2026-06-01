@@ -1,0 +1,203 @@
+/* assets/css/custom.css */
+
+/* ==========================================
+   康复处方指南 - 自定义样式
+   ========================================== */
+
+/* --- 全局颜色变量（患者模式 / 专业模式） --- */
+:root {
+  --md-primary-fg-color: #1976d2;
+  --md-accent-fg-color: #00acc1;
+}
+
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: #1565c0;
+  --md-accent-fg-color: #5c6bc0;
+}
+
+/* --- 免责声明页脚 --- */
+.disclaimer-footer,
+.disclaimer-footer p {
+  background-color: #fff3e0;
+  border-left: 4px solid #ff9800;
+  padding: 12px 16px;
+  border-radius: 4px;
+  margin: 1.5em 0;
+  font-size: 0.95em;
+  color: #5d4037;
+}
+
+.disclaimer-footer strong {
+  color: #e65100;
+}
+
+/* --- 页脚免责声明 --- */
+.disclaimer-footer {
+  font-size: 0.85em;
+  padding: 8px 12px;
+}
+
+/* --- 红旗症状警告框 --- */
+.redflag-warning {
+  background-color: #ffebee;
+  border-left: 6px solid #d32f2f;
+  padding: 16px 20px;
+  border-radius: 6px;
+  margin: 1.5em 0;
+  color: #b71c1c;
+}
+
+.redflag-warning strong {
+  color: #d32f2f;
+  font-size: 1.1em;
+}
+
+.redflag-warning .redflag-title {
+  font-size: 1.2em;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+/* --- 证据等级标签 --- */
+.evidence-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 0.8em;
+  font-weight: 600;
+  margin-left: 8px;
+}
+
+.evidence-badge-ia {
+  background-color: #1b5e20;
+  color: #fff;
+}
+
+.evidence-badge-ib {
+  background-color: #2e7d32;
+  color: #fff;
+}
+
+.evidence-badge-iia {
+  background-color: #558b2f;
+  color: #fff;
+}
+
+.evidence-badge-iib {
+  background-color: #9e9d24;
+  color: #333;
+}
+
+.evidence-badge-iii {
+  background-color: #f9a825;
+  color: #333;
+}
+
+.evidence-badge-iv {
+  background-color: #bdbdbd;
+  color: #333;
+}
+
+/* --- FITT-VP 处方卡片 --- */
+.prescription-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin: 1.2em 0;
+  background: #fafafa;
+}
+
+.prescription-card h3 {
+  margin-top: 0;
+  color: var(--md-primary-fg-color);
+}
+
+.prescription-card .fitt-vp-row {
+  display: flex;
+  padding: 4px 0;
+}
+
+.prescription-card .fitt-vp-label {
+  width: 120px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+/* --- 评估问卷 --- */
+.assessment-form {
+  max-width: 700px;
+  margin: 1em 0;
+}
+
+.assessment-question {
+  margin: 1.5em 0;
+  padding-bottom: 1em;
+  border-bottom: 1px solid #eee;
+}
+
+.assessment-question label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.assessment-question select,
+.assessment-question input[type="number"] {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
+  min-width: 200px;
+}
+
+.assessment-question .hint {
+  font-size: 0.85em;
+  color: #777;
+  margin-top: 4px;
+}
+
+/* --- 症状搜索框 --- */
+.symptom-input-container {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin: 1em 0;
+}
+
+.symptom-input-container input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 2px solid var(--md-primary-fg-color);
+  border-radius: 6px;
+  font-size: 1em;
+}
+
+/* --- 卡片网格微调 --- */
+.md-typeset .grid.cards > * {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.md-typeset .grid.cards > *:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* --- 专业性标记 --- */
+.professional-note {
+  background-color: #e8eaf6;
+  border-left: 4px solid #3f51b5;
+  padding: 12px 16px;
+  border-radius: 4px;
+  margin: 1em 0;
+  font-size: 0.9em;
+}
+
+.patient-note {
+  background-color: #e0f2f1;
+  border-left: 4px solid #00897b;
+  padding: 12px 16px;
+  border-radius: 4px;
+  margin: 1em 0;
+  font-size: 0.95em;
+}

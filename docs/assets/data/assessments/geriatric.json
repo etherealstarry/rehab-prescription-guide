@@ -1,0 +1,83 @@
+{
+  "specialty": "geriatric",
+  "specialty_name_zh": "老年康复",
+  "specialty_name_en": "Geriatric Rehabilitation",
+  "questions": [
+
+    {
+      "id": "g-q1",
+      "question_zh": "年龄（岁）",
+      "question_en": "Age (years)?",
+      "type": "number",
+      "unit_zh": "岁",
+      "unit_en": "years"
+    },
+
+    {
+      "id": "g-q2",
+      "question_zh": "是否存在肌少症风险？（SARC-F 筛查）",
+      "question_en": "Sarcopenia risk (SARC-F screening)?",
+      "type": "select",
+      "options": [
+        {"value": "not-assessed", "label_zh": "未评估", "label_en": "Not assessed"},
+        {"value": 0, "label_zh": "SARC-F 0-3分（低风险）", "label_en": "SARC-F 0-3 (Low risk)"},
+        {"value": 1, "label_zh": "SARC-F 4-9分（高风险）", "label_en": "SARC-F 4-9 (High risk)"},
+        {"value": 2, "label_zh": "已被诊断为肌少症", "label_en": "Diagnosed with sarcopenia"}
+      ]
+    },
+
+    {
+      "id": "g-q3",
+      "question_zh": "跌倒风险评估（Berg 平衡量表）- 如未测请选"未评估"",
+      "question_en": "Fall risk (Berg Balance Scale)?",
+      "type": "select",
+      "options": [
+        {"value": "not-assessed", "label_zh": "未评估", "label_en": "Not assessed"},
+        {"value": 0, "label_zh": "0-20分（跌倒高风险）", "label_en": "0-20 (High fall risk)"},
+        {"value": 1, "label_zh": "21-40分（中度跌倒风险）", "label_en": "21-40 (Moderate fall risk)"},
+        {"value": 2, "label_zh": "41-56分（低跌倒风险）", "label_en": "41-56 (Low fall risk)"}
+      ]
+    },
+
+    {
+      "id": "g-q4",
+      "question_zh": "共病情况（可多选）",
+      "question_en": "Comorbidities? (Multi-select)",
+      "type": "multiselect",
+      "options": [
+        {"value": "hypertension", "label_zh": "高血压", "label_en": "Hypertension"},
+        {"value": "diabetes", "label_zh": "糖尿病", "label_en": "Diabetes"},
+        {"value": "osteoporosis", "label_zh": "骨质疏松", "label_en": "Osteoporosis"},
+        {"value": "arthritis", "label_zh": "关节炎", "label_en": "Arthritis"},
+        {"value": "cognitive-impairment", "label_zh": "认知功能受损（如轻度认知障碍）", "label_en": "Cognitive impairment (e.g. MCI)"},
+        {"value": "none", "label_zh": "无共病或已很好控制", "label_en": "None / well controlled"}
+      ]
+    },
+
+    {
+      "id": "g-q5",
+      "question_zh": "目前是否能独立行走（不使用辅助器具）？",
+      "question_en": "Can you walk independently without assistive device?",
+      "type": "select",
+      "options": [
+        {"value": "independent", "label_zh": "可以独立行走", "label_en": "Yes, independently"},
+        {"value": "with-aid", "label_zh": "需要助行器/拐杖", "label_en": "With assistive device (walker/cane)"},
+        {"value": "with-help", "label_zh": "需要他人搀扶", "label_en": "With physical assistance"},
+        {"value": "wheelchair", "label_zh": "使用轮椅", "label_en": "Wheelchair dependent"}
+      ]
+    },
+
+    {
+      "id": "g-q6",
+      "question_zh": "过去6个月内是否跌倒过？",
+      "question_en": "Have you fallen in the past 6 months?",
+      "type": "select",
+      "options": [
+        {"value": 0, "label_zh": "0次", "label_en": "0 times"},
+        {"value": 1, "label_zh": "1次", "label_en": "1 time"},
+        {"value": 2, "label_zh": "≥2次（反复跌倒）", "label_en": "≥2 times (recurrent falls)"}
+      ]
+    }
+
+  ]
+}

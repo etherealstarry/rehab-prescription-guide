@@ -1,0 +1,82 @@
+{
+  "red_flags": [
+
+    {
+      "id": "rf-001",
+      "symptom_keywords_zh": ["胸痛", "胸闷", "胸部压迫感", "压榨性疼痛", "心前区疼痛"],
+      "symptom_keywords_en": ["chest pain", "chest pressure", "angina", "crushing pain"],
+      "urgency": "emergency",
+      "warning_zh": "⚠️ 红旗警告：胸痛可能是心梗、肺栓塞、主动脉夹层等急危重症表现，请立即拨打急救电话或前往最近的急诊科！",
+      "warning_en": "⚠️ RED FLAG: Chest pain may indicate myocardial infarction, pulmonary embolism, or aortic dissection. Call emergency services immediately!",
+      "related_conditions": ["心梗", "肺栓塞", "主动脉夹层", "不稳定性心绞痛"],
+      "source": "AHA/ACC 2023 Guideline for Management of Patients With STEMI"
+    },
+
+    {
+      "id": "rf-002",
+      "symptom_keywords_zh": ["突然面瘫", "一侧无力", "一侧麻木", "言语不清", "口角歪斜", "突然眩晕", "复视"],
+      "symptom_keywords_en": ["face drooping", "arm weakness", "speech difficulty", "sudden numbness", "sudden confusion"],
+      "urgency": "emergency",
+      "warning_zh": "⚠️ 红旗警告：疑似脑卒中（中风）！请立即就医，记住 FAST 原则：Face（面瘫）、Arm（肢体无力）、Speech（言语不清）、Time（抓紧时间）！",
+      "warning_en": "⚠️ RED FLAG: Suspected stroke (brain attack)! Seek immediate medical attention. Remember FAST: Face, Arm, Speech, Time!",
+      "related_conditions": ["脑卒中急性期", "脑梗死", "脑出血"],
+      "source": "American Stroke Association 2021 Guideline for the Management of Patients With Acute Ischemic Stroke"
+    },
+
+    {
+      "id": "rf-003",
+      "symptom_keywords_zh": ["背部剧痛", "下肢无力", "大小便失禁", "鞍区麻木", "进行性行走困难"],
+      "symptom_keywords_en": ["severe back pain", "leg weakness", "bowel incontinence", "urinary incontinence", "saddle anesthesia"],
+      "urgency": "emergency",
+      "warning_zh": "⚠️ 红旗警告：疑似脊髓压迫（如肿瘤、脓肿、椎间盘突出），请立即就医，延误可能导致永久性瘫痪！",
+      "warning_en": "⚠️ RED FLAG: Suspected spinal cord compression. Seek immediate medical attention to prevent permanent paralysis!",
+      "related_conditions": ["脊髓压迫", "马尾综合征", "脊髓肿瘤"],
+      "source": "NICE 2024 Guidelines on Suspected Cancer"
+    },
+
+    {
+      "id": "rf-004",
+      "symptom_keywords_zh": ["呼吸困难", "端坐呼吸", "夜间阵发性呼吸困难", "咳粉红色泡沫痰"],
+      "symptom_keywords_en": ["shortness of breath", "orthopnea", "paroxysmal nocturnal dyspnea", "pink frothy sputum"],
+      "urgency": "emergency",
+      "warning_zh": "⚠️ 红旗警告：疑似急性心力衰竭、肺栓塞或重症哮喘，请立即就医！",
+      "warning_en": "⚠️ RED FLAG: Suspected acute heart failure, pulmonary embolism, or severe asthma. Seek immediate medical attention!",
+      "related_conditions": ["急性心力衰竭", "肺栓塞", "重症哮喘"],
+      "source": "ESC 2024 Guidelines for the diagnosis and treatment of acute and chronic heart failure"
+    },
+
+    {
+      "id": "rf-005",
+      "symptom_keywords_zh": ["剧烈头痛", "喷射性呕吐", "意识改变", "颈部僵硬"],
+      "symptom_keywords_en": ["severe headache", "projectile vomiting", "altered consciousness", "neck stiffness"],
+      "urgency": "emergency",
+      "warning_zh": "⚠️ 红旗警告：疑似颅内出血、脑膜炎或颅内压增高，请立即就医！",
+      "warning_en": "⚠️ RED FLAG: Suspected intracranial hemorrhage, meningitis, or increased intracranial pressure. Seek immediate medical attention!",
+      "related_conditions": ["颅内出血", "脑膜炎", "蛛网膜下腔出血"],
+      "source": "Neurocritical Care Society 2023 Guidelines"
+    },
+
+    {
+      "id": "rf-006",
+      "symptom_keywords_zh": ["跌倒后不能负重", "明显畸形", "关节肿胀剧痛", "受伤后立即出现功能障碍"],
+      "symptom_keywords_en": ["inability to bear weight after fall", "visible deformity", "severe joint pain", "immediate dysfunction after injury"],
+      "urgency": "urgent",
+      "warning_zh": "⚠️ 警告：可能存在骨折或韧带完全断裂，请尽快就医进行影像学检查！",
+      "warning_en": "⚠️ WARNING: Possible fracture or complete ligament rupture. Seek medical attention promptly for imaging.",
+      "related_conditions": ["骨折", "前交叉韧带完全断裂", "跟腱断裂"],
+      "source": "AAOS 2023 Clinical Practice Guideline for Management of Anterior Cruciate Ligament Injuries"
+    },
+
+    {
+      "id": "rf-007",
+      "symptom_keywords_zh": ["静息心率>100次/分", "血压下降", "血氧饱和度<90%", "意识模糊"],
+      "symptom_keywords_en": ["resting HR >100", "blood pressure drop", "SpO2 <90%", "confusion"],
+      "urgency": "emergency",
+      "warning_zh": "⚠️ 红旗警告：生命体征不稳定，可能存在休克、严重感染或肺栓塞，请立即就医！",
+      "warning_en": "⚠️ RED FLAG: Unstable vital signs. Possible shock, severe infection, or pulmonary embolism. Seek immediate medical attention!",
+      "related_conditions": ["休克", "肺栓塞", "脓毒症"],
+      "source": "Surviving Sepsis Campaign 2024 Guidelines"
+    }
+
+  ]
+}

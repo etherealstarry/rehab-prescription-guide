@@ -1,0 +1,114 @@
+{
+  "specialty": "neurologic",
+  "specialty_name_zh": "神经康复",
+  "specialty_name_en": "Neurological Rehabilitation",
+  "questions": [
+
+    {
+      "id": "n-q1",
+      "question_zh": "请问是哪种神经系统疾病？",
+      "question_en": "Which neurological condition?",
+      "type": "select",
+      "options": [
+        {"value": "stroke", "label_zh": "脑卒中（中风）", "label_en": "Stroke"},
+        {"value": "parkinson", "label_zh": "帕金森病", "label_en": "Parkinson's Disease"},
+        {"value": "sci", "label_zh": "脊髓损伤", "label_en": "Spinal Cord Injury"},
+        {"value": "peripheral-neuropathy", "label_zh": "周围神经病变", "label_en": "Peripheral Neuropathy"},
+        {"value": "tbi", "label_zh": "创伤性脑损伤", "label_en": "Traumatic Brain Injury"}
+      ]
+    },
+
+    {
+      "id": "n-q2",
+      "question_zh": "发病至今多长时间？（周）",
+      "question_en": "Time since onset? (weeks)",
+      "type": "number",
+      "unit_zh": "周",
+      "unit_en": "weeks",
+      "hint_zh": "请输入数字，例如：12 表示发病12周",
+      "hint_en": "Enter a number, e.g. 12 for 12 weeks post-onset"
+    },
+
+    {
+      "id": "n-q3",
+      "question_zh": "目前处于哪个恢复阶段？",
+      "question_en": "Which recovery stage are you in?",
+      "type": "select",
+      "options": [
+        {"value": "acute", "label_zh": "急性期（<2周）", "label_en": "Acute (<2 weeks)"},
+        {"value": "subacute", "label_zh": "亚急性期（2周-3个月）", "label_en": "Subacute (2 weeks - 3 months)"},
+        {"value": "chronic", "label_zh": "慢性期（>3个月）", "label_en": "Chronic (>3 months)"}
+      ]
+    },
+
+    {
+      "id": "n-q4",
+      "question_zh": "上肢肌张力（改良 Ashworth 分级）",
+      "question_en": "Upper limb muscle tone (Modified Ashworth Scale)?",
+      "type": "select",
+      "options": [
+        {"value": 0, "label_zh": "0级 - 无肌张力增高", "label_en": "0 - No increase in muscle tone"},
+        {"value": 1, "label_zh": "1级 - 轻度增高，在关节活动范围末出现卡住", "label_en": "1 - Slight increase, catch at end of ROM"},
+        {"value": 1.5, "label_zh": "1+级 - 轻度增高，在关节活动范围后50%出现卡住", "label_en": "1+ - Slight increase, catch in last 50% of ROM"},
+        {"value": 2, "label_zh": "2级 - 明显增高，但受累部分易被动活动", "label_en": "2 - Marked increase, easy passive movement"},
+        {"value": 3, "label_zh": "3级 - 严重增高，被动活动困难", "label_en": "3 - Considerable increase, difficult passive movement"},
+        {"value": 4, "label_zh": "4级 - 僵直，患肢无法被动活动", "label_en": "4 - Rigidity, unable to passive movement"}
+      ]
+    },
+
+    {
+      "id": "n-q5",
+      "question_zh": "上肢运动功能（Fugl-Meyer 评分）- 如不确定请选"未评估"",
+      "question_en": "Upper limb Fugl-Meyer Assessment score?",
+      "type": "select",
+      "options": [
+        {"value": "not-assessed", "label_zh": "未评估", "label_en": "Not assessed"},
+        {"value": 0, "label_zh": "0-18分（严重运动功能缺失）", "label_en": "0-18 (Severe impairment)"},
+        {"value": 1, "label_zh": "19-36分（明显运动功能缺失）", "label_en": "19-36 (Significant impairment)"},
+        {"value": 2, "label_zh": "37-54分（中度运动功能缺失）", "label_en": "37-54 (Moderate impairment)"},
+        {"value": 3, "label_zh": "55-66分（轻度运动功能缺失）", "label_en": "55-66 (Mild impairment)"}
+      ]
+    },
+
+    {
+      "id": "n-q6",
+      "question_zh": "平衡能力（Berg 平衡量表）- 如不确定请选"未评估"",
+      "question_en": "Balance ability (Berg Balance Scale)?",
+      "type": "select",
+      "options": [
+        {"value": "not-assessed", "label_zh": "未评估", "label_en": "Not assessed"},
+        {"value": 0, "label_zh": "0-20分（平衡功能严重受损，跌倒高风险）", "label_en": "0-20 (Severe impairment, high fall risk)"},
+        {"value": 1, "label_zh": "21-40分（平衡功能中度受损）", "label_en": "21-40 (Moderate impairment)"},
+        {"value": 2, "label_zh": "41-56分（平衡功能轻度受损或正常）", "label_en": "41-56 (Mild impairment or normal)"}
+      ]
+    },
+
+    {
+      "id": "n-q7",
+      "question_zh": "是否存在以下情况？（可多选）",
+      "question_en": "Do you have any of the following? (Multi-select)",
+      "type": "multiselect",
+      "options": [
+        {"value": "neglect", "label_zh": "单侧忽略（忽视症）", "label_en": "Unilateral neglect"},
+        {"value": "aphasia", "label_zh": "失语症（语言表达/理解困难）", "label_en": "Aphasia"},
+        {"value": "dysphagia", "label_zh": "吞咽障碍", "label_en": "Dysphagia"},
+        {"value": "cognitive-impairment", "label_zh": "认知功能受损", "label_en": "Cognitive impairment"},
+        {"value": "none", "label_zh": "以上都没有", "label_en": "None of the above"}
+      ]
+    },
+
+    {
+      "id": "n-q8",
+      "question_zh": "目前是否能独立行走（不使用辅助器具）？",
+      "question_en": "Can you walk independently (without assistive device)?",
+      "type": "select",
+      "options": [
+        {"value": "independent", "label_zh": "可以独立行走", "label_en": "Yes, independently"},
+        {"value": "with-aid", "label_zh": "需要助行器/拐杖", "label_en": "With assistive device"},
+        {"value": "with-help", "label_zh": "需要他人搀扶", "label_en": "With physical assistance"},
+        {"value": "unable", "label_zh": "无法行走", "label_en": "Unable to walk"}
+      ]
+    }
+
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "specialty": "critical-care",
+  "specialty_name_zh": "重症康复",
+  "specialty_name_en": "Critical Care Rehabilitation",
+  "questions": [
+
+    {
+      "id": "cc-q1",
+      "question_zh": "目前意识状态（GCS 格拉斯哥昏迷量表）？",
+      "question_en": "Consciousness level (Glasgow Coma Scale)?",
+      "type": "select",
+      "options": [
+        {"value": "not-assessed", "label_zh": "未评估", "label_en": "Not assessed"},
+        {"value": 3, "label_zh": "3-8分（重度昏迷）", "label_en": "3-8 (Severe coma)"},
+        {"value": 2, "label_zh": "9-12分（中度意识障碍）", "label_en": "9-12 (Moderate impairment)"},
+        {"value": 1, "label_zh": "13-14分（轻度意识障碍）", "label_en": "13-14 (Mild impairment)"},
+        {"value": 0, "label_zh": "15分（意识清醒）", "label_en": "15 (Full consciousness)"}
+      ]
+    },
+
+    {
+      "id": "cc-q2",
+      "question_zh": "ICU 获得性肌无力评分（MRC 总分）- 如未测请选"未评估"",
+      "question_en": "ICU-Acquired Weakness (MRC sum score)?",
+      "type": "select",
+      "options": [
+        {"value": "not-assessed", "label_zh": "未评估", "label_en": "Not assessed"},
+        {"value": 0, "label_zh": "0-24分（重度无力，无法抬肢）", "label_en": "0-24 (Severe weakness)"},
+        {"value": 1, "label_zh": "25-48分（中度无力）", "label_en": "25-48 (Moderate weakness)"},
+        {"value": 2, "label_zh": "49-60分（轻度无力/正常）", "label_en": "49-60 (Mild/Normal)"}
+      ]
+    },
+
+    {
+      "id": "cc-q3",
+      "question_zh": "生命体征是否稳定？",
+      "question_en": "Are vital signs stable?",
+      "type": "select",
+      "options": [
+        {"value": "unstable", "label_zh": "不稳定（需要升压药/高频通气）", "label_en": "Unstable (vasopressors/high PEEP)"},
+        {"value": "borderline", "label_zh": "边缘稳定（需要低剂量升压药/氧疗）", "label_en": "Borderline (low-dose vasopressors/O2)"},
+        {"value": "stable", "label_zh": "稳定", "label_en": "Stable"}
+      ]
+    },
+
+    {
+      "id": "cc-q4",
+      "question_zh": "是否已脱离呼吸机（拔管）？",
+      "question_en": "Has the patient been extubated?",
+      "type": "select",
+      "options": [
+        {"value": "intubated", "label_zh": "未拔管（仍插管）", "label_en": "Still intubated"},
+        {"value": "extubated-recent", "label_zh": "刚拔管（<48小时）", "label_en": "Recently extubated (<48h)"},
+        {"value": "extubated-stable", "label_zh": "已拔管且稳定（>48小时）", "label_en": "Stably extubated (>48h)"}
+      ]
+    },
+
+    {
+      "id": "cc-q5",
+      "question_zh": "是否存在以下情况？（可多选）",
+      "question_en": "Do you have any of the following? (Multi-select)",
+      "type": "multiselect",
+      "options": [
+        {"value": "pressue-injury", "label_zh": "压疮（褥疮）", "label_en": "Pressure injury / bedsore"},
+        {"value": "dvt", "label_zh": "深静脉血栓（DVT）", "label_en": "Deep Vein Thrombosis (DVT)"},
+        {"value": "orthopedic-implant", "label_zh": "近期骨科内固定/手术", "label_en": "Recent orthopedic implant/surgery"},
+        {"value": "tracheostomy", "label_zh": "气管切开状态", "label_en": "Tracheostomy in place"},
+        {"value": "none", "label_zh": "以上都没有", "label_en": "None of the above"}
+      ]
+    }
+
+  ]
+}

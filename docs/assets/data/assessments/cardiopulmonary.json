@@ -1,0 +1,114 @@
+{
+  "specialty": "cardiopulmonary",
+  "specialty_name_zh": "心肺康复",
+  "specialty_name_en": "Cardiopulmonary Rehabilitation",
+  "questions": [
+
+    {
+      "id": "c-q1",
+      "question_zh": "请问是哪类心肺疾病/术后？",
+      "question_en": "Which cardiopulmonary condition?",
+      "type": "select",
+      "options": [
+        {"value": "copd", "label_zh": "慢性阻塞性肺病（COPD）", "label_en": "COPD"},
+        {"value": "post-mi", "label_zh": "心梗术后（PCI/支架）", "label_en": "Post-Myocardial Infarction (PCI)"},
+        {"value": "heart-failure", "label_zh": "心力衰竭", "label_en": "Heart Failure"},
+        {"value": "post-cabg", "label_zh": "冠脉搭桥术后", "label_en": "Post-CABG"},
+        {"value": "post-covid", "label_zh": "新冠感染后（Long COVID）", "label_en": "Post-COVID-19"},
+        {"value": "pulmonary-fibrosis", "label_zh": "肺纤维化", "label_en": "Pulmonary Fibrosis"}
+      ]
+    },
+
+    {
+      "id": "c-q2",
+      "question_zh": "确诊/术后至今多长时间？（周）",
+      "question_en": "Time since diagnosis/surgery? (weeks)",
+      "type": "number",
+      "unit_zh": "周",
+      "unit_en": "weeks"
+    },
+
+    {
+      "id": "c-q3",
+      "question_zh": "静息心率（次/分）- 如不清楚请选"未测量"",
+      "question_en": "Resting heart rate (bpm)?",
+      "type": "select",
+      "options": [
+        {"value": "not-measured", "label_zh": "未测量", "label_en": "Not measured"},
+        {"value": 0, "label_zh": "<60次/分（心动过缓）", "label_en": "<60 bpm (Bradycardia)"},
+        {"value": 1, "label_zh": "60-100次/分（正常）", "label_en": "60-100 bpm (Normal)"},
+        {"value": 2, "label_zh": ">100次/分（心动过速）", "label_en": ">100 bpm (Tachycardia)"}
+      ]
+    },
+
+    {
+      "id": "c-q4",
+      "question_zh": "静息血压（mmHg）- 如不清楚请选"未测量"",
+      "question_en": "Resting blood pressure (mmHg)?",
+      "type": "select",
+      "options": [
+        {"value": "not-measured", "label_zh": "未测量", "label_en": "Not measured"},
+        {"value": 0, "label_zh": "<90/60 mmHg（低血压）", "label_en": "<90/60 mmHg (Hypotension)"},
+        {"value": 1, "label_zh": "90-120/60-80 mmHg（正常）", "label_en": "90-120/60-80 mmHg (Normal)"},
+        {"value": 2, "label_zh": "120-140/80-90 mmHg（高血压前期）", "label_en": "120-140/80-90 mmHg (Pre-hypertension)"},
+        {"value": 3, "label_zh": ">140/90 mmHg（高血压）", "label_en": ">140/90 mmHg (Hypertension)"}
+      ]
+    },
+
+    {
+      "id": "c-q5",
+      "question_zh": "自觉运动强度（Borg RPE 量表）- 上次运动时感受",
+      "question_en": "Perceived exertion (Borg RPE Scale)?",
+      "type": "select",
+      "options": [
+        {"value": 6, "label_zh": "6-8 非常轻松", "label_en": "6-8 Very, very light"},
+        {"value": 1, "label_zh": "9-11 很轻松", "label_en": "9-11 Very light"},
+        {"value": 2, "label_zh": "12-14 有点费力", "label_en": "2-14 Somewhat hard"},
+        {"value": 3, "label_zh": "15-17 很费力", "label_en": "15-17 Very hard"},
+        {"value": 4, "label_zh": "18-20 非常费力（极限）", "label_en": "18-20 Very, very hard (Maximal)"}
+      ]
+    },
+
+    {
+      "id": "c-q6",
+      "question_zh": "呼吸困难评分（Borg 呼吸困难量表）- 上次运动时",
+      "question_en": "Dyspnea (Borg Dyspnea Scale)?",
+      "type": "select",
+      "options": [
+        {"value": 0, "label_zh": "0级 无呼吸困难", "label_en": "0 - No dyspnea"},
+        {"value": 1, "label_zh": "1-2级 轻微呼吸困难", "label_en": "1-2 Mild dyspnea"},
+        {"value": 2, "label_zh": "3-4级 明显呼吸困难", "label_en": "3-4 Moderate dyspnea"},
+        {"value": 3, "label_zh": "5-6级 严重呼吸困难", "label_en": "5-6 Severe dyspnea"},
+        {"value": 4, "label_zh": "7-10级 极度呼吸困难", "label_en": "7-10 Maximum dyspnea"}
+      ]
+    },
+
+    {
+      "id": "c-q7",
+      "question_zh": "是否存在以下情况？（可多选）",
+      "question_en": "Do you have any of the following? (Multi-select)",
+      "type": "multiselect",
+      "options": [
+        {"value": "chest-pain", "label_zh": "运动时有胸痛/胸闷", "label_en": "Chest pain/discomfort during exercise"},
+        {"value": "dizziness", "label_zh": "运动时头晕/晕厥", "label_en": "Dizziness/syncope during exercise"},
+        {"value": "arrhythmia", "label_zh": "心律失常（房颤/早搏等）", "label_en": "Arrhythmia (AFib, PVCs)"},
+        {"value": "oxygen-dependence", "label_zh": "需要吸氧", "label_en": "Oxygen dependent"},
+        {"value": "none", "label_zh": "以上都没有", "label_en": "None of the above"}
+      ]
+    },
+
+    {
+      "id": "c-q8",
+      "question_zh": "目前的运动耐受情况？",
+      "question_en": "Current exercise tolerance?",
+      "type": "select",
+      "options": [
+        {"value": "bedbound", "label_zh": "卧床，无法自主活动", "label_en": "Bedbound, unable to exercise"},
+        {"value": "adl-only", "label_zh": "仅能完成日常活动（ADL）", "label_en": "ADL only, no formal exercise"},
+        {"value": "light-exercise", "label_zh": "可进行轻度运动（散步、拉伸）", "label_en": "Light exercise possible (walking, stretching)"},
+        {"value": "moderate-exercise", "label_zh": "可进行中等强度运动", "label_en": "Moderate exercise possible"}
+      ]
+    }
+
+  ]
+}
