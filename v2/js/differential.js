@@ -74,12 +74,27 @@ const DifferentialEngine = {
         }
         var neck = answers.neck_test;
         if (neck && neck.indexOf('cervical') !== -1) {
-          result.diagnosis = 'cervical_radiculopathy';
-          result.confidence = 85;
-          result.specialty = 'cervical';
-          result.label = '神经根型颈椎病（C8）';
-          result.reason = '仰头时麻木加重，提示症状与颈椎神经根相关';
-          return result;
+          // 检查 cervical_detail 的回答（checkbox类型，返回数组）
+          var cervicalDetail = answers.cervical_detail;
+          if (cervicalDetail && Array.isArray(cervicalDetail) && cervicalDetail.indexOf('cervical_rad_C8') !== -1) {
+            result.diagnosis = 'cervical_radiculopathy';
+            result.confidence = 90;
+            result.specialty = 'cervical';
+            result.label = '神经根型颈椎病（C8）';
+            result.reason = '仰头时麻木加重 + 有小指+无名指尺侧麻木、颈肩痛，符合C8神经根受压';
+            return result;
+          } else if (cervicalDetail && Array.isArray(cervicalDetail) && cervicalDetail.indexOf('cervical_neg') !== -1) {
+            // 只有小指麻木，颈部无症状，继续排查周围神经
+            // 跳到 location_test
+          } else {
+            // 默认按神经根型颈椎病处理
+            result.diagnosis = 'cervical_radiculopathy';
+            result.confidence = 85;
+            result.specialty = 'cervical';
+            result.label = '神经根型颈椎病（C8）';
+            result.reason = '仰头时麻木加重，提示症状与颈椎神经根相关';
+            return result;
+          }
         }
         var loc = answers.location_test;
         if (loc && loc.indexOf('cubital') !== -1) {
