@@ -30,7 +30,6 @@ extra_css:
 
 extra_javascript:
   - assets/javascripts/redflags.js
-  - assets/javascripts/assessment.js
   - assets/javascripts/prescription.js
   - assets/javascripts/evidence.js
   - assets/javascripts/mode-toggle.js
