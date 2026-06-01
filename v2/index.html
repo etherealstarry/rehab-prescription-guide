@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>康复处方助手</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="rx-hero">
+  <!-- Logo -->
+  <div class="rx-logo">
+    <span class="logo-rx">Rx</span><span class="logo-name">康复处方</span>
+    <span class="logo-badge">BETA</span>
+  </div>
+
+  <!-- 搜索框 -->
+  <form class="rx-search-form" id="rx-search-form">
+    <div class="rx-search-box">
+      <svg class="rx-search-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#9ca3af" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+      </svg>
+      <input
+        type="text"
+        id="rx-search-input"
+        class="rx-search-input"
+        placeholder="描述您的症状或疾病，例如：手麻、膝关节疼痛、气喘..."
+        autocomplete="off"
+      />
+      <div class="rx-search-actions">
+        <button type="button" class="rx-mic-btn" id="rx-mic-btn" title="语音输入">🎙</button>
+        <button type="submit" class="rx-search-btn" id="rx-search-btn">搜索</button>
+      </div>
+    </div>
+
+    <!-- 快速标签 -->
+    <div class="rx-tags" id="rx-tags">
+      <span class="rx-tag-label">快速选择：</span>
+      <button class="rx-tag" data-kw="一侧肢体无力、口角歪斜、言语不清">🧠 疑似脑卒中</button>
+      <button class="rx-tag" data-kw="膝关节疼痛、肿胀，行走时打软腿">🦴 膝关节问题</button>
+      <button class="rx-tag" data-kw="肩膀疼痛、抬臂困难，夜间痛加重">🦴 肩关节问题</button>
+      <button class="rx-tag" data-kw="气喘、呼吸困难，活动后加重">🫀 呼吸困难</button>
+      <button class="rx-tag" data-kw="手抖、动作缓慢、走路小步">🧠 疑似帕金森</button>
+    </div>
+  </form>
+
+  <!-- 搜索结果区域 -->
+  <div class="rx-results" id="rx-results" style="display:none;">
+    <div class="rx-results-header">
+      <span id="rx-results-count"></span>
+      <button class="rx-clear-btn" id="rx-clear-btn">✕ 清除</button>
+    </div>
+    <div class="rx-results-list" id="rx-results-list"></div>
+  </div>
+
+  <!-- 首页默认展示的卡片 -->
+  <div class="rx-default-cards" id="rx-default-cards">
+    <div class="rx-section-title">常见康复方向</div>
+    <div class="rx-card-grid" id="rx-card-grid">
+      <div class="rx-card" data-kw="脑卒中康复">
+        <div class="rx-card-icon">🧠</div>
+        <div class="rx-card-title">神经康复</div>
+        <div class="rx-card-desc">脑卒中、脊髓损伤、帕金森</div>
+      </div>
+      <div class="rx-card" data-kw="膝关节术后康复">
+        <div class="rx-card-icon">🦴</div>
+        <div class="rx-card-title">骨科康复</div>
+        <div class="rx-card-desc">ACL重建、关节置换、半月板</div>
+      </div>
+      <div class="rx-card" data-kw="慢阻肺康复">
+        <div class="rx-card-icon">🫀</div>
+        <div class="rx-card-title">心肺康复</div>
+        <div class="rx-card-desc">COPD、心梗术后、心衰</div>
+      </div>
+      <div class="rx-card" data-kw="儿童康复">
+        <div class="rx-card-icon">👶</div>
+        <div class="rx-card-title">儿童康复</div>
+        <div class="rx-card-desc">脑瘫、发育迟缓</div>
+      </div>
+    </div>
+
+    <div class="rx-section-title" style="margin-top:2rem;">如何使用</div>
+    <div class="rx-steps-grid">
+      <div class="rx-step-card">
+        <div class="rx-step-num">1</div>
+        <div class="rx-step-text">描述您的症状或疾病</div>
+      </div>
+      <div class="rx-step-arrow">→</div>
+      <div class="rx-step-card">
+        <div class="rx-step-num">2</div>
+        <div class="rx-step-text">系统智能匹配康复方向</div>
+      </div>
+      <div class="rx-step-arrow">→</div>
+      <div class="rx-step-card">
+        <div class="rx-step-num">3</div>
+        <div class="rx-step-text">完成评估，生成处方</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 专业版入口 -->
+  <div class="rx-pro-link">
+    <a href="#" id="rx-mode-link">切换专业版 →</a>
+  </div>
+</div>
+
+<script src="js/redflags.js"></script>
+<script src="js/diagnosis-tree.js"></script>
+<script src="js/index.js"></script>
+</body>
+</html>

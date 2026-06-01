@@ -1,0 +1,424 @@
+/* ===== 全局 Reset ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: #f8f9fa;
+  color: #1a1a2e;
+  min-height: 100vh;
+}
+
+/* ===== Hero 容器 ===== */
+.rx-hero {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 3rem 1rem 4rem;
+}
+
+/* ===== Logo ===== */
+.rx-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+}
+.logo-rx { font-size: 2.4rem; font-weight: 800; color: #1565C0; letter-spacing: -2px; }
+.logo-name { font-size: 1.4rem; font-weight: 600; color: #1a1a2e; }
+.logo-badge {
+  font-size: 0.65rem; font-weight: 700; color: #fff;
+  background: #1565C0; border-radius: 4px;
+  padding: 2px 6px; vertical-align: middle;
+}
+
+/* ===== 搜索框 ===== */
+.rx-search-form { margin-bottom: 2rem; }
+.rx-search-box {
+  display: flex; align-items: center; gap: 0.5rem;
+  background: #fff; border: 2px solid #e0e0e0; border-radius: 999px;
+  padding: 0.6rem 1rem; transition: border-color 0.2s;
+}
+.rx-search-box:focus-within { border-color: #1565C0; box-shadow: 0 0 0 3px rgba(21,101,192,0.12); }
+.rx-search-icon { flex-shrink: 0; }
+.rx-search-input {
+  flex: 1; border: none; outline: none;
+  font-size: 1rem; background: transparent; color: #1a1a2e;
+}
+.rx-search-input::placeholder { color: #9ca3af; }
+.rx-search-actions { display: flex; align-items: center; gap: 0.4rem; }
+.rx-mic-btn {
+  background: none; border: none; font-size: 1.2rem;
+  cursor: pointer; padding: 0.3rem; border-radius: 50%;
+  transition: background 0.15s;
+}
+.rx-mic-btn:hover { background: #f3f4f6; }
+.rx-search-btn {
+  background: #1565C0; color: #fff; border: none;
+  border-radius: 999px; padding: 0.45rem 1.2rem;
+  font-size: 0.9rem; font-weight: 600; cursor: pointer;
+  transition: background 0.15s;
+}
+.rx-search-btn:hover { background: #0d47a1; }
+
+/* ===== 快速标签 ===== */
+.rx-tags {
+  display: flex; align-items: center; gap: 0.5rem;
+  flex-wrap: wrap; margin-top: 0.8rem; padding: 0 0.5rem;
+}
+.rx-tag-label { font-size: 0.82rem; color: #6b7280; }
+.rx-tag {
+  background: #E8F5E0; border: 1px solid #c8e6c9;
+  border-radius: 999px; padding: 0.3rem 0.8rem;
+  font-size: 0.8rem; color: #2E7D32; cursor: pointer;
+  transition: background 0.15s;
+}
+.rx-tag:hover { background: #c8e6c9; }
+
+/* ===== 搜索结果 ===== */
+.rx-results { margin-top: 1.5rem; }
+.rx-results-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 1rem; font-size: 0.88rem; color: #6b7280;
+}
+.rx-clear-btn {
+  background: none; border: none; color: #9ca3af;
+  cursor: pointer; font-size: 0.82rem;
+}
+.rx-clear-btn:hover { color: #1a1a2e; }
+.rx-result-card {
+  background: #fff; border: 1px solid #e5e7eb; border-radius: 12px;
+  padding: 1rem 1.2rem; margin-bottom: 0.8rem;
+  transition: box-shadow 0.15s;
+}
+.rx-result-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+.rx-result-title { font-size: 1rem; font-weight: 600; color: #1565C0; margin-bottom: 0.3rem; }
+.rx-result-desc { font-size: 0.88rem; color: #4b5563; margin-bottom: 0.5rem; }
+.rx-result-meta { display: flex; gap: 0.5rem; margin-bottom: 0.8rem; }
+.rx-specialty-tag {
+  background: #E3F2FD; color: #1565C0;
+  border-radius: 999px; padding: 2px 10px;
+  font-size: 0.75rem; font-weight: 600;
+}
+.rx-evidence-tag {
+  background: #FCE4EC; color: #C62828;
+  border-radius: 999px; padding: 2px 10px;
+  font-size: 0.75rem; font-weight: 600;
+}
+.rx-result-btn {
+  background: #1565C0; color: #fff; border: none;
+  border-radius: 8px; padding: 0.45rem 1rem;
+  font-size: 0.85rem; font-weight: 600; cursor: pointer;
+  transition: background 0.15s;
+}
+.rx-result-btn:hover { background: #0d47a1; }
+.rx-no-result {
+  background: #fff; border: 1px solid #e5e7eb; border-radius: 12px;
+  padding: 1.5rem; color: #4b5563; font-size: 0.9rem;
+}
+.rx-no-result ul { margin: 0.5rem 0 0 1.2rem; }
+
+/* ===== 默认卡片 ===== */
+.rx-default-cards { margin-top: 2rem; }
+.rx-section-title {
+  font-size: 0.88rem; font-weight: 700; color: #6b7280;
+  text-transform: uppercase; letter-spacing: 1px;
+  margin-bottom: 1rem; padding: 0 0.3rem;
+}
+.rx-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+}
+.rx-card {
+  background: #fff; border: 1px solid #e5e7eb; border-radius: 16px;
+  padding: 1.2rem 1rem; text-align: center; cursor: pointer;
+  transition: box-shadow 0.15s, transform 0.15s;
+}
+.rx-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.1); transform: translateY(-2px); }
+.rx-card-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+.rx-card-title { font-size: 0.95rem; font-weight: 700; color: #1a1a2e; margin-bottom: 0.3rem; }
+.rx-card-desc { font-size: 0.78rem; color: #6b7280; }
+
+/* ===== 步骤 ===== */
+.rx-steps-grid {
+  display: flex; align-items: center; gap: 0.8rem;
+  flex-wrap: wrap; justify-content: center;
+}
+.rx-step-card {
+  background: #fff; border: 2px solid #e0e0e0; border-radius: 12px;
+  padding: 0.8rem 1.2rem; display: flex; align-items: center; gap: 0.6rem;
+}
+.rx-step-num {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: #1565C0; color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.82rem; font-weight: 700; flex-shrink: 0;
+}
+.rx-step-text { font-size: 0.88rem; font-weight: 600; color: #1a1a2e; }
+.rx-step-arrow { font-size: 1.2rem; color: #9ca3af; }
+
+/* ===== 专业版链接 ===== */
+.rx-pro-link {
+  text-align: center; margin-top: 2rem; font-size: 0.85rem;
+}
+.rx-pro-link a { color: #1565C0; text-decoration: none; }
+.rx-pro-link a:hover { text-decoration: underline; }
+
+/* ===== 评估页 ===== */
+.assessment-container {
+  max-width: 720px; margin: 0 auto; padding: 2rem 1rem;
+}
+.assessment-header {
+  margin-bottom: 2rem;
+}
+.assessment-back {
+  background: none; border: none; color: #1565C0;
+  cursor: pointer; font-size: 0.9rem; padding: 0;
+}
+.assessment-title {
+  font-size: 1.4rem; font-weight: 700; color: #1a1a2e;
+  margin: 0.5rem 0;
+}
+.assessment-subtitle { font-size: 0.9rem; color: #6b7280; }
+
+/* 步骤指示器 */
+.step-indicator {
+  display: flex; gap: 0; margin-bottom: 2rem;
+}
+.step-dot {
+  flex: 1; height: 4px; background: #e5e7eb; border-radius: 2px;
+  margin: 0 2px; transition: background 0.3s;
+}
+.step-dot.active { background: #1565C0; }
+.step-dot.done { background: #2E7D32; }
+
+/* 步骤卡片 */
+.step-card {
+  background: #fff; border: 1px solid #e5e7eb; border-radius: 16px;
+  padding: 1.5rem; margin-bottom: 1.5rem;
+}
+.step-card-title {
+  font-size: 1.1rem; font-weight: 700; color: #1a1a2e;
+  margin-bottom: 1.2rem; padding-bottom: 0.8rem;
+  border-bottom: 2px solid #f3f4f6;
+}
+.step-field { margin-bottom: 1.2rem; }
+.step-field-label {
+  font-size: 0.92rem; font-weight: 600; color: #1a1a2e;
+  margin-bottom: 0.5rem;
+}
+.step-field-hint {
+  font-size: 0.78rem; color: #9ca3af; margin-top: 0.3rem;
+}
+.step-field select, .step-field input[type="text"], .step-field textarea {
+  width: 100%; padding: 0.6rem 0.8rem;
+  border: 1.5px solid #d1d5db; border-radius: 10px;
+  font-size: 0.92rem; color: #1a1a2e;
+  background: #fff; transition: border-color 0.15s;
+}
+.step-field select:focus, .step-field input[type="text"]:focus, .step-field textarea:focus {
+  outline: none; border-color: #1565C0; box-shadow: 0 0 0 3px rgba(21,101,192,0.1);
+}
+.step-field textarea { min-height: 80px; resize: vertical; }
+.step-field input[type="range"] {
+  width: 100%; accent-color: #1565C0;
+}
+.range-labels {
+  display: flex; justify-content: space-between;
+  font-size: 0.75rem; color: #9ca3af; margin-top: 0.3rem;
+}
+
+/* 选择题选项 */
+.step-options {
+  display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem;
+}
+.step-option {
+  display: flex; align-items: center; gap: 0.6rem;
+  background: #f9fafb; border: 1.5px solid #e5e7eb;
+  border-radius: 10px; padding: 0.7rem 1rem;
+  cursor: pointer; transition: background 0.15s, border-color 0.15s;
+  font-size: 0.9rem; color: #1a1a2e;
+}
+.step-option:hover { background: #E3F2FD; border-color: #1565C0; }
+.step-option.selected { background: #E3F2FD; border-color: #1565C0; }
+.step-option input[type="radio"] { accent-color: #1565C0; flex-shrink: 0; }
+.step-option input[type="checkbox"] { accent-color: #1565C0; flex-shrink: 0; }
+
+/* 按钮行 */
+.step-buttons {
+  display: flex; gap: 0.8rem; margin-top: 1.5rem;
+}
+.step-btn {
+  flex: 1; padding: 0.7rem 1.2rem; border-radius: 10px;
+  font-size: 0.92rem; font-weight: 600; cursor: pointer;
+  transition: background 0.15s;
+}
+.step-btn-prev {
+  background: #f3f4f6; color: #4b5563; border: 1px solid #d1d5db;
+}
+.step-btn-prev:hover { background: #e5e7eb; }
+.step-btn-next {
+  background: #1565C0; color: #fff; border: none;
+}
+.step-btn-next:hover { background: #0d47a1; }
+.step-btn-next:disabled { background: #9ca3af; cursor: not-allowed; }
+
+/* ===== 处方结果页 ===== */
+.rx-prescription {
+  max-width: 800px; margin: 0 auto; padding: 2rem 1rem 4rem;
+}
+.rx-prescription-header { margin-bottom: 2rem; }
+.rx-prescription-back {
+  background: none; border: none; color: #1565C0;
+  cursor: pointer; font-size: 0.9rem; padding: 0;
+}
+.rx-prescription-title {
+  font-size: 1.4rem; font-weight: 700; color: #1a1a2e;
+  margin: 0.5rem 0;
+}
+.rx-prescription-subtitle { font-size: 0.9rem; color: #6b7280; }
+
+/* 处方摘要卡片 */
+.rx-summary-card {
+  background: linear-gradient(135deg, #1565C0, #0d47a1);
+  color: #fff; border-radius: 16px; padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+.rx-summary-row {
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 0.5rem;
+}
+.rx-summary-diagnosis { font-size: 1.2rem; font-weight: 700; }
+.rx-summary-mode {
+  background: rgba(255,255,255,0.2); border-radius: 999px;
+  padding: 4px 12px; font-size: 0.8rem;
+}
+.rx-summary-evidence {
+  margin-top: 0.8rem; font-size: 0.82rem;
+  opacity: 0.85;
+}
+
+/* FITT-VP 表格 */
+.rx-fittvp-section { margin-bottom: 2rem; }
+.rx-fittvp-title {
+  font-size: 1.1rem; font-weight: 700; color: #1a1a2e;
+  margin-bottom: 1rem; padding-bottom: 0.5rem;
+  border-bottom: 2px solid #1565C0;
+}
+.rx-fittvp-table {
+  width: 100%; border-collapse: collapse; background: #fff;
+  border-radius: 12px; overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+.rx-fittvp-table th {
+  background: #E3F2FD; color: #1565C0;
+  padding: 0.7rem 1rem; text-align: left;
+  font-size: 0.85rem; font-weight: 700;
+}
+.rx-fittvp-table td {
+  padding: 0.7rem 1rem; border-bottom: 1px solid #f3f4f6;
+  font-size: 0.88rem; color: #1a1a2e;
+}
+.rx-fittvp-table tr:last-child td { border-bottom: none; }
+
+/* 注意事项 */
+.rx-precautions {
+  background: #fff; border: 1px solid #e5e7eb;
+  border-radius: 12px; padding: 1.2rem; margin-bottom: 2rem;
+}
+.rx-precautions-title {
+  font-size: 1rem; font-weight: 700; color: #C62828;
+  margin-bottom: 0.8rem;
+}
+.rx-precautions-list { list-style: none; }
+.rx-precautions-list li {
+  padding: 0.4rem 0; font-size: 0.88rem; color: #4b5563;
+  padding-left: 1.2rem; position: relative;
+}
+.rx-precautions-list li::before {
+  content: "•"; color: #C62828; font-weight: 700;
+  position: absolute; left: 0;
+}
+
+/* 参考文献抽屉 */
+.rx-evidence-drawer {
+  position: fixed; top: 0; right: -420px; width: 400px; height: 100vh;
+  background: #fff; box-shadow: -4px 0 24px rgba(0,0,0,0.15);
+  transition: right 0.3s; z-index: 1000;
+  display: flex; flex-direction: column;
+}
+.rx-evidence-drawer.open { right: 0; }
+.rx-drawer-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1rem 1.2rem; border-bottom: 1px solid #e5e7eb;
+}
+.rx-drawer-title { font-size: 1rem; font-weight: 700; color: #1a1a2e; }
+.rx-drawer-close {
+  background: none; border: none; font-size: 1.2rem;
+  cursor: pointer; color: #6b7280;
+}
+.rx-drawer-body { flex: 1; overflow-y: auto; padding: 1rem 1.2rem; }
+.rx-ref-item {
+  padding: 0.8rem 0; border-bottom: 1px solid #f3f4f6;
+}
+.rx-ref-item:last-child { border-bottom: none; }
+.rx-ref-title { font-size: 0.88rem; font-weight: 600; color: #1a1a2e; }
+.rx-ref-meta { font-size: 0.78rem; color: #9ca3af; margin-top: 0.2rem; }
+.rx-ref-level {
+  display: inline-block; border-radius: 4px; padding: 1px 6px;
+  font-size: 0.7rem; font-weight: 700; margin-top: 0.3rem;
+}
+.rx-ref-level-1 { background: #FCE4EC; color: #C62828; }
+.rx-ref-level-2 { background: #FFF3E0; color: #E65100; }
+.rx-ref-level-3 { background: #E8F5E0; color: #2E7D32; }
+
+/* 抽屉触发按钮 */
+.rx-drawer-toggle {
+  background: #E3F2FD; color: #1565C0; border: none;
+  border-radius: 8px; padding: 0.5rem 1rem;
+  font-size: 0.85rem; font-weight: 600; cursor: pointer;
+  margin-top: 1rem; transition: background 0.15s;
+}
+.rx-drawer-toggle:hover { background: #BBDEFB; }
+
+/* ===== 红旗弹窗 ===== */
+.rx-redflag-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5); z-index: 2000;
+  display: flex; align-items: center; justify-content: center;
+}
+.rx-redflag-modal {
+  background: #fff; border-radius: 16px; padding: 2rem;
+  max-width: 480px; width: 90%; max-height: 80vh; overflow-y: auto;
+}
+.rx-redflag-icon { font-size: 3rem; text-align: center; margin-bottom: 1rem; }
+.rx-redflag-title {
+  font-size: 1.2rem; font-weight: 700; color: #C62828;
+  text-align: center; margin-bottom: 1rem;
+}
+.rx-redflag-list { list-style: none; margin-bottom: 1.5rem; }
+.rx-redflag-list li {
+  padding: 0.5rem 0; font-size: 0.9rem; color: #4b5563;
+  padding-left: 1.5rem; position: relative;
+}
+.rx-redflag-list li::before {
+  content: "⚠"; color: #C62828; font-weight: 700;
+  position: absolute; left: 0;
+}
+.rx-redflag-btn {
+  display: block; width: 100%; padding: 0.7rem;
+  background: #C62828; color: #fff; border: none;
+  border-radius: 10px; font-size: 0.92rem; font-weight: 600;
+  cursor: pointer; text-align: center; transition: background 0.15s;
+}
+.rx-redflag-btn:hover { background: #b71c1c; }
+
+/* ===== 响应式 ===== */
+@media (max-width: 640px) {
+  .rx-hero { padding: 2rem 0.8rem 3rem; }
+  .rx-card-grid { grid-template-columns: repeat(2, 1fr); }
+  .rx-steps-grid { flex-direction: column; }
+  .rx-step-arrow { transform: rotate(90deg); }
+  .step-indicator { gap: 0; }
+  .rx-fittvp-table { font-size: 0.82rem; }
+  .rx-evidence-drawer { width: 100%; right: -100%; }
+}
