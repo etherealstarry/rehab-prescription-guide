@@ -35,15 +35,13 @@ var assessmentFlow = {
 
   // 根据鉴别诊断结果，生成个性化评估流程
   buildFlow: function(diffResult) {
-    // 调试日志
-    console.log('[assessment.js] buildFlow() 收到 diffResult:', diffResult);
-    
-    var diagnosis = diffResult ? diffResult.diagnosis : 'unknown';
-    var specialty = diffResult ? diffResult.specialty : 'general';
+    // 优先使用 asState.specialty（从 URL 参数或手动设置），其次使用 diffResult.specialty
+    var diagnosis = (diffResult && diffResult.diagnosis) ? diffResult.diagnosis : 'unknown';
+    var specialty = asState.specialty || (diffResult && diffResult.specialty) || 'general';
     
     // 调试日志
-    console.log('[assessment.js] diagnosis:', diagnosis, '| specialty:', specialty);
-
+    console.log('[assessment.js] buildFlow() 最终使用的: diagnosis=' + diagnosis + ', specialty=' + specialty);
+    
     // 基础流程（所有患者共用）
     var flow = {
       steps: [
@@ -376,7 +374,15 @@ var asState = {
 
   // 初始化
   init: function() {
-    this.diffResult = assessmentFlow.loadFromSession();
+    // 使用手动设置的 diffResult，如果没有则尝试从 sessionStorage 读取
+    if (!this.diffResult) {
+      this.diffResult = assessmentFlow.loadFromSession();
+    }
+    
+    // 调试日志
+    console.log('[asState.init()] this.diffResult:', this.diffResult);
+    console.log('[asState.init()] this.specialty:', this.specialty);
+    
     this.flow = assessmentFlow.buildFlow(this.diffResult);
     this.renderStepper();
     this.renderCurrentCard();
@@ -982,19 +988,47 @@ var asState = {
    四、初始化
    ============================================================ */
 document.addEventListener('DOMContentLoaded', function() {
-  // 检查是否需要显示鉴别诊断结果
-  var diffResult = sessionStorage.getItem('rx-diff-result');
-  if (diffResult) {
+  // 直接从 URL 参数读取 specialty（最可靠的方式）
+  var urlParams = new URLSearchParams(window.location.search);
+  var urlSpecialty = urlParams.get('specialty') || '';
+  
+  // 从 sessionStorage 读取 diffResult
+  var diffResult = null;
+  var diffResultStr = sessionStorage.getItem('rx-diff-result');
+  if (diffResultStr) {
     try {
-      var result = JSON.parse(diffResult);
-      // 显示诊断结果在页面顶部
-      var titleEl = document.getElementById('assessment-title');
-      var guideEl = document.getElementById('assessment-guide');
-      if (titleEl) titleEl.textContent = '康复评估 · ' + result.label;
-      if (guideEl) guideEl.textContent = '根据您的症状描述，系统初步判断为：' + result.label + '（置信度：' + result.confidence + '）';
-    } catch(e) {}
+      diffResult = JSON.parse(diffResultStr);
+    } catch(e) {
+      console.error('[assessment.js] 解析 rx-diff-result 失败:', e);
+    }
   }
-
+  
+  // 优先使用 diffResult.specialty，其次使用 URL 参数，最后使用 sessionStorage
+  var specialty = (diffResult && diffResult.specialty) ? diffResult.specialty : 
+                  (urlSpecialty ? urlSpecialty : 
+                  sessionStorage.getItem('rx-specialty') || 'general');
+  
+  var diagnosis = (diffResult && diffResult.diagnosis) ? diffResult.diagnosis : 
+                 sessionStorage.getItem('rx-diagnosis') || 'unknown';
+  
+  // 调试日志
+  console.log('[assessment.js] 初始化: specialty=' + specialty + ', diagnosis=' + diagnosis);
+  console.log('[assessment.js] diffResult:', diffResult);
+  console.log('[assessment.js] urlSpecialty:', urlSpecialty);
+  
+  // 显示诊断结果在页面顶部
+  if (diffResult && diffResult.label) {
+    var titleEl = document.getElementById('assessment-title');
+    var guideEl = document.getElementById('assessment-guide');
+    if (titleEl) titleEl.textContent = '康复评估 · ' + diffResult.label;
+    if (guideEl) guideEl.textContent = '根据您的症状描述，系统初步判断为：' + diffResult.label + '（置信度：' + diffResult.confidence + '）';
+  }
+  
+  // 手动设置 asState 的 diffResult 和 specialty
+  asState.diffResult = diffResult;
+  asState.specialty = specialty;
+  asState.diagnosis = diagnosis;
+  
   // 初始化评估流程
   asState.init();
 
