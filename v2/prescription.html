@@ -4,24 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>康复处方结果 — 康复处方助手</title>
-  <link rel="stylesheet" href="css/style.css?v=20260601">
+  <link rel="stylesheet" href="css/style.css?v=20260602">
 </head>
 <body>
 
-  <div class="nav-bar">
-    <span class="nav-logo" onclick="location.href='index.html'">📋 Rx 康复处方</span>
-    <span class="nav-back" onclick="location.href='assessment.html'">← 重新评估</span>
-  </div>
+  <!-- 处方内容将由 prescription.js 动态渲染到下方容器 -->
+  <div id="prescription-result"></div>
 
-  <div class="rx-container" id="prescription-result">
-    <!-- 由 prescription.js 的 initPrescriptionPage() 动态渲染 -->
-  </div>
-
-  <div class="rx-actions" id="rx-actions" style="display:none; justify-content:center; padding:1rem;">
-    <button class="rx-btn-secondary" id="rx-print-btn" onclick="window.print()">🖨️ 打印处方</button>
-    <button class="rx-btn-primary" id="rx-back-btn" onclick="location.href='assessment.html'">← 重新评估</button>
-  </div>
-
+  <!-- 核心 JS -->
   <script src="js/redflags.js"></script>
   <script src="js/diagnosis-tree.js"></script>
   <script src="js/prescription.js"></script>
