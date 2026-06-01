@@ -7,9 +7,9 @@
 const DifferentialEngine = {
   /* ——— 追问树定义 ——— */
   trees: {
-    /* ---- 手麻 / 小指麻木 ---- */
+    /* ---- 手麻 / 手指麻木 ---- */
     'hand_numb': {
-      label: '手麻/小指麻木 鉴别诊断',
+      label: '手麻/手指麻木 鉴别诊断',
       icon: '✋',
       steps: [
         {
@@ -18,110 +18,155 @@ const DifferentialEngine = {
           type: 'radio',
           options: [
             { label: '是，有上述情况', value: 'redflag', next: 'RED_FLAG' },
-            { label: '否，单纯只有小指/手麻', value: 'safe', next: 'neck_test' }
+            { label: '否，没有这些症状', value: 'safe', next: 'which_finger' }
           ],
           guide: '排除急性脑卒中（中风）风险，见《神经康复学》急诊筛查流程'
         },
         {
-          id: 'neck_test',
-          question: '请尝试把头向左后方倾斜并微微后仰（仰头看左上方）。此时，您小指的麻木感是否明显加重，甚至有一股电流感从脖子窜到手指？',
-          type: 'radio',
-          options: [
-            { label: '是，仰头时麻木加重', value: 'cervical', next: 'cervical_detail' },
-            { label: '否，和仰头无关', value: 'peripheral', next: 'location_test' }
-          ],
-          guide: '仰头动作牵拉颈椎神经根，若麻木加重提示神经根型颈椎病（C8），见APTA颈椎CPG 2021'
-        },
-        {
-          id: 'cervical_detail',
-          question: '除小指麻木外，是否伴有颈肩痛、上肢放射痛？麻木范围是小指+无名指尺侧一半，还是整个手指？',
+          id: 'which_finger',
+          question: '请您用手指指出麻木的具体位置（可多选）：',
           type: 'checkbox',
           options: [
-            { label: '有小指+无名指尺侧麻木，颈肩痛', value: 'cervical_rad_C8' },
-            { label: '只有小指麻木，颈部无症状', value: 'cervical_neg' }
+            { label: '拇指、食指、中指', value: 'median' },
+            { label: '小指 + 无名指尺侧一半', value: 'ulnar' },
+            { label: '整个手掌/全手都麻', value: 'whole_hand' },
+            { label: '只有手指尖麻，手掌不麻', value: 'fingertip' }
           ],
-          next: 'cervical_radiculopathy'
+          next: 'neck_check'
         },
         {
-          id: 'location_test',
-          question: '除了小指麻木外，您的手背小指这一侧（手背尺侧）是否也发麻？',
+          id: 'neck_check',
+          question: '除了手指麻木外，您是否还有颈肩痛、脖子不舒服？',
           type: 'radio',
           options: [
-            { label: '是，手背+手掌一起麻', value: 'cubital', next: 'elbow_test' },
-            { label: '只有手掌和手指麻，手背正常', value: 'ulnar_canal', next: 'wrist_test' }
-          ],
-          guide: '手背尺侧由尺神经手背支支配，该分支在肘管下方发出；若手背不麻，病变在腕尺管（Guyon管）'
+            { label: '是，有颈肩痛/脖子不舒服', value: 'neck_yes', next: 'cervical_test' },
+            { label: '否，只有手指麻，颈部正常', value: 'neck_no', next: 'elbow_check' }
+          ]
         },
         {
-          id: 'elbow_test',
-          question: '长时间手肘弯曲（如打电话、枕着胳膊睡）时，小指麻木是否比平时更严重？',
+          id: 'cervical_test',
+          question: '请尝试把头向麻木侧后方倾斜并微微后仰（仰头看上方）。此时，您的麻木感是否明显加重，甚至有一股电流感从脖子窜到手指？',
           type: 'radio',
           options: [
-            { label: '是，手肘弯曲久了更麻', value: 'cubital_pos', next: 'cubital_syndrome' },
-            { label: '否，和手肘姿势无关', value: 'cubital_neg', next: 'ulnar_canal_syndrome' }
+            { label: '是，仰头时麻木加重', value: 'cervical_pos', next: 'cervical_result' },
+            { label: '否，和仰头无关', value: 'cervical_neg', next: 'elbow_check' }
+          ],
+          guide: '仰头动作牵拉颈椎神经根，若麻木加重提示神经根型颈椎病，见APTA颈椎CPG 2021'
+        },
+        {
+          id: 'elbow_check',
+          question: '长时间手肘弯曲（如打电话、枕着胳膊睡）时，手指麻木是否比平时更严重？',
+          type: 'radio',
+          options: [
+            { label: '是，手肘弯曲久了更麻', value: 'elbow_pos', next: 'elbow_result' },
+            { label: '否，和手肘姿势无关', value: 'elbow_neg', next: 'wrist_check' }
           ],
           guide: '肘管综合征典型诱发姿势：肘屈曲>90°时尺神经受压加重'
+        },
+        {
+          id: 'wrist_check',
+          question: '您是否经常使用鼠标/键盘，或者手腕经常重复动作？麻木是否在夜间或清晨更明显？',
+          type: 'radio',
+          options: [
+            { label: '是，常用鼠标/键盘，夜间更麻', value: 'wrist_pos', next: 'wrist_result' },
+            { label: '否，和手腕活动无关', value: 'wrist_neg', next: 'unknown_result' }
+          ],
+          guide: '腕管综合征典型表现：正中神经分布区麻木 + 夜间加重 + 重复性手腕动作史'
         }
       ],
       result: function(answers) {
-        // 根据追问答案计算概率
         var result = { diagnosis: 'unknown', confidence: 0, specialty: 'hand', reason: '' };
+        
+        // 红线检查
         var redflag = answers.redflag_stroke;
         if (redflag && redflag.indexOf('redflag') !== -1) {
           result.redflag = true;
           result.redflagMsg = '⚠️ 怀疑急性脑卒中风险！请立即就医，勿自行康复。';
           return result;
         }
-        var neck = answers.neck_test;
-        if (neck && neck.indexOf('cervical') !== -1) {
-          // 检查 cervical_detail 的回答（checkbox类型，返回数组）
-          var cervicalDetail = answers.cervical_detail;
-          if (cervicalDetail && Array.isArray(cervicalDetail) && cervicalDetail.indexOf('cervical_rad_C8') !== -1) {
-            result.diagnosis = 'cervical_radiculopathy';
-            result.confidence = 90;
-            result.specialty = 'cervical';
-            result.label = '神经根型颈椎病（C8）';
-            result.reason = '仰头时麻木加重 + 有小指+无名指尺侧麻木、颈肩痛，符合C8神经根受压';
-            return result;
-          } else if (cervicalDetail && Array.isArray(cervicalDetail) && cervicalDetail.indexOf('cervical_neg') !== -1) {
-            // 只有小指麻木，颈部无症状，继续排查周围神经
-            // 跳到 location_test
-          } else {
-            // 默认按神经根型颈椎病处理
-            result.diagnosis = 'cervical_radiculopathy';
-            result.confidence = 85;
-            result.specialty = 'cervical';
-            result.label = '神经根型颈椎病（C8）';
-            result.reason = '仰头时麻木加重，提示症状与颈椎神经根相关';
-            return result;
-          }
-        }
-        var loc = answers.location_test;
-        if (loc && loc.indexOf('cubital') !== -1) {
-          var elbow = answers.elbow_test;
-          if (elbow && elbow.indexOf('cubital_pos') !== -1) {
-            result.diagnosis = 'cubital_tunnel';
-            result.confidence = 90;
-            result.specialty = 'hand';
-            result.label = '肘管综合征（尺神经卡压）';
-            result.reason = '手背尺侧受累 + 肘屈曲诱发加重，符合肘管综合征';
-            return result;
-          }
-        }
-        if (loc && loc.indexOf('ulnar_canal') !== -1) {
-          result.diagnosis = 'ulnar_canal';
-          result.confidence = 80;
-          result.specialty = 'hand';
-          result.label = '腕尺管综合征（Guyon管综合征）';
-          result.reason = '仅手掌尺侧麻木，手背正常，病变位于腕部';
+        
+        // 分析症状
+        var finger = answers.which_finger;
+        var neckCheck = answers.neck_check;
+        var cervicalTest = answers.cervical_test;
+        var elbowCheck = answers.elbow_check;
+        var wristCheck = answers.wrist_check;
+        
+        // 颈椎相关
+        if (cervicalTest && cervicalTest.indexOf('cervical_pos') !== -1) {
+          result.diagnosis = 'cervical_radiculopathy';
+          result.confidence = 90;
+          result.specialty = 'cervical';
+          result.label = '神经根型颈椎病';
+          result.reason = '仰头时麻木加重 + 颈肩痛，符合颈椎神经根受压';
           return result;
         }
+        
+        // 肘管综合征
+        if (elbowCheck && elbowCheck.indexOf('elbow_pos') !== -1) {
+          result.diagnosis = 'cubital_tunnel';
+          result.confidence = 85;
+          result.specialty = 'hand';
+          result.label = '肘管综合征（尺神经卡压）';
+          result.reason = '肘屈曲诱发加重，符合肘管综合征';
+          return result;
+        }
+        
+        // 腕管综合征
+        if (wristCheck && wristCheck.indexOf('wrist_pos') !== -1) {
+          // 检查是否是正中神经分布区
+          if (finger && finger.indexOf('median') !== -1) {
+            result.diagnosis = 'carpal_tunnel';
+            result.confidence = 90;
+            result.specialty = 'hand';
+            result.label = '腕管综合征（正中神经卡压）';
+            result.reason = '拇指+食指+中指麻木 + 夜间加重 + 重复性手腕动作史，符合腕管综合征';
+            return result;
+          } else {
+            result.diagnosis = 'carpal_tunnel';
+            result.confidence = 80;
+            result.specialty = 'hand';
+            result.label = '腕管综合征（正中神经卡压）？';
+            result.reason = '夜间加重 + 重复性手腕动作史，怀疑腕管综合征，但麻木区域不明确';
+            return result;
+          }
+        }
+        
+        // 只有手指麻，但所有测试都是阴性
+        if (finger && finger.indexOf('fingertip') !== -1) {
+          result.diagnosis = 'hand_numb_unknown';
+          result.confidence = 60;
+          result.specialty = 'hand';
+          result.label = '手指尖麻木（建议进一步检查）';
+          result.reason = '只有手指尖麻木，各项测试阴性，建议手外科/神经内科就诊';
+          return result;
+        }
+        
+        // 整个手都麻
+        if (finger && finger.indexOf('whole_hand') !== -1) {
+          if (neckCheck && neckCheck.indexOf('neck_yes') !== -1) {
+            result.diagnosis = 'cervical_radiculopathy';
+            result.confidence = 80;
+            result.specialty = 'cervical';
+            result.label = '颈椎问题（需进一步明确节段）';
+            result.reason = '整个手麻木 + 颈肩痛，提示颈椎神经根受累';
+            return result;
+          } else {
+            result.diagnosis = 'hand_numb_unknown';
+            result.confidence = 60;
+            result.specialty = 'hand';
+            result.label = '手麻待查（建议手外科/神经内科就诊）';
+            result.reason = '整个手麻木，需进一步检查明确病因';
+            return result;
+          }
+        }
+        
         // 默认
         result.diagnosis = 'hand_numb_unknown';
         result.confidence = 60;
         result.specialty = 'hand';
         result.label = '手麻待查（建议手外科/神经内科就诊）';
-        result.reason = '多项排查无法明确锁定，建议进一步检查';
+        result.reason = '症状不典型，建议进一步检查';
         return result;
       }
     },
@@ -330,11 +375,10 @@ const DifferentialEngine = {
    */
   getTree: function(keyword) {
     var k = keyword.replace(/疼/g, '痛').replace(/\s+/g, '');
-    // "小指麻木" → 尺神经/颈椎C8 追问树（只有非常具体的关键词才触发）
-    if (k.indexOf('小指麻木') !== -1 || k.indexOf('小指发麻') !== -1 || k.indexOf('尺侧麻木') !== -1) {
+    // 手麻/手指麻木 - 所有手部麻木症状都触发追问树
+    if (k.indexOf('手麻') !== -1 || k.indexOf('手指麻') !== -1 || k.indexOf('手掌麻') !== -1 || k.indexOf('小指') !== -1 || k.indexOf('指尖麻') !== -1) {
       return this.trees.hand_numb;
     }
-    // 通用症状（手麻/手指麻/手掌麻）不触发追问树，走普通评估流程
     // 腰痛
     if (k.indexOf('腰痛') !== -1 || k.indexOf('腰疼') !== -1 || k.indexOf('腰僵') !== -1 || k.indexOf('腰椎') !== -1) {
       return this.trees.low_back_pain;
