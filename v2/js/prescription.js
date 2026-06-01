@@ -673,6 +673,9 @@ var rxState = {
     var self = this;
     var rx = this.prescription;
 
+    // 增加完成计数
+    this.completedExercises = (this.completedExercises || 0) + 1;
+
     // 显示反馈追问
     var feedbackBar = document.querySelector('.rx-feedback-bar');
     if (feedbackBar) {
@@ -680,16 +683,52 @@ var rxState = {
       feedbackBar.scrollIntoView({ behavior: 'smooth' });
     }
 
-    // 自动切换到下一个动作
-    if (idx < rx.exercises.length - 1) {
+    // 检查是否所有动作都完成了
+    if (this.completedExercises >= rx.exercises.length) {
+      // 停止计时器
+      if (this.trainingTimer) {
+        clearInterval(this.trainingTimer);
+        this.trainingTimer = null;
+      }
+
+      // 计算总训练时间
+      var totalSeconds = Math.floor((new Date() - this.trainingStartTime) / 1000);
+      var mins = Math.floor(totalSeconds / 60);
+      var secs = totalSeconds % 60;
+
+      // 显示完成页面
       setTimeout(function() {
-        self.switchExercise(idx + 1);
+        var container = document.getElementById('prescription-result');
+        if (container) {
+          container.innerHTML = `
+            <div style="text-align:center;padding:4rem 2rem;">
+              <div style="font-size:4rem;margin-bottom:1rem;">🎉</div>
+              <h2 style="color:#059669;margin-bottom:1rem;">今日训练完成！</h2>
+              <p style="color:#6B7280;margin-bottom:2rem;font-size:1.1rem;">
+                总训练时间：${mins}分${secs}秒<br>
+                完成动作：${rx.exercises.length}个
+              </p>
+              <div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:12px;padding:1.5rem;margin-bottom:2rem;text-align:left;">
+                <h3 style="color:#059669;margin-bottom:1rem;font-size:1rem;">📊 训练总结</h3>
+                <p style="color:#374151;line-height:1.8;font-size:.9rem;">
+                  ✅ 您已完成今日所有康复训练动作<br>
+                  ✅ 系统已记录您的训练数据<br>
+                  ✅ 明天将根据您的反馈调整训练强度<br><br>
+                  <strong>建议：</strong>训练后如有轻微酸胀属正常现象，若出现剧烈疼痛请立即停止并联系医师。
+                </p>
+              </div>
+              <button onclick="location.reload()" style="padding:.8rem 2rem;border:none;border-radius:10px;background:#1565C0;color:#fff;font-size:1rem;cursor:pointer;">
+                返回查看处方
+              </button>
+            </div>
+          `;
+        }
       }, 500);
     } else {
-      // 所有动作完成
+      // 自动切换到下一个动作
       setTimeout(function() {
-        alert('🎉 今日训练完成！\n\n系统将根据您的反馈调整明天的训练强度。');
-      }, 500);
+        self.switchExercise(idx + 1);
+      }, 1500);
     }
   },
 
@@ -718,9 +757,41 @@ var rxState = {
   // 开始训练
   startTraining: function() {
     var self = this;
+    
+    // 初始化训练状态
+    this.trainingStartTime = new Date();
+    this.trainingTimer = null;
+    this.completedExercises = 0;
     this.currentExerciseIdx = 0;
+    
+    // 更新按钮状态
+    var startBtn = document.getElementById('rx-start-training');
+    if (startBtn) {
+      startBtn.innerHTML = '训练中 <span id="rx-timer">00:00</span>';
+      startBtn.style.background = '#059669';
+      startBtn.disabled = true;
+    }
+    
+    // 启动计时器
+    var seconds = 0;
+    this.trainingTimer = setInterval(function() {
+      seconds++;
+      var mins = Math.floor(seconds / 60);
+      var secs = seconds % 60;
+      var timerEl = document.getElementById('rx-timer');
+      if (timerEl) {
+        timerEl.textContent = (mins < 10 ? '0' : '') + mins + ':' + (secs < 10 ? '0' : '') + secs;
+      }
+    }, 1000);
+    
+    // 切换到第一个动作
     this.switchExercise(0);
+    
+    // 滚动到顶部
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    // 显示提示
+    console.log('[处方页] 训练开始！');
   },
 
   // 显示错误
