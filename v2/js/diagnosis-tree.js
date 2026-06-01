@@ -530,3 +530,6 @@ const DiagnosisTree = {
     return matched;
   }
 };
+
+// 显式挂载到 window，确保后续 <script> 标签可以访问
+window.DiagnosisTree = DiagnosisTree;
