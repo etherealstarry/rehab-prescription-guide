@@ -2429,6 +2429,480 @@ const DifferentialEngine = {
       }
     },
 
+
+    /* ============================================================
+     * 颈痛（四步通用筛查模型）
+     * 常见原因：神经根型颈椎病、颈型颈椎病、颈源性头痛
+     * ============================================================ */
+    'neck_pain': {
+      label: '颈痛 鉴别诊断',
+      icon: '🦴',
+      steps: [
+        /* ========== Level 1: 红旗症状安全过滤 ========== */
+        {
+          id: 'redflag_neck',
+          level: 1,
+          question: '是否有以下危险信号：走路不稳（踩棉花感）、大小便失禁、手臂/腿部无力进行性加重？',
+          type: 'radio',
+          options: [
+            { label: '是，有上述症状', value: 'redflag', action: 'TERMINATE_TO_EMERGENCY' },
+            { label: '否，无上述危险信号', value: 'safe', next: 'step_2_localization' }
+          ],
+          guide: '排除颈椎脊髓病（Cervical Myelopathy）、马尾综合征等急症'
+        },
+        /* ========== Level 2: 解剖部位精细定位 ========== */
+        {
+          id: 'step_2_localization',
+          level: 2,
+          question: '请您指出疼痛/不适的最主要位置（可多选）：',
+          type: 'checkbox',
+          options: [
+            { label: '颈部正中/两侧（颈肩痛，不放射到手）', value: 'neck_only', next: 'step_3_concomitant' },
+            { label: '颈部 + 放射到肩膀/上臂', value: 'neck_shoulder', next: 'step_3_concomitant' },
+            { label: '颈部 + 放射到手指（手指麻/木）', value: 'neck_arm_hand', next: 'step_3_concomitant' },
+            { label: '颈部 + 头痛/头晕', value: 'neck_head', next: 'step_3_concomitant' }
+          ]
+        },
+        /* ========== Level 3: 伴随症状与病史追问 ========== */
+        {
+          id: 'step_3_concomitant',
+          level: 3,
+          question: '除颈痛外，是否伴有手指麻木、无力或针刺感？',
+          type: 'radio',
+          options: [
+            { label: '是，有明显手指麻/无力', value: 'neuro_yes', next: 'step_3_duration' },
+            { label: '否，只有颈部疼痛/僵硬', value: 'neuro_no', next: 'step_3_duration' }
+          ]
+        },
+        {
+          id: 'step_3_duration',
+          level: 3,
+          question: '这种颈痛持续多久了？（时间轴）',
+          type: 'radio',
+          options: [
+            { label: '不到2周（急性）', value: 'acute', next: 'step_3_aggravating' },
+            { label: '2周-3个月（亚急性）', value: 'subacute', next: 'step_3_aggravating' },
+            { label: '超过3个月（慢性）', value: 'chronic', next: 'step_3_aggravating' }
+          ]
+        },
+        {
+          id: 'step_3_aggravating',
+          level: 3,
+          question: '什么时候颈痛最明显？（状态轴）',
+          type: 'radio',
+          options: [
+            { label: '低头/久坐后加重，活动后缓解', value: 'postural', next: 'step_4_physical' },
+            { label: '夜间痛/晨起僵硬，活动后好转', value: 'inflammatory', next: 'step_4_physical' },
+            { label: '特定头位诱发剧烈疼痛/头晕', value: 'positional', next: 'step_4_physical' },
+            { label: '疼痛伴随手指麻木/无力', value: 'radicular', next: 'step_4_physical' }
+          ],
+          guide: 'APTA 颈痛CPG 2021：按疼痛模式分类决定康复策略'
+        },
+        /* ========== Level 4: 特殊诱发物理测试 ========== */
+        {
+          id: 'step_4_physical',
+          level: 4,
+          question: '请尝试头向患侧侧屈+后伸，同时检查者轻轻下压头顶。是否诱发患侧上肢放射痛/麻木？（Spurling试验）',
+          type: 'radio',
+          options: [
+            { label: '是，头侧屈时上肢放射痛/麻', value: 'spurling_pos', next: 'cervical_result' },
+            { label: '否，这个动作不诱发症状', value: 'spurling_neg', next: 'ultt_test' }
+          ],
+          guide: 'Spurling试验阳性提示神经根型颈椎病'
+        },
+        {
+          id: 'ultt_test',
+          level: 4,
+          question: '请尝试患侧手臂上举（过头），同时头向对侧侧屈。是否诱发患侧上肢麻木/刺痛？（ULTT1）',
+          type: 'radio',
+          options: [
+            { label: '是，手臂上举时诱发麻木/刺痛', value: 'ultt_pos', next: 'cervical_result' },
+            { label: '否，这个动作不诱发症状', value: 'ultt_neg', next: 'unknown_result' }
+          ],
+          guide: 'ULTT1阳性提示颈椎神经根/神经鞘受牵拉'
+        }
+      ],
+      result: function(answers) {
+        var result = { diagnosis: 'unknown', confidence: 0, specialty: 'cervical', reason: '' };
+        var redflag = answers.redflag_neck;
+        if (redflag && redflag.indexOf('redflag') !== -1) {
+          result.redflag = true;
+          result.redflagMsg = '⚠️ 怀疑颈椎脊髓病/急危重症风险！请立即就医，勿自行康复。';
+          return result;
+        }
+        var location = answers.step_2_localization;
+        var neuroCheck = answers.step_3_concomitant;
+        var aggravating = answers.step_3_aggravating;
+        var spurlingTest = answers.step_4_physical;
+        var ulttTest = answers.ultt_test;
+        if (spurlingTest && spurlingTest.indexOf('spurling_pos') !== -1) {
+          result.diagnosis = 'cervical_radiculopathy';
+          result.confidence = 90;
+          result.specialty = 'cervical';
+          result.label = '神经根型颈椎病';
+          result.reason = 'Spurling试验阳性（Level 4 物理测试阳性），符合颈椎神经根受压';
+          return result;
+        }
+        if (ulttTest && ulttTest.indexOf('ultt_pos') !== -1) {
+          result.diagnosis = 'cervical_radiculopathy';
+          result.confidence = 85;
+          result.specialty = 'cervical';
+          result.label = '神经根型颈椎病（神经张力增高）';
+          result.reason = 'ULTT1阳性（Level 4 物理测试阳性），符合颈椎神经根受牵拉';
+          return result;
+        }
+        if (location && location.indexOf('neck_arm_hand') !== -1) {
+          result.diagnosis = 'cervical_radiculopathy';
+          result.confidence = 80;
+          result.specialty = 'cervical';
+          result.label = '神经根型颈椎病（可疑）';
+          result.reason = '颈痛放射至手指（Level 2 定位），符合神经根受累模式';
+          return result;
+        }
+        if (aggravating && aggravating.indexOf('positional') !== -1) {
+          result.diagnosis = 'cervical_radiculopathy';
+          result.confidence = 75;
+          result.specialty = 'cervical';
+          result.label = '神经根型颈椎病（位置性诱发）';
+          result.reason = '特定头位诱发疼痛（Level 3 状态轴），符合神经根受压';
+          return result;
+        }
+        if (location && location.indexOf('neck_head') !== -1) {
+          result.diagnosis = 'cervicogenic_headache';
+          result.confidence = 80;
+          result.specialty = 'cervical';
+          result.label = '颈源性头痛';
+          result.reason = '颈痛 + 头痛/头晕（Level 2 定位），符合颈源性头痛';
+          return result;
+        }
+        if (aggravating && aggravating.indexOf('postural') !== -1) {
+          result.diagnosis = 'cervical_somatic_pain';
+          result.confidence = 85;
+          result.specialty = 'cervical';
+          result.label = '颈型颈椎病（躯体性颈痛）';
+          result.reason = '低头/久坐后加重（Level 3 状态轴），符合颈型颈椎病';
+          return result;
+        }
+        result.diagnosis = 'neck_pain_unknown';
+        result.confidence = 60;
+        result.specialty = 'cervical';
+        result.label = '颈痛待查（建议骨科/康复科就诊）';
+        result.reason = 'Level 1-4 筛查均为阴性，建议进一步检查';
+        return result;
+      }
+    },
+
+    /* ============================================================
+     * 手痛（四步通用筛查模型）
+     * 常见原因：手腕关节炎、腱鞘炎、手指骨关节炎、类风湿关节炎
+     * ============================================================ */
+    'hand_pain': {
+      label: '手痛 鉴别诊断',
+      icon: '🖐️',
+      steps: [
+        /* ========== Level 1: 红旗症状安全过滤 ========== */
+        {
+          id: 'redflag_hand',
+          level: 1,
+          question: '是否有以下危险信号：手部明显红肿热痛、发热、手部畸形、不能活动？',
+          type: 'radio',
+          options: [
+            { label: '是，有上述症状', value: 'redflag', action: 'TERMINATE_TO_EMERGENCY' },
+            { label: '否，无红肿发热/畸形', value: 'safe', next: 'step_2_localization' }
+          ],
+          guide: '排除化脓性关节炎、骨折、腱鞘脓肿等急症'
+        },
+        /* ========== Level 2: 解剖部位精细定位 ========== */
+        {
+          id: 'step_2_localization',
+          level: 2,
+          question: '请您指出疼痛的最主要位置（可多选）：',
+          type: 'checkbox',
+          options: [
+            { label: '腕关节（手腕痛，活动时明显）', value: 'wrist', next: 'step_3_concomitant' },
+            { label: '手掌/虎口区', value: 'palm', next: 'step_3_concomitant' },
+            { label: '手指关节（指间关节疼痛/肿胀）', value: 'finger_joint', next: 'step_3_concomitant' },
+            { label: '整个手都痛', value: 'whole_hand', next: 'step_3_concomitant' }
+          ]
+        },
+        /* ========== Level 3: 伴随症状与病史追问 ========== */
+        {
+          id: 'step_3_concomitant',
+          level: 3,
+          question: '除手痛外，是否伴有以下情况（可多选）：',
+          type: 'checkbox',
+          options: [
+            { label: '手指晨僵（早晨起床时手指僵硬）', value: 'morning_stiffness', next: 'step_3_duration' },
+            { label: '多个关节对称痛（手脚关节都痛）', value: 'symmetrical', next: 'step_3_duration' },
+            { label: '近期有手部过度使用史（长时间用手）', value: 'overuse', next: 'step_3_duration' },
+            { label: '没有上述伴随症状', value: 'no_concomitant', next: 'step_3_duration' }
+          ]
+        },
+        {
+          id: 'step_3_duration',
+          level: 3,
+          question: '这种手痛持续多久了？（时间轴）',
+          type: 'radio',
+          options: [
+            { label: '不到2周（急性）', value: 'acute', next: 'step_4_physical' },
+            { label: '2周-3个月（亚急性）', value: 'subacute', next: 'step_4_physical' },
+            { label: '超过3个月（慢性）', value: 'chronic', next: 'step_4_physical' }
+          ]
+        },
+        /* ========== Level 4: 特殊诱发物理测试 ========== */
+        {
+          id: 'step_4_physical',
+          level: 4,
+          question: '请尝试握拳，然后主动/被动屈腕（手腕向下弯）。是否诱发手腕/前臂疼痛？（Finkelstein试验）',
+          type: 'radio',
+          options: [
+            { label: '是，握拳屈腕时手腕/拇指侧疼痛', value: 'finkelstein_pos', next: 'dequervain_result' },
+            { label: '否，这个动作不诱发痛', value: 'finkelstein_neg', next: 'phalen_test' }
+          ],
+          guide: 'Finkelstein试验阳性提示桡骨茎突狭窄性腱鞘炎'
+        },
+        {
+          id: 'phalen_test',
+          level: 4,
+          question: '请尝试双腕极度屈曲（掌心相对，手背相贴），维持60秒。是否诱发手指/手掌麻木？（Phalen试验）',
+          type: 'radio',
+          options: [
+            { label: '是，60秒内出现手指/手掌麻木', value: 'phalen_pos', next: 'cts_result' },
+            { label: '否，这个动作不诱发麻木', value: 'phalen_neg', next: 'unknown_result' }
+          ],
+          guide: 'Phalen试验阳性提示腕管综合征（正中神经卡压）'
+        }
+      ],
+      result: function(answers) {
+        var result = { diagnosis: 'unknown', confidence: 0, specialty: 'hand', reason: '' };
+        var redflag = answers.redflag_hand;
+        if (redflag && redflag.indexOf('redflag') !== -1) {
+          result.redflag = true;
+          result.redflagMsg = '⚠️ 怀疑急危重症（化脓性关节炎/骨折）！请立即就医，勿自行康复。';
+          return result;
+        }
+        var location = answers.step_2_localization;
+        var concomitant = answers.step_3_concomitant;
+        var finkelsteinTest = answers.step_4_physical;
+        var phalenTest = answers.phalen_test;
+        if (finkelsteinTest && finkelsteinTest.indexOf('finkelstein_pos') !== -1) {
+          result.diagnosis = 'dequervain';
+          result.confidence = 90;
+          result.specialty = 'hand';
+          result.label = '桡骨茎突狭窄性腱鞘炎（De Quervain）';
+          result.reason = 'Finkelstein试验阳性（Level 4 物理测试阳性），符合桡骨茎突狭窄性腱鞘炎';
+          return result;
+        }
+        if (phalenTest && phalenTest.indexOf('phalen_pos') !== -1) {
+          result.diagnosis = 'carpal_tunnel';
+          result.confidence = 90;
+          result.specialty = 'hand';
+          result.label = '腕管综合征（正中神经卡压）';
+          result.reason = 'Phalen试验阳性（Level 4 物理测试阳性），符合腕管综合征';
+          return result;
+        }
+        if (concomitant && concomitant.indexOf('morning_stiffness') !== -1) {
+          result.diagnosis = 'rheumatoid_arthritis';
+          result.confidence = 80;
+          result.specialty = 'hand';
+          result.label = '类风湿关节炎（可疑）';
+          result.reason = '手指晨僵（Level 3 伴随症状），提示炎症性关节病';
+          return result;
+        }
+        if (concomitant && concomitant.indexOf('symmetrical') !== -1) {
+          result.diagnosis = 'rheumatoid_arthritis';
+          result.confidence = 85;
+          result.specialty = 'hand';
+          result.label = '类风湿关节炎（可疑）';
+          result.reason = '多个关节对称痛（Level 3 伴随症状），符合类风湿关节炎模式';
+          return result;
+        }
+        if (concomitant && concomitant.indexOf('overuse') !== -1) {
+          result.diagnosis = 'hand_overuse';
+          result.confidence = 75;
+          result.specialty = 'hand';
+          result.label = '手部过劳综合征';
+          result.reason = '近期手部过度使用史（Level 3 伴随症状），考虑过劳';
+          return result;
+        }
+        if (location && location.indexOf('finger_joint') !== -1) {
+          result.diagnosis = 'hand_arthritis';
+          result.confidence = 70;
+          result.specialty = 'hand';
+          result.label = '手指关节炎/关节痛';
+          result.reason = '手指关节疼痛（Level 2 定位），考虑骨关节炎或炎症';
+          return result;
+        }
+        result.diagnosis = 'hand_pain_unknown';
+        result.confidence = 60;
+        result.specialty = 'hand';
+        result.label = '手痛待查（建议手外科/骨科就诊）';
+        result.reason = 'Level 1-4 筛查均为阴性，建议进一步检查';
+        return result;
+      }
+    },
+
+    /* ============================================================
+     * 头痛（四步通用筛查模型）
+     * 常见原因：颈源性头痛、偏头痛、紧张性头痛、丛集性头痛
+     * ============================================================ */
+    'headache': {
+      label: '头痛 鉴别诊断',
+      icon: '🧠',
+      steps: [
+        /* ========== Level 1: 红旗症状安全过滤 ========== */
+        {
+          id: 'redflag_headache',
+          level: 1,
+          question: '是否有以下危险信号：突然发生的剧烈头痛（"雷击样"）、发热伴颈项强直、视物模糊/视野缺损、言语含糊？',
+          type: 'radio',
+          options: [
+            { label: '是，有上述症状', value: 'redflag', action: 'TERMINATE_TO_EMERGENCY' },
+            { label: '否，无上述危险信号', value: 'safe', next: 'step_2_localization' }
+          ],
+          guide: '排除蛛网膜下腔出血、脑膜炎、颅内占位等急症'
+        },
+        /* ========== Level 2: 解剖部位精细定位 ========== */
+        {
+          id: 'step_2_localization',
+          level: 2,
+          question: '请您指出头痛的最主要位置（可多选）：',
+          type: 'checkbox',
+          options: [
+            { label: '后脑勺/枕部（脖子后面上去）', value: 'occipital', next: 'step_3_concomitant' },
+            { label: '一侧太阳穴/眼眶（单边痛）', value: 'unilateral', next: 'step_3_concomitant' },
+            { label: '前额/全头（整个头都痛）', value: 'frontal_global', next: 'step_3_concomitant' },
+            { label: '头部 + 颈部僵硬/脖子痛', value: 'head_neck', next: 'step_3_concomitant' }
+          ]
+        },
+        /* ========== Level 3: 伴随症状与病史追问 ========== */
+        {
+          id: 'step_3_concomitant',
+          level: 3,
+          question: '除头痛外，是否伴有以下情况（可多选）：',
+          type: 'checkbox',
+          options: [
+            { label: '恶心/呕吐', value: 'nausea', next: 'step_3_duration' },
+            { label: '怕光/怕声音', value: 'photophobia', next: 'step_3_duration' },
+            { label: '颈部僵硬/脖子痛', value: 'neck_pain', next: 'step_3_duration' },
+            { label: '没有上述伴随症状', value: 'no_concomitant', next: 'step_3_duration' }
+          ]
+        },
+        {
+          id: 'step_3_duration',
+          level: 3,
+          question: '这种头痛持续多久了？（时间轴）',
+          type: 'radio',
+          options: [
+            { label: '不到2周（急性）', value: 'acute', next: 'step_3_aggravating' },
+            { label: '2周-3个月（亚急性）', value: 'subacute', next: 'step_3_aggravating' },
+            { label: '超过3个月（慢性，反复发生）', value: 'chronic', next: 'step_3_aggravating' }
+          ]
+        },
+        {
+          id: 'step_3_aggravating',
+          level: 3,
+          question: '什么情况下头痛最明显？（状态轴）',
+          type: 'radio',
+          options: [
+            { label: '低头/久坐后加重，活动颈部后缓解', value: 'cervical', next: 'step_4_physical' },
+            { label: '搏动性/跳痛，活动时加重', value: 'throbbing', next: 'step_4_physical' },
+            { label: '压迫感/紧箍感（像戴了紧帽子）', value: 'pressure', next: 'step_4_physical' },
+            { label: '特定诱因（光亮/声音/气味/月经）', value: 'triggered', next: 'step_4_physical' }
+          ],
+          guide: 'ICHD-3 头痛分类：偏头痛、紧张性头痛、颈源性头痛'
+        },
+        /* ========== Level 4: 特殊诱发物理测试 ========== */
+        {
+          id: 'step_4_physical',
+          level: 4,
+          question: '请尝试低头/仰头，或者按压后脑勺/枕部。是否诱发头痛加重？（颈椎诱发试验）',
+          type: 'radio',
+          options: [
+            { label: '是，颈部活动/按压后头痛明显加重', value: 'cervical_pos', next: 'cervicogenic_result' },
+            { label: '否，颈部活动不影响头痛', value: 'cervical_neg', next: 'unknown_result' }
+          ],
+          guide: '颈椎诱发试验阳性提示颈源性头痛'
+        }
+      ],
+      result: function(answers) {
+        var result = { diagnosis: 'unknown', confidence: 0, specialty: 'neurology', reason: '' };
+        var redflag = answers.redflag_headache;
+        if (redflag && redflag.indexOf('redflag') !== -1) {
+          result.redflag = true;
+          result.redflagMsg = '⚠️ 怀疑颅内急症（蛛网膜下腔出血/脑膜炎）！请立即就医，勿自行康复。';
+          return result;
+        }
+        var location = answers.step_2_localization;
+        var concomitant = answers.step_3_concomitant;
+        var aggravating = answers.step_3_aggravating;
+        var cervicalTest = answers.step_4_physical;
+        if (cervicalTest && cervicalTest.indexOf('cervical_pos') !== -1) {
+          result.diagnosis = 'cervicogenic_headache';
+          result.confidence = 90;
+          result.specialty = 'cervical';
+          result.label = '颈源性头痛';
+          result.reason = '颈椎诱发试验阳性（Level 4 物理测试阳性），符合颈源性头痛';
+          return result;
+        }
+        if (location && location.indexOf('head_neck') !== -1) {
+          result.diagnosis = 'cervicogenic_headache';
+          result.confidence = 85;
+          result.specialty = 'cervical';
+          result.label = '颈源性头痛';
+          result.reason = '头痛 + 颈部僵硬/脖子痛（Level 2 定位），符合颈源性头痛';
+          return result;
+        }
+        if (aggravating && aggravating.indexOf('cervical') !== -1) {
+          result.diagnosis = 'cervicogenic_headache';
+          result.confidence = 80;
+          result.specialty = 'cervical';
+          result.label = '颈源性头痛';
+          result.reason = '低头/久坐后加重（Level 3 状态轴），符合颈源性头痛模式';
+          return result;
+        }
+        if (aggravating && aggravating.indexOf('throbbing') !== -1) {
+          if (concomitant && (concomitant.indexOf('nausea') !== -1 || concomitant.indexOf('photophobia') !== -1)) {
+            result.diagnosis = 'migraine';
+            result.confidence = 90;
+            result.specialty = 'neurology';
+            result.label = '偏头痛';
+            result.reason = '搏动性痛 + 恶心/怕光（Level 2-3 伴随症状），符合偏头痛';
+            return result;
+          } else {
+            result.diagnosis = 'migraine';
+            result.confidence = 75;
+            result.specialty = 'neurology';
+            result.label = '偏头痛（可疑）';
+            result.reason = '搏动性/跳痛（Level 3 状态轴），提示偏头痛';
+            return result;
+          }
+        }
+        if (aggravating && aggravating.indexOf('pressure') !== -1) {
+          result.diagnosis = 'tension_headache';
+          result.confidence = 85;
+          result.specialty = 'neurology';
+          result.label = '紧张性头痛';
+          result.reason = '压迫感/紧箍感（Level 3 状态轴），符合紧张性头痛';
+          return result;
+        }
+        if (aggravating && aggravating.indexOf('triggered') !== -1) {
+          result.diagnosis = 'migraine';
+          result.confidence = 80;
+          result.specialty = 'neurology';
+          result.label = '偏头痛（可疑）';
+          result.reason = '特定诱因（Level 3 状态轴），符合偏头痛模式';
+          return result;
+        }
+        result.diagnosis = 'headache_unknown';
+        result.confidence = 60;
+        result.specialty = 'neurology';
+        result.label = '头痛待查（建议神经内科就诊）';
+        result.reason = 'Level 1-4 筛查均为阴性，建议进一步检查';
+        return result;
+      }
+    },
+
   getTree: function(keyword) {
     var k = keyword.replace(/疼/g, '痛').replace(/\s+/g, '');
     
@@ -2500,6 +2974,20 @@ const DifferentialEngine = {
     if (k.indexOf('手麻') !== -1 || k.indexOf('手指麻') !== -1 || k.indexOf('手掌麻') !== -1 || k.indexOf('小指') !== -1 || k.indexOf('指尖麻') !== -1) {
       return this.trees.hand_numb;
     }
+
+    // 颈痛
+    if (k.indexOf('颈痛') !== -1 || k.indexOf('脖子痛') !== -1 || k.indexOf('颈椎病') !== -1 || k.indexOf('颈部僵硬') !== -1) {
+      return this.trees.neck_pain;
+    }
+    // 手痛
+    if (k.indexOf('手痛') !== -1 || k.indexOf('手指痛') !== -1 || k.indexOf('手腕痛') !== -1 || k.indexOf('手掌痛') !== -1) {
+      return this.trees.hand_pain;
+    }
+    // 头痛
+    if (k.indexOf('头痛') !== -1 || k.indexOf('头疼') !== -1 || k.indexOf('偏头痛') !== -1 || k.indexOf('跳痛') !== -1) {
+      return this.trees.headache;
+    }
+    
     // 无法匹配 → 走通用追问树（做解剖定位）
     return this.trees.general_symptom;
   }

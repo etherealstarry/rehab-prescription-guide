@@ -279,6 +279,62 @@ const DiseaseKnowledgeBase = {
       prescriptionId: 'prescription_parkinsons_gait',
       evidence: 'MDS 帕金森病康复指南 2022'
     }
+
+    },
+    {
+      id: 'DIS_CERVICAL_SOMATIC_023',
+      name: '颈型颈椎病（Cervical Somatic Pain）',
+      standardTags: ['neck_pain'],
+      keywords: ['颈痛', '脖子僵硬', '低头加重', '久坐颈痛', '颈肩酸痛'],
+      physicalTests: ['颈椎活动度测试', '姿势负荷测试'],
+      prescriptionId: 'prescription_cervical_somatic',
+      evidence: 'APTA 颈痛CPG 2021'
+    },
+    {
+      id: 'DIS_CERVICOGENIC_HA_024',
+      name: '颈源性头痛（Cervicogenic Headache）',
+      standardTags: ['neck_pain', 'headache'],
+      keywords: ['头痛', '后脑勺痛', '颈痛伴头痛', '低头诱发头痛', '枕大神经痛'],
+      physicalTests: ['颈椎诱发试验', '枕大神经压痛'],
+      prescriptionId: 'prescription_cervicogenic_headache',
+      evidence: 'ICHD-3; APTA 颈痛CPG 2021'
+    },
+    {
+      id: 'DIS_RA_HAND_025',
+      name: '类风湿关节炎（Rheumatoid Arthritis）',
+      standardTags: ['hand_pain'],
+      keywords: ['手指晨僵', '多关节对称痛', '手指关节肿胀', '类风湿因子阳性', '手部尺侧偏'],
+      physicalTests: ['关节肿胀指数', '握力测试'],
+      prescriptionId: 'prescription_ra_hand',
+      evidence: 'ACR 类风湿关节炎诊疗指南 2023'
+    },
+    {
+      id: 'DIS_HAND_OA_026',
+      name: '手指骨关节炎（Hand Osteoarthritis）',
+      standardTags: ['hand_pain'],
+      keywords: ['手指关节疼痛', 'Heberden结节', 'Bouchard结节', '晨僵<30分钟', '手工劳动后加重'],
+      physicalTests: ['关节摩擦音检查', '关节活动度测试'],
+      prescriptionId: 'prescription_hand_oa',
+      evidence: 'ACR 手OA诊疗指南 2021'
+    },
+    {
+      id: 'DIS_MIGRAINE_027',
+      name: '偏头痛（Migraine）',
+      standardTags: ['headache'],
+      keywords: ['搏动性头痛', '单侧头痛', '恶心', '怕光', '偏头痛家族史'],
+      physicalTests: ['偏头痛问卷', '神经系统查体'],
+      prescriptionId: 'prescription_migraine',
+      evidence: 'ICHD-3; 中国偏头痛诊疗指南 2023'
+    },
+    {
+      id: 'DIS_TENSION_HA_028',
+      name: '紧张性头痛（Tension-Type Headache）',
+      standardTags: ['headache'],
+      keywords: ['压迫感头痛', '紧箍感', '双侧头痛', '情绪紧张诱发', '睡眠质量差伴头痛'],
+      physicalTests: ['头痛日记', '压痛阈测试'],
+      prescriptionId: 'prescription_tension_ha',
+      evidence: 'ICHD-3; 中国头痛诊疗指南 2023'
+    },
   ],
 
   /* =========================================================
@@ -568,6 +624,116 @@ const DiseaseKnowledgeBase = {
         progression: '从辅助步行 → 独立步行 → 复杂地形步行'
       }
     }
+
+    },
+    'prescription_cervical_somatic': {
+      acute: {
+        frequency: '每日2-3次',
+        intensity: '低（疼痛VAS <4/10）',
+        time: '每次10-15分钟',
+        type: '颈椎关节松动（Maitland Grade I-II）+ 姿势再训练',
+        validity: '急性期（<2周）',
+        progression: '疼痛耐受后增加关节松动强度'
+      },
+      chronic: {
+        frequency: '每日3-5次',
+        intensity: '中（关节松动无疼痛）',
+        time: '每次15-20分钟',
+        type: '颈椎稳定性训练 + 颈深屈肌强化 + 姿势矫正训练',
+        validity: '亚急性期后开始',
+        progression: '从 isometric 收缩 → 动态抗阻 → 功能性动作整合'
+      }
+    },
+    'prescription_cervicogenic_headache': {
+      acute: {
+        frequency: '每日2-3次',
+        intensity: '低（疼痛VAS <4/10）',
+        time: '每次10-15分钟',
+        type: '颈椎手法治疗（上颈段）+ 枕下肌群拉伸',
+        validity: '头痛急性期',
+        progression: '疼痛减轻后增加颈椎稳定性训练'
+      },
+      chronic: {
+        frequency: '每日3-5次',
+        intensity: '中（无疼痛）',
+        time: '每次15-20分钟',
+        type: '颈椎稳定性 + 枕下肌群强化 + 姿势矫正 + 有氧运动',
+        validity: '疼痛消失后开始',
+        progression: '从徒手治疗 → 主动训练 → 家庭自我管理'
+      }
+    },
+    'prescription_ra_hand': {
+      acute: {
+        frequency: '每日1-2次（炎症期减量）',
+        intensity: '低（疼痛VAS <5/10，避免关节红肿时训练）',
+        time: '每次5-10分钟',
+        type: '关节保护性活动度训练 + 冷疗（红肿时）',
+        validity: '炎症活动期',
+        progression: '炎症控制后增加训练强度'
+      },
+      chronic: {
+        frequency: '每日2-3次',
+        intensity: '中（无红肿热痛）',
+        time: '每次15-20分钟',
+        type: '手部小关节活动度 + 握力训练 + 能量节省技术训练',
+        validity: '慢性炎症控制后',
+        progression: '从被动活动 → 主动辅助 → 抗阻训练'
+      }
+    },
+    'prescription_hand_oa': {
+      acute: {
+        frequency: '每日2-3次',
+        intensity: '低（疼痛VAS <4/10）',
+        time: '每次10-15分钟',
+        type: '手指关节活动度维持 + 冷疗（急性痛时）',
+        validity: '急性期（疼痛明显时）',
+        progression: '疼痛减轻后增加功能性活动训练'
+      },
+      chronic: {
+        frequency: '每日3-5次',
+        intensity: '中（无疼痛）',
+        time: '每次15-20分钟',
+        type: '手部精细动作训练 + 握力/捏力训练 + 关节保护技术',
+        validity: '疼痛消失后开始',
+        progression: '从基础抓握 → 精细操作 → 工具使用'
+      }
+    },
+    'prescription_migraine': {
+      acute: {
+        frequency: '每周2-3次（非头痛期）',
+        intensity: '低（避免诱发头痛）',
+        time: '每次10-15分钟',
+        type: '放松训练 + 有氧运动（低强度）+ 睡眠卫生教育',
+        validity: '头痛间歇期',
+        progression: '从放松训练 → 规律有氧运动'
+      },
+      chronic: {
+        frequency: '每周3-5次',
+        intensity: '中（无头痛诱发）',
+        time: '每次20-30分钟',
+        type: '有氧运动 + 颈肩稳定性训练 + 压力管理训练 + 规律作息训练',
+        validity: '头痛控制稳定后',
+        progression: '从低强度有氧 → 中等强度有氧 + 力量训练'
+      }
+    },
+    'prescription_tension_ha': {
+      acute: {
+        frequency: '每周2-3次',
+        intensity: '低（疼痛VAS <4/10）',
+        time: '每次10-15分钟',
+        type: '放松训练（渐进性肌肉放松）+ 颈肩手法放松',
+        validity: '头痛急性期',
+        progression: '疼痛减轻后增加主动训练'
+      },
+      chronic: {
+        frequency: '每周3-5次',
+        intensity: '中（无疼痛）',
+        time: '每次15-20分钟',
+        type: '有氧运动 + 压力管理 + 睡眠质量改善训练 + 颈肩姿势矫正',
+        validity: '头痛控制稳定后',
+        progression: '从放松训练 → 规律运动 → 心理干预整合'
+      }
+    },
   }
 };
 
