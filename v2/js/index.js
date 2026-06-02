@@ -1,6 +1,12 @@
 // index.js — 首页交互逻辑
 document.addEventListener('DOMContentLoaded', function() {
 
+  // 显示人体点选九宫格
+  var bodyMap = document.getElementById('rx-body-map');
+  if (bodyMap) {
+    bodyMap.classList.remove('rx-hidden');
+  }
+
   // 搜索表单提交
   var form = document.getElementById('rx-search-form');
   if (form) {

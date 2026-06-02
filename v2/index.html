@@ -58,6 +58,7 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;backgr
 .rx-pro-link{text-align:center;margin-top:2rem}
 .rx-pro-link a{font-size:.82rem;color:#1565C0;text-decoration:none}
 .rx-pro-link a:hover{text-decoration:underline}
+  <link rel="stylesheet" href="css/body-map.css">
   </style>
 </head>
 <body>
@@ -98,6 +99,9 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;backgr
       <button class="rx-tag" data-kw="手抖、动作缓慢、走路小步">🧠 疑似帕金森</button>
     </div>
   </form>
+
+  <!-- 人体点选九宫格 -->
+  <div class="rx-hidden" id="rx-body-map"></div>
 
   <!-- 搜索结果区域 -->
   <div class="rx-results" id="rx-results" style="display:none;">
@@ -162,7 +166,8 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;backgr
 <script src="js/redflags.js"></script>
 <script src="js/diagnosis-tree.js"></script>
   
-  <script src="js/differential.js"></script>
+  <script src="js/body-map.js"></script>
+<script src="js/differential.js"></script>
   <script src="js/index.js"></script>
 </body>
 </html>

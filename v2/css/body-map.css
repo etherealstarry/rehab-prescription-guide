@@ -1,0 +1,120 @@
+/* ============================================================
+   人体点选九宫格 - Body Map Selector
+   ============================================================ */
+
+/* 容器 */
+.rx-body-map-container {
+  margin: 2rem auto;
+  max-width: 400px;
+  text-align: center;
+}
+
+.rx-body-map-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1E40AF;
+  margin-bottom: 1rem;
+}
+
+/* 人体网格 */
+.rx-body-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 1.5rem;
+}
+
+/* 身体部位按钮 */
+.rx-body-part {
+  background: #F0F9FF;
+  border: 2px solid #BAE6FD;
+  border-radius: 10px;
+  padding: 1rem 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.9rem;
+  color: #0369A1;
+  font-weight: 500;
+}
+
+.rx-body-part:hover {
+  background: #E0F2FE;
+  border-color: #7DD3FC;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.15);
+}
+
+.rx-body-part.active {
+  background: #0EA5E9;
+  border-color: #0284C7;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+}
+
+/* 图标 */
+.rx-body-part-icon {
+  font-size: 1.8rem;
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+/* 身体部位标签 */
+.rx-body-part-label {
+  font-size: 0.85rem;
+}
+
+/* 操作按钮 */
+.rx-body-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.rx-body-btn {
+  padding: 0.7rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.rx-body-btn-primary {
+  background: #0EA5E9;
+  color: #fff;
+}
+
+.rx-body-btn-primary:hover {
+  background: #0284C7;
+}
+
+.rx-body-btn-secondary {
+  background: #F1F5F9;
+  color: #475569;
+  border: 1px solid #E2E8F0;
+}
+
+.rx-body-btn-secondary:hover {
+  background: #E2E8F0;
+}
+
+/* 隐藏元素 */
+.rx-hidden {
+  display: none;
+}
+
+/* 响应式 */
+@media (max-width: 640px) {
+  .rx-body-grid {
+    gap: 8px;
+  }
+  
+  .rx-body-part {
+    padding: 0.8rem 0.3rem;
+    font-size: 0.8rem;
+  }
+  
+  .rx-body-part-icon {
+    font-size: 1.5rem;
+  }
+}
