@@ -344,6 +344,17 @@ function renderDiffResult() {
   var list = document.getElementById('rx-results-list');
   if (!list) return;
 
+  // 如果 result 包含 nextTree，说明需要跳转到另一个追问树
+  if (result.nextTree && window.DifferentialEngine && window.DifferentialEngine.trees[result.nextTree]) {
+    // 自动跳转到对应的追问树，不让用户感知到"跳转"
+    var nextTree = window.DifferentialEngine.trees[result.nextTree];
+    diffState.tree = nextTree;
+    diffState.currentStep = 0;
+    diffState.answers = {};  // 清空之前的答案，重新开始
+    renderDiffStep();
+    return;
+  }
+
   if (result.redflag) {
     list.innerHTML =
       '<div class="rx-redflag-alert">' +

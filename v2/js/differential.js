@@ -9,6 +9,107 @@ const DifferentialEngine = {
   /* ——— 追问树定义 ——— */
   trees: {
     /* ============================================================
+     * 通用症状追问树（所有症状的入口）
+     * 第一题做解剖定位，然后根据定位结果跳转到对应的专科追问树
+     * ============================================================ */
+    'general_symptom': {
+      label: '症状初步筛查',
+      icon: '🩺',
+      steps: [
+        /* ========== Level 1: 红旗症状安全过滤（通用） ========== */
+        {
+          id: 'redflag_general',
+          level: 1,
+          question: '您的症状是突然发生的吗？是否伴有以下任何一种危险信号：说话含糊不清、半边脸麻木、胸痛大汗淋漓、大小便失禁？',
+          type: 'radio',
+          options: [
+            { label: '是，有上述危险信号', value: 'redflag', action: 'TERMINATE_TO_EMERGENCY' },
+            { label: '否，没有这些危险信号', value: 'safe', next: 'step_2_localization' }
+          ],
+          guide: '排除急危重症（脑卒中、心梗、马尾综合征等）'
+        },
+        /* ========== Level 2: 解剖部位精细定位（通用） ========== */
+        {
+          id: 'step_2_localization',
+          level: 2,
+          question: '您的症状主要发生在身体的哪个部位？（可多选）',
+          type: 'checkbox',
+          options: [
+            { label: '颈部、肩膀、上肢（手麻/肩痛/颈痛）', value: 'neck_shoulder_arm', next: 'branch_neck_shoulder_arm' },
+            { label: '腰背部、臀部、下肢（腰痛/腿痛/腿麻）', value: 'back_hip_leg', next: 'branch_back_hip_leg' },
+            { label: '膝关节（膝痛/上下楼梯痛）', value: 'knee', next: 'branch_knee' },
+            { label: '头部、平衡（头晕/头痛/走路不稳）', value: 'head_dizziness', next: 'branch_head_dizziness' },
+            { label: '胸部、呼吸（气喘/胸闷/运动后气短）', value: 'chest_breathing', next: 'branch_chest_breathing' }
+          ]
+        }
+      ],
+      result: function(answers) {
+        var result = { diagnosis: 'unknown', confidence: 0, specialty: 'general', reason: '' };
+        
+        // Level 1: 红线检查
+        var redflag = answers.redflag_general;
+        if (redflag && redflag.indexOf('redflag') !== -1) {
+          result.redflag = true;
+          result.redflagMsg = '⚠️ 怀疑急危重症风险！请立即就医，勿自行康复。';
+          return result;
+        }
+        
+        // Level 2: 解剖定位 → 跳转到对应的专科追问树
+        var location = answers.step_2_localization;
+        if (location) {
+          if (location.indexOf('neck_shoulder_arm') !== -1) {
+            result.diagnosis = 'need_further_differential';
+            result.specialty = 'hand';  // 临时，实际应该跳转到 hand_numb 或 shoulder_pain 树
+            result.label = '需要进一步鉴别诊断（颈部/肩部/上肢）';
+            result.reason = '解剖定位：颈部/肩膀/上肢';
+            result.nextTree = 'hand_numb';  // 告诉前端跳转到哪个树
+            return result;
+          }
+          if (location.indexOf('back_hip_leg') !== -1) {
+            result.diagnosis = 'need_further_differential';
+            result.specialty = 'lumbar';
+            result.label = '需要进一步鉴别诊断（腰背部/臀部/下肢）';
+            result.reason = '解剖定位：腰背部/臀部/下肢';
+            result.nextTree = 'low_back_pain';
+            return result;
+          }
+          if (location.indexOf('knee') !== -1) {
+            result.diagnosis = 'need_further_differential';
+            result.specialty = 'knee';
+            result.label = '需要进一步鉴别诊断（膝关节）';
+            result.reason = '解剖定位：膝关节';
+            result.nextTree = 'knee_pain';
+            return result;
+          }
+          if (location.indexOf('head_dizziness') !== -1) {
+            result.diagnosis = 'need_further_differential';
+            result.specialty = 'neurology';
+            result.label = '需要进一步鉴别诊断（头部/平衡）';
+            result.reason = '解剖定位：头部/平衡';
+            result.nextTree = 'dizziness';  // 未来实现
+            return result;
+          }
+          if (location.indexOf('chest_breathing') !== -1) {
+            result.diagnosis = 'need_further_differential';
+            result.specialty = 'cardiopulmonary';
+            result.label = '需要进一步鉴别诊断（胸部/呼吸）';
+            result.reason = '解剖定位：胸部/呼吸';
+            result.nextTree = 'dyspnea';  // 未来实现
+            return result;
+          }
+        }
+        
+        // 默认
+        result.diagnosis = 'unknown';
+        result.confidence = 60;
+        result.specialty = 'general';
+        result.label = '症状待查（建议就诊）';
+        result.reason = '无法定位，建议进一步检查';
+        return result;
+      }
+    },
+
+    /* ============================================================
      * 手麻 / 手指麻木（四步通用筛查模型）
      * ============================================================ */
     'hand_numb': {
@@ -692,6 +793,11 @@ const DifferentialEngine = {
   },
 
   /* ——— 根据症状关键词匹配追问树 ——— */
+  /*  匹配规则（按优先级）：
+   *  1. 优先匹配具体症状（如"小指麻木"、"腰痛"）→ 直接跳转到对应的追问树
+   *  2. 如果无法匹配，返回 general_symptom（通用追问树）→ 做解剖定位
+   *  3. 所有症状最终都会经过追问树，不再"面向个案编程"
+   */
   getTree: function(keyword) {
     var k = keyword.replace(/疼/g, '痛').replace(/\s+/g, '');
     // 手麻/手指麻木
@@ -710,7 +816,8 @@ const DifferentialEngine = {
     if (k.indexOf('膝痛') !== -1 || k.indexOf('膝盖痛') !== -1 || k.indexOf('膝关节') !== -1 || k.indexOf('上下楼梯痛') !== -1) {
       return this.trees.knee_pain;
     }
-    return null; // 无追问树，走普通专科评估流程
+    // 无法匹配 → 走通用追问树（做解剖定位）
+    return this.trees.general_symptom;
   }
 };
 
