@@ -52,6 +52,12 @@ function generatePrescriptionFromAssessment(assessmentData) {
     case 'knee':
       prescription = generateKneePrescription(assessmentData, intensityLevel);
       break;
+    case 'vestibular':
+      prescription = generateVestibularPrescription(assessmentData, intensityLevel);
+      break;
+    case 'cardiopulmonary':
+      prescription = generateCardiopulmonaryPrescription(assessmentData, intensityLevel);
+      break;
     default:
       prescription = generateGeneralPrescription(assessmentData, intensityLevel);
   }
@@ -1165,6 +1171,237 @@ var rxState = {
     }
   }
 };
+
+
+
+
+/* ——— 前庭系统康复处方（头晕/眩晕/BPPV） ——— */
+function generateVestibularPrescription(data, intensityLevel) {
+  var isAcute = (intensityLevel === 'acute');
+  var diagnosis = data.diagnosis || 'dizziness_unknown';
+  var exercises = [];
+  
+  if (isAcute) {
+    // 急性期：低频、安全、避免诱发剧烈眩晕
+    exercises = [
+      {
+        id: 'ex-vestibular-1',
+        name: '眼球运动训练（VOR x1）',
+        category: '前庭康复',
+        description: '坐位，头固定，眼睛追踪移动目标（手指或小球），先水平后垂直。',
+        purpose: '激活前庭-眼反射（VOR），改善凝视稳定性。',
+        fitt: { frequency: '每日2-3次', intensity: '低（轻微眩晕即停）', time: '每次5-10分钟', type: '眼球运动+头部固定' },
+        vp: { validity: '急性期耐受后开始', progression: '眩晕耐受后增加头部运动' },
+        technique: '坐位，头不动，眼睛追踪移动目标（先水平，后垂直，最后画圈）。每个方向10次，出现眩晕立即停止。参考《神经康复学》前庭康复章节。',
+        evidence: { source: 'Cochrane Review 2015; APTA 眩晕临床实践指南', link: 'https://www.cochrance.org/' }
+      },
+      {
+        id: 'ex-vestibular-2',
+        name: '坐位平衡训练（Sit-to-Stand 预备）',
+        category: '平衡训练',
+        description: '坐位，双脚平放地面，双手交叉抱胸，身体左右摇晃（小幅度）。',
+        purpose: '激活本体感觉，为站立平衡打基础。',
+        fitt: { frequency: '每日2次', intensity: '低（摇晃幅度以不诱发眩晕为度）', time: '每次5分钟', type: '坐位本体感觉训练' },
+        vp: { validity: '急性期耐受后开始', progression: '摇晃幅度逐渐增大' },
+        technique: '坐位，双脚平放，双手抱胸，身体小幅左右摇晃（像钟摆）。每个方向10次，出现眩晕立即停止。参考《康复评定学》平衡功能评估。',
+        evidence: { source: 'APTA 平衡康复指南', link: '' }
+      }
+    ];
+  } else {
+    // 非急性期：标准前庭康复
+    exercises = [
+      {
+        id: 'ex-vestibular-3',
+        name: 'Epley复位法（BPPV专属）',
+        category: '前庭康复',
+        description: '针对后半规管BPPV的复位手法，需在医师/治疗师指导下进行。',
+        purpose: '将耳石从半规管移回椭圆囊，消除位置性眩晕。',
+        fitt: { frequency: '每周2-3次（医师指导）', intensity: '中（复位后24h内避免剧烈头动）', time: '每次10-15分钟', type: '手法复位+家庭训练' },
+        vp: { validity: 'Dix-Hallpike阳性后开始', progression: '复位成功后改为家庭训练' },
+        technique: '⚠️ 需专业指导！步骤：1. 头转向患侧45°；2. 快速躺下（头悬垂床沿）；3. 头转向对侧90°；4. 身体转向对侧（脸朝下）；5. 坐起。每个位置保持30-60秒，待眼震/眩晕消失。参考《神经康复学》BPPV康复章节。',
+        evidence: { source: 'Cochrane Review 2015; APTA 眩晕CPG', link: 'https://www.cochrance.org/' }
+      },
+      {
+        id: 'ex-vestibular-4',
+        name: 'VOR x2（头部+眼球联合运动）',
+        category: '前庭康复',
+        description: '头左右转动的同时，眼睛盯住前方固定目标（如手指），训练前庭-眼反射。',
+        purpose: '提高VOR增益，改善动态视敏度。',
+        fitt: { frequency: '每日3次', intensity: '中（眩晕VAS <3/10）', time: '每次10分钟', type: '头部+眼球联合运动' },
+        vp: { validity: '急性期后开始', progression: '头动速度逐渐加快' },
+        technique: '坐位，眼睛盯住前方手指（距离30cm）。头左右转动（约30°），速度由慢到快，保持眼睛盯住手指。每个方向10次，出现眩晕立即停止。参考《神经康复学》前庭康复章节。',
+        evidence: { source: 'Jourmal of Vestibular Research 2018', link: '' }
+      },
+      {
+        id: 'ex-vestibular-5',
+        name: '平衡垫站立训练（Balance Pad Stand）',
+        category: '平衡训练',
+        description: '双脚站在平衡垫（或折叠毛巾）上，双手叉腰，维持站立。进阶：闭眼→单脚。',
+        purpose: '提高静态+动态平衡功能，减少摔倒风险。',
+        fitt: { frequency: '每日2次', intensity: '中（Romberg试验阴性后开始）', time: '每次10-15分钟', type: '平衡垫站立+渐进挑战' },
+        vp: { validity: 'Romberg试验阴性后开始', progression: '双足→并足→单足（扶椅）' },
+        technique: '双脚站在平衡垫上，双手叉腰，眼睛平视前方，维持站立。进阶：闭眼→并足→单足（扶椅）。每个阶段维持30秒。参考《康复评定学》平衡功能评估。',
+        evidence: { source: 'APTA 平衡康复指南; Cochrane Review 2018', link: '' }
+      }
+    ];
+  }
+  
+  var contraindications = [
+    '急性脑卒中/蛛网膜下腔出血（红旗症状阳性）',
+    '严重颈椎病（仰头诱发眩晕加重）',
+    '未控制的高血压（运动可能诱发血压波动）',
+    '严重心律失常'
+  ];
+  
+  var precautions = [
+    '训练时必须有他人陪同（防摔倒）',
+    '出现剧烈眩晕（VAS >6/10）立即停止',
+    '复位后24h内避免患侧卧位',
+    '训练后如有恶心呕吐，暂停训练并联系医师'
+  ];
+  
+  return {
+    diagnosis: diagnosis,
+    diagnosisLabel: diagnosis === 'bppv' ? '良性阵发性位置性眩晕（BPPV）' : '前庭系统功能障碍',
+    icd: diagnosis === 'bppv' ? 'H81.1' : 'H81.9',
+    fittvp: {
+      frequency: isAcute ? '每日2-3次' : '每日2-3次',
+      intensity: isAcute ? '低（轻微眩晕即停）' : '中（眩晕VAS <3/10）',
+      time: isAcute ? '每次5-10分钟' : '每次10-15分钟',
+      type: '前庭康复 + 平衡训练',
+      validity: isAcute ? '急性期耐受后开始' : '急性期后开始',
+      progression: isAcute ? '眩晕耐受后增加头部运动' : '头动速度逐渐加快 + 闭眼挑战'
+    },
+    exercises: exercises,
+    contraindications: contraindications,
+    precautions: precautions,
+    guideSource: 'APTA 眩晕临床实践指南 2020 + Cochrance Review 2015'
+  };
+}
+
+/* ——— 心肺康复处方（气喘/胸闷/运动后气短） ——— */
+function generateCardiopulmonaryPrescription(data, intensityLevel) {
+  var isAcute = (intensityLevel === 'acute');
+  var diagnosis = data.diagnosis || 'dyspnea_unknown';
+  var exercises = [];
+  
+  if (isAcute) {
+    // 急性期：低强度、呼吸训练为主
+    exercises = [
+      {
+        id: 'ex-cardio-1',
+        name: '腹式呼吸训练（Diaphragmatic Breathing）',
+        category: '呼吸训练',
+        description: '仰卧位，一手放胸骨（监测是否抬起），一手放肚脐上方。吸气时肚子鼓起（肚脐手抬起），呼气时肚子凹下。',
+        purpose: '激活膈肌，减少辅助呼吸肌（斜角肌、胸锁乳突肌）过度使用。',
+        fitt: { frequency: '每日3-4次', intensity: '低（呼吸平稳，无气短）', time: '每次10-15分钟', type: '腹式呼吸+缩唇呼吸' },
+        vp: { validity: '急性期即可开始', progression: '呼吸频率逐渐减慢（目标：8-10次/分）' },
+        technique: '仰卧位，膝盖下垫枕头（放松腹肌）。吸气2秒（鼻子吸），肚子鼓起；呼气4-6秒（嘴缩成吹口哨状），肚子凹下。吸气:呼气 = 1:2。参考《运动医学》呼吸训练章节。',
+        evidence: { source: 'ACCP 肺康复指南 2019', link: 'https://www.accp.com/' }
+      },
+      {
+        id: 'ex-cardio-2',
+        name: '坐位主动循环呼吸技术（ACBT）',
+        category: '呼吸训练',
+        description: '坐位，交替进行：正常呼吸 → 胸廓扩张运动（深吸气屏气3秒）→ 用力呼气（哈气）。',
+        purpose: '清除气道分泌物，改善通气效率。',
+        fitt: { frequency: '每日2-3次', intensity: '低（无气短加重）', time: '每次10分钟', type: 'ACBT循环' },
+        vp: { validity: '急性期即可开始', progression: '哈气力度逐渐增强' },
+        technique: '坐位，放松。步骤：1. 正常呼吸5次；2. 深吸气→屏气3秒→缓慢呼气（鼻子呼）；3. 用力哈气1-2次（像擦雾玻璃）。重复3-5个循环。参考《运动医学》呼吸训练章节。',
+        evidence: { source: 'ACCP 肺康复指南 2019', link: '' }
+      }
+    ];
+  } else {
+    // 非急性期：有氧训练 + 呼吸训练
+    exercises = [
+      {
+        id: 'ex-cardio-3',
+        name: '平地快走（平地步行训练）',
+        category: '有氧训练',
+        description: '平坦地面快走，速度以可以说话但不能唱歌为度（谈话测试）。',
+        purpose: '提高心肺耐力，改善运动诱发的气短。',
+        fitt: { frequency: '每周3-5次', intensity: '中（谈话测试：可以说完整句子，但不能唱歌）', time: '每次20-30分钟（含热身/放松）', type: '平地快走/固定自行车' },
+        vp: { validity: '急性加重期后开始', progression: '时间从10分钟逐渐增加到30分钟 → 速度加快 → 坡度增加' },
+        technique: '平地快走，速度以可以说话但不能唱歌为度。开始前5分钟热身（慢走），结束后5分钟放松（慢走）。如果出现气短（Borg 呼吸困难评分 >3/10），减速或暂停。参考《运动医学》心肺运动测试章节。',
+        evidence: { source: 'ACCP 肺康复指南 2019; AHA/ACC 心肺康复指南 2020', link: '' }
+      },
+      {
+        id: 'ex-cardio-4',
+        name: '缩唇呼吸 + 胸廓扩张运动',
+        category: '呼吸训练',
+        description: '吸气时用鼻子（胸廓扩张），呼气时缩唇（像吹口哨），延长呼气时间。',
+        purpose: '防止气道过早塌陷（尤其COPD患者），提高通气效率。',
+        fitt: { frequency: '每日3-4次', intensity: '低-中（呼吸平稳）', time: '每次10-15分钟', type: '缩唇呼吸+胸廓扩张' },
+        vp: { validity: '急性期后即可开始', progression: '吸气:呼气比例从1:2逐渐增加到1:4' },
+        technique: '坐位，放松。吸气2秒（鼻子吸，胸廓扩张）；呼气4-6秒（嘴缩成吹口哨状，缓慢呼气）。吸气:呼气 = 1:2~1:4。参考《运动医学》呼吸训练章节。',
+        evidence: { source: 'ACCP 肺康复指南 2019', link: '' }
+      },
+      {
+        id: 'ex-cardio-5',
+        name: '上肢阻力训练（Theraband 弹力带）',
+        category: '阻力训练',
+        description: '坐位，用弹力带做上肢水平拉（模拟划船）、过头推举（轻度阻力）。',
+        purpose: '增强辅助呼吸肌（斜方肌、胸锁乳突肌）力量，减少呼吸做功。',
+        fitt: { frequency: '每周2-3次', intensity: '低-中（Borg 评分 3-5/10）', time: '每次15-20分钟', type: '弹力带上肢训练' },
+        vp: { validity: '心肺功能稳定后开始', progression: '弹力带阻力逐渐增加（黄色→红色→绿色）' },
+        technique: '坐位，弹力带固定于门前。动作：1. 水平拉（模拟划船）→ 锻炼背阔肌/斜方肌；2. 过头推举（轻度阻力）→ 锻炼三角肌/斜方肌。每个动作10-15次，2-3组。参考《运动医学》阻力训练章节。',
+        evidence: { source: 'ACSM 运动测试与处方指南 第11版', link: '' }
+      }
+    ];
+  }
+  
+  var contraindications = [
+    '急性冠脉综合征（胸痛放射到左臂/下颌）',
+    '急性心衰加重（夜间阵发性呼吸困难 + 脚踝水肿）',
+    '静息状态下SpO2 <88%（未吸氧）',
+    '未控制的心律失常'
+  ];
+  
+  var precautions = [
+    '运动前必须热身5-10分钟（慢走/拉伸）',
+    '运动中监测SpO2（如果有指氧仪），<88%立即停止',
+    '出现胸痛、严重气短（Borg >5/10）立即停止',
+    'COPD患者避免冷空气运动（诱发支气管痉挛）'
+  ];
+  
+  var diagnosisLabel = '心肺功能不全';
+  var icdCode = 'R06.8';
+  
+  if (diagnosis === 'copd') {
+    diagnosisLabel = '慢性阻塞性肺疾病（COPD）';
+    icdCode = 'J44.9';
+  } else if (diagnosis === 'asthma') {
+    diagnosisLabel = '支气管哮喘';
+    icdCode = 'J45.9';
+  } else if (diagnosis === 'heart_failure') {
+    diagnosisLabel = '慢性心力衰竭';
+    icdCode = 'I50.9';
+  } else if (diagnosis === 'cardiac_dysfunction') {
+    diagnosisLabel = '心脏功能不全';
+    icdCode = 'I51.8';
+  } else if (diagnosis === 'deconditioning') {
+    diagnosisLabel = '体能下降（Deconditioning）';
+    icdCode = 'Z72.3';
+  }
+  
+  return {
+    diagnosis: diagnosis,
+    diagnosisLabel: diagnosisLabel,
+    icd: icdCode,
+    fittvp: {
+      frequency: isAcute ? '每日2-3次' : '每周3-5次',
+      intensity: isAcute ? '低（呼吸平稳）' : '中（谈话测试）',
+      time: isAcute ? '每次10-15分钟' : '每次20-30分钟',
+      type: isAcute ? '呼吸训练为主' : '有氧训练 + 呼吸训练 + 阻力训练',
+      validity: isAcute ? '急性期即可开始' : '急性加重期后开始',
+      progression: isAcute ? '呼吸频率逐渐减慢' : '运动时间/强度逐渐增加'
+    },
+    exercises: exercises,
+    contraindications: contraindications,
+    precautions: precautions,
+    guideSource: 'ACCP 肺康复指南 2019 + AHA/ACC 心肺康复指南 2020'
+  };
+}
 
 
 /* ============================================================

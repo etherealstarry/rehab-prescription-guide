@@ -798,6 +798,358 @@ const DifferentialEngine = {
    *  2. 如果无法匹配，返回 general_symptom（通用追问树）→ 做解剖定位
    *  3. 所有症状最终都会经过追问树，不再"面向个案编程"
    */
+
+
+    /* ============================================================
+     * 头晕/头痛/平衡问题（四步通用筛查模型）
+     * 参考：《神经康复学》眩晕鉴别诊断；《康复评定学》平衡功能评估
+     * ============================================================ */
+    'dizziness': {
+      label: '头晕/头痛/平衡问题 鉴别诊断',
+      icon: '🌀',
+      steps: [
+        /* ========== Level 1: 红旗症状安全过滤 ========== */
+        {
+          id: 'redflag_dizziness',
+          level: 1,
+          question: '您的头晕是否突然发生，并伴有以下任何一种情况：说话含糊不清、半边脸麻木无力、单侧肢体无力、剧烈头痛（一生中最剧烈的头痛）？',
+          type: 'radio',
+          options: [
+            { label: '是，有上述任何一种情况', value: 'redflag', action: 'TERMINATE_TO_EMERGENCY' },
+            { label: '否，没有这些症状', value: 'safe', next: 'step_2_localization' }
+          ],
+          guide: '排除急性脑卒中、蛛网膜下腔出血等急危重症'
+        },
+        /* ========== Level 2: 解剖定位 ========== */
+        {
+          id: 'step_2_localization',
+          level: 2,
+          question: '您的头晕/头痛属于以下哪种类型？（可多选）',
+          type: 'checkbox',
+          options: [
+            { label: '天旋地转（感觉周围在转），与头部位置变化有关（如翻身、起床）', value: 'vertigo_positional', next: 'step_3_concomitant' },
+            { label: '头昏沉沉、像戴了帽子，走路不稳但不会有天旋地转的感觉', value: 'dizziness_gait', next: 'step_3_concomitant' },
+            { label: '头痛（单侧跳痛/全头胀痛），怕光怕声', value: 'headache', next: 'step_3_concomitant' },
+            { label: '走路不稳、容易摔倒，但坐着或躺着时不晕', value: 'gait_only', next: 'step_3_concomitant' }
+          ]
+        },
+        /* ========== Level 3: 伴随症状与病史追问 ========== */
+        {
+          id: 'step_3_concomitant',
+          level: 3,
+          question: '是否伴有以下任何一种情况？（可多选）',
+          type: 'checkbox',
+          options: [
+            { label: '耳鸣、耳闷、听力下降（一侧或双侧）', value: 'tinnitus', next: 'step_3_duration' },
+            { label: '恶心、呕吐（与头晕同时发生）', value: 'nausea', next: 'step_3_duration' },
+            { label: '颈部僵硬、后枕部疼痛', value: 'neck_pain', next: 'step_3_duration' },
+            { label: '没有上述伴随症状', value: 'none', next: 'step_3_duration' }
+          ]
+        },
+        {
+          id: 'step_3_duration',
+          level: 3,
+          question: '症状持续多久了？（时间轴）',
+          type: 'radio',
+          options: [
+            { label: '突然发生，不到48小时', value: 'acute', next: 'step_4_physical' },
+            { label: '反复发作，每次持续数分钟到数小时', value: 'paroxysmal', next: 'step_4_physical' },
+            { label: '持续存在，已经超过1个月', value: 'chronic', next: 'step_4_physical' }
+          ]
+        },
+        /* ========== Level 4: 特殊诱发物理测试 ========== */
+        {
+          id: 'step_4_physical',
+          level: 4,
+          question: '请尝试快速从坐位站起，然后闭眼单脚站立（扶好椅子防摔倒）。是否感觉天旋地转或站不稳？',
+          type: 'radio',
+          options: [
+            { label: '是，站不稳/天旋地转', value: 'balance_pos', next: 'balance_result' },
+            { label: '否，可以站稳', value: 'balance_neg', next: 'dix_hallpike' }
+          ],
+          guide: '平衡功能测试：阳性提示前庭系统或小脑病变'
+        },
+        {
+          id: 'dix_hallpike',
+          level: 4,
+          question: '（Dix-Hallpike试验）请坐在床边，头向一侧转45°，然后快速躺下（头悬垂床沿）。是否出现天旋地转+眼球震颤（持续数秒到1分钟）？
+
+⚠️ 此测试可能诱发剧烈眩晕，请在他人陪同下进行！',
+          type: 'radio',
+          options: [
+            { label: '是，出现短暂眩晕+眼震', value: 'dix_pos', next: 'bppv_result' },
+            { label: '否，没有诱发眩晕', value: 'dix_neg', next: 'romberg' }
+          ],
+          guide: 'Dix-Hallpike试验：阳性提示良性阵发性位置性眩晕（BPPV），见《神经康复学》眩晕鉴别诊断'
+        },
+        {
+          id: 'romberg',
+          level: 4,
+          question: '（Romberg试验）请双脚并拢站立，闭眼。是否出现身体摇晃或摔倒？',
+          type: 'radio',
+          options: [
+            { label: '是，闭眼后明显摇晃/摔倒', value: 'romberg_pos', next: 'vestibular_result' },
+            { label: '否，可以站稳', value: 'romberg_neg', next: 'unknown_result' }
+          ],
+          guide: 'Romberg试验：阳性提示本体感觉或前庭系统受损'
+        }
+      ],
+      result: function(answers) {
+        var result = { diagnosis: 'unknown', confidence: 0, specialty: 'neurology', reason: '' };
+        
+        // Level 1: 红线检查
+        var redflag = answers.redflag_dizziness;
+        if (redflag && redflag.indexOf('redflag') !== -1) {
+          result.redflag = true;
+          result.redflagMsg = '⚠️ 怀疑急性脑卒中/蛛网膜下腔出血！请立即就医，勿自行康复。';
+          return result;
+        }
+        
+        // Level 4: 物理测试结果判断
+        var dixTest = answers.dix_hallpike;
+        if (dixTest && dixTest.indexOf('dix_pos') !== -1) {
+          result.diagnosis = 'bppv';
+          result.confidence = 95;
+          result.specialty = 'vestibular';
+          result.label = '良性阵发性位置性眩晕（BPPV）';
+          result.reason = 'Dix-Hallpike试验阳性（Level 4 物理测试阳性），符合耳石症诊断';
+          return result;
+        }
+        
+        var balanceTest = answers.step_4_physical;
+        if (balanceTest && balanceTest.indexOf('balance_pos') !== -1) {
+          result.diagnosis = 'vestibular_dysfunction';
+          result.confidence = 85;
+          result.specialty = 'vestibular';
+          result.label = '前庭系统功能障碍';
+          result.reason = '平衡功能测试阳性（Level 4 物理测试阳性），提示前庭系统受损';
+          return result;
+        }
+        
+        var rombergTest = answers.romberg;
+        if (rombergTest && rombergTest.indexOf('romberg_pos') !== -1) {
+          result.diagnosis = 'proprioceptive_dysfunction';
+          result.confidence = 80;
+          result.specialty = 'neurology';
+          result.label = '本体感觉/前庭功能障碍';
+          result.reason = 'Romberg试验阳性（Level 4 物理测试阳性），提示本体感觉或前庭系统受损';
+          return result;
+        }
+        
+        // Level 2-3: 根据定位和伴随症状判断
+        var localization = answers.step_2_localization;
+        
+        if (localization && localization.indexOf('headache') !== -1) {
+          result.diagnosis = 'migraine';
+          result.confidence = 75;
+          result.specialty = 'neurology';
+          result.label = '偏头痛？';
+          result.reason = '头痛（单侧跳痛/全头胀痛）+ 怕光怕声（Level 2 定位），怀疑偏头痛';
+          return result;
+        }
+        
+        if (localization && localization.indexOf('gait_only') !== -1) {
+          result.diagnosis = 'cerebellar_dysfunction';
+          result.confidence = 70;
+          result.specialty = 'neurology';
+          result.label = '小脑功能障碍？';
+          result.reason = '走路不稳、容易摔倒（Level 2 定位），提示小脑或其传导通路受损';
+          return result;
+        }
+        
+        if (localization && localization.indexOf('vertigo_positional') !== -1) {
+          result.diagnosis = 'bppv_suspected';
+          result.confidence = 60;
+          result.specialty = 'vestibular';
+          result.label = '位置性眩晕（疑似BPPV，建议Dix-Hallpike试验确诊）';
+          result.reason = '天旋地转 + 与头部位置变化有关（Level 2 定位），怀疑BPPV但Level 4测试阴性';
+          return result;
+        }
+        
+        // 默认
+        result.diagnosis = 'dizziness_unknown';
+        result.confidence = 50;
+        result.specialty = 'neurology';
+        result.label = '头晕/平衡问题待查（建议神经内科/耳鼻喉科就诊）';
+        result.reason = 'Level 2-4 无法明确，需进一步检查';
+        return result;
+      }
+    },
+
+    /* ============================================================
+     * 气喘/胸闷/运动后气短（四步通用筛查模型）
+     * 参考：《运动医学》心血管运动测试；《康复评定学》心肺运动试验
+     * ============================================================ */
+    'dyspnea': {
+      label: '气喘/胸闷/运动后气短 鉴别诊断',
+      icon: '🫁',
+      steps: [
+        /* ========== Level 1: 红旗症状安全过滤 ========== */
+        {
+          id: 'redflag_dyspnea',
+          level: 1,
+          question: '您是否有以下任何一种危险信号：胸痛放射到左臂/下颌、夜间阵发性呼吸困难（需坐起呼吸）、咳粉红色泡沫痰、或静息状态下就感觉喘不上气？',
+          type: 'radio',
+          options: [
+            { label: '是，有上述任何一种情况', value: 'redflag', action: 'TERMINATE_TO_EMERGENCY' },
+            { label: '否，没有这些症状', value: 'safe', next: 'step_2_localization' }
+          ],
+          guide: '排除急性冠脉综合征、急性心衰等急危重症'
+        },
+        /* ========== Level 2: 解剖定位 ========== */
+        {
+          id: 'step_2_localization',
+          level: 2,
+          question: '您的症状主要发生在什么时候？（可多选）',
+          type: 'checkbox',
+          options: [
+            { label: '运动时（如快走、跑步、爬楼），停止运动后缓解', value: 'exercise_induced', next: 'step_3_concomitant' },
+            { label: '休息时也有，平躺时加重，坐起后缓解', value: 'orthopnea', next: 'step_3_concomitant' },
+            { label: '接触冷空气/花粉/粉尘后发作，伴有咳嗽、哮鸣音', value: 'allergic', next: 'step_3_concomitant' },
+            { label: '长期吸烟史，日常活动就气短，伴有慢性咳嗽', value: 'smoking_copd', next: 'step_3_concomitant' }
+          ]
+        },
+        /* ========== Level 3: 伴随症状与病史追问 ========== */
+        {
+          id: 'step_3_concomitant',
+          level: 3,
+          question: '请选择您的病史（可多选）：',
+          type: 'checkbox',
+          options: [
+            { label: '有心脏病史（心梗、心衰、心律失常）', value: 'heart_disease', next: 'step_3_duration' },
+            { label: '有哮喘/慢性支气管炎/COPD病史', value: 'lung_disease', next: 'step_3_duration' },
+            { label: '长期吸烟（>10包年）', value: 'smoking', next: 'step_3_duration' },
+            { label: '没有上述病史', value: 'no_history', next: 'step_3_duration' }
+          ]
+        },
+        {
+          id: 'step_3_duration',
+          level: 3,
+          question: '症状持续多久了？（时间轴）',
+          type: 'radio',
+          options: [
+            { label: '突然发生，不到1周', value: 'acute', next: 'step_4_physical' },
+            { label: '反复发作，但每次都能缓解', value: 'paroxysmal', next: 'step_4_physical' },
+            { label: '持续存在，逐渐加重，超过3个月', value: 'chronic', next: 'step_4_physical' }
+          ]
+        },
+        /* ========== Level 4: 特殊诱发物理测试 ========== */
+        {
+          id: 'step_4_physical',
+          level: 4,
+          question: '请尝试爬2层楼梯（或快走6分钟）。是否出现明显气喘、胸闷、或指脉氧下降（如果有指氧仪）？',
+          type: 'radio',
+          options: [
+            { label: '是，爬楼/快走后明显气喘胸闷', value: 'exercise_pos', next: 'step_4_cardiac' },
+            { label: '否，日常活动无气短', value: 'exercise_neg', next: 'step_4_lung' }
+          ],
+          guide: '心肺运动测试简化版：运动诱发气短提示心肺功能受损'
+        },
+        {
+          id: 'step_4_cardiac',
+          level: 4,
+          question: '您是否有脚踝水肿、夜间阵发性呼吸困难（需坐起呼吸）、或颈静脉怒张？',
+          type: 'radio',
+          options: [
+            { label: '是，有上述任何一种情况', value: 'heart_failure_pos', next: 'heart_failure_result' },
+            { label: '否，没有这些症状', value: 'heart_failure_neg', next: 'angina_result' }
+          ],
+          guide: '心衰体征筛查：脚踝水肿 + 夜间阵发性呼吸困难提示慢性心衰'
+        },
+        {
+          id: 'step_4_lung',
+          level: 4,
+          question: '您是否有慢性咳嗽、咳痰（每年超过3个月，连续2年以上）？',
+          type: 'radio',
+          options: [
+            { label: '是，有慢性咳嗽咳痰', value: 'copd_pos', next: 'copd_result' },
+            { label: '否，没有慢性咳嗽', value: 'copd_neg', next: 'asthma_result' }
+          ],
+          guide: 'COPD筛查：慢性咳嗽咳痰 >3个月/年 × 2年'
+        }
+      ],
+      result: function(answers) {
+        var result = { diagnosis: 'unknown', confidence: 0, specialty: 'cardiopulmonary', reason: '' };
+        
+        // Level 1: 红线检查
+        var redflag = answers.redflag_dyspnea;
+        if (redflag && redflag.indexOf('redflag') !== -1) {
+          result.redflag = true;
+          result.redflagMsg = '⚠️ 怀疑急性冠脉综合征/急性心衰！请立即就医，勿自行康复。';
+          return result;
+        }
+        
+        // Level 4: 物理测试结果判断
+        var heartFailureTest = answers.step_4_cardiac;
+        if (heartFailureTest && heartFailureTest.indexOf('heart_failure_pos') !== -1) {
+          result.diagnosis = 'heart_failure';
+          result.confidence = 95;
+          result.specialty = 'cardiopulmonary';
+          result.label = '慢性心力衰竭？';
+          result.reason = '脚踝水肿 + 夜间阵发性呼吸困难（Level 4 物理测试阳性），符合心衰体征';
+          return result;
+        }
+        
+        var copdTest = answers.step_4_lung;
+        if (copdTest && copdTest.indexOf('copd_pos') !== -1) {
+          result.diagnosis = 'copd';
+          result.confidence = 90;
+          result.specialty = 'cardiopulmonary';
+          result.label = '慢性阻塞性肺疾病（COPD）';
+          result.reason = '慢性咳嗽咳痰 >3个月/年 × 2年（Level 4 物理测试阳性），符合COPD诊断';
+          return result;
+        }
+        
+        // Level 2-3: 根据定位和病史判断
+        var localization = answers.step_2_localization;
+        var history = answers.step_3_concomitant;
+        
+        if (localization && localization.indexOf('exercise_induced') !== -1) {
+          if (history && history.indexOf('heart_disease') !== -1) {
+            result.diagnosis = 'cardiac_dysfunction';
+            result.confidence = 85;
+            result.specialty = 'cardiopulmonary';
+            result.label = '心脏功能不全？';
+            result.reason = '运动诱发气短 + 心脏病史（Level 2-3），怀疑心脏功能不全';
+            return result;
+          } else {
+            result.diagnosis = 'deconditioning';
+            result.confidence = 70;
+            result.specialty = 'cardiopulmonary';
+            result.label = '体能下降（Deconditioning）';
+            result.reason = '运动诱发气短，但无心脏病史（Level 2-3），考虑体能下降';
+            return result;
+          }
+        }
+        
+        if (localization && localization.indexOf('allergic') !== -1) {
+          result.diagnosis = 'asthma';
+          result.confidence = 80;
+          result.specialty = 'cardiopulmonary';
+          result.label = '支气管哮喘？';
+          result.reason = '接触过敏原后发作 + 咳嗽/哮鸣音（Level 2 定位），怀疑哮喘';
+          return result;
+        }
+        
+        if (localization && localization.indexOf('smoking_copd') !== -1) {
+          result.diagnosis = 'copd_suspected';
+          result.confidence = 75;
+          result.specialty = 'cardiopulmonary';
+          result.label = '慢性阻塞性肺疾病（COPD）？';
+          result.reason = '长期吸烟史 + 日常活动气短（Level 2 定位），怀疑COPD';
+          return result;
+        }
+        
+        // 默认
+        result.diagnosis = 'dyspnea_unknown';
+        result.confidence = 50;
+        result.specialty = 'cardiopulmonary';
+        result.label = '气短待查（建议心内科/呼吸内科就诊）';
+        result.reason = 'Level 2-4 无法明确，需进一步检查';
+        return result;
+      }
+    },
+
   getTree: function(keyword) {
     var k = keyword.replace(/疼/g, '痛').replace(/\s+/g, '');
     // 手麻/手指麻木
@@ -815,6 +1167,14 @@ const DifferentialEngine = {
     // 膝痛
     if (k.indexOf('膝痛') !== -1 || k.indexOf('膝盖痛') !== -1 || k.indexOf('膝关节') !== -1 || k.indexOf('上下楼梯痛') !== -1) {
       return this.trees.knee_pain;
+    }
+    // 头晕/头痛/平衡问题
+    if (k.indexOf("头晕") !== -1 || k.indexOf("眩晕") !== -1 || k.indexOf("头痛") !== -1 || k.indexOf("头疼") !== -1 || k.indexOf("平衡") !== -1 || k.indexOf("走路不稳") !== -1) {
+      return this.trees.dizziness;
+    }
+    // 气喘/胸闷/运动后气短
+    if (k.indexOf("气喘") !== -1 || k.indexOf("气短") !== -1 || k.indexOf("胸闷") !== -1 || k.indexOf("呼吸困难") !== -1 || k.indexOf("运动后气短") !== -1) {
+      return this.trees.dyspnea;
     }
     // 无法匹配 → 走通用追问树（做解剖定位）
     return this.trees.general_symptom;
