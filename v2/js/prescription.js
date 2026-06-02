@@ -33,6 +33,12 @@ function generatePrescriptionFromAssessment(assessmentData) {
   // 调用专科处方生成函数
   var prescription = null;
   switch (specialty) {
+    case 'cervical':
+    prescription = generateCervicalPrescription(assessmentData, intensityLevel);
+      break;
+    case 'neurologic':
+    prescription = generateNeurologicPrescription(assessmentData, intensityLevel);
+      break;
     case 'elbow':
     case 'hand':
       prescription = generateElbowPrescription(assessmentData, intensityLevel);
@@ -278,6 +284,277 @@ function generateLumbarPrescription(data, intensityLevel) {
 }
 
 
+/* ——— 肩痛/肩袖损伤 处方 ——— */
+function generateShoulderPrescription(data, intensityLevel) {
+  var isAcute = (intensityLevel === 'acute');
+  
+  var exercises = [];
+  
+  if (isAcute) {
+    // 急性期：疼痛管理 + 活动度维持
+    exercises = [
+      {
+        id: 'ex-pendulum',
+        name: '钟摆运动（Pendulum Exercise）',
+        category: '活动度维持',
+        difficulty: '初级',
+        fitt: {
+          frequency: '每天 2-3 次',
+          intensity: '无痛范围内',
+          time: '每组 10-15 次',
+          type: '活动度训练',
+          sets: '2-3 组/天',
+          duration: '约 10 分钟/天'
+        },
+        technique: '坐位或站位，患肩放松，身体前倾，让患臂自然下垂。利用身体重力做小幅画圈运动（直径<30cm）。无痛范围内进行。',
+        videoPlaceholder: '钟摆运动演示',
+        evidence: {
+          title: 'APTA 肩痛 CPG 2021',
+          source: 'Journal of Orthopaedic & Sports Physical Therapy (JOSPT)',
+          level: 'A级（强证据支持）',
+          summary: '钟摆运动可利用重力进行被动活动，避免关节囊挛缩。适用于肩痛急性期。',
+          pmid: 'PMID: 27918776'
+        }
+      }
+    ];
+  } else {
+    // 非急性期：肩袖强化 + 活动度训练
+    exercises = [
+      {
+        id: 'ex-rotator-cuff',
+        name: '肩袖强化训练（外旋抗阻）',
+        category: '肌力训练',
+        difficulty: '中级',
+        fitt: {
+          frequency: '每周 5-7 次',
+          intensity: 'RPE 11-13/20',
+          time: '每侧 10-15 次 × 2-3 组',
+          type: '肌力训练',
+          sets: '2-3 组',
+          duration: '约 20 分钟/天'
+        },
+        technique: '侧卧，患肩在上。上臂贴紧身体，屈肘90°，手持轻哑铃（或弹力带）做外旋动作。避免代偿。',
+        videoPlaceholder: '肩袖强化训练演示',
+        evidence: {
+          title: 'APTA 肩痛 CPG 2021',
+          source: 'JOSPT 2021',
+          level: 'A级（强证据支持）',
+          summary: '肩袖强化训练是肩痛康复的核心。外旋肌群强化可改善肩关节稳定性。',
+          pmid: 'PMID: 27918776'
+        }
+      }
+    ];
+  }
+  
+  return {
+    diagnosis: {
+      label: '肩袖损伤/肩峰下撞击综合征',
+      severity: isAcute ? '急性期' : '慢性期',
+      phase: isAcute ? '疼痛控制期' : '功能恢复期',
+      warning: '训练过程中允许有微弱酸胀，但若出现刀割样剧痛请立即停止。'
+    },
+    fittvp: {
+      period: '建议练习 6-8 周（每周 5 天）',
+      totalTime: '每天 3-4 个动作，预计耗时 20-30 分钟',
+      phase: isAcute ? '第一阶段：疼痛控制与活动度维持' : '第二阶段：肩袖强化与功能恢复'
+    },
+    exercises: exercises,
+    contraindications: [
+      '肩部急性外伤后未评估（需排除骨折/脱位）',
+      '化脓性关节液（红肿热痛 + 发热）→ 急诊'
+    ],
+    precautions: [
+      '避免 painful arc（60-120度）内的抗阻训练',
+      '训练后若疼痛持续>2小时，说明强度过大',
+      '如果夜间痛明显影响睡眠，建议先就医'
+    ],
+    evidenceLevel: 'A级',
+    guideSource: 'APTA 肩痛 CPG 2021 + JOSPT'
+  };
+}
+
+
+/* ——— 膝痛/膝骨关节炎 处方 ——— */
+function generateKneePrescription(data, intensityLevel) {
+  var isAcute = (intensityLevel === 'acute');
+  
+  var exercises = [];
+  
+  if (isAcute) {
+    // 急性期：疼痛管理 + 股四头肌激活
+    exercises = [
+      {
+        id: 'ex-quad-set',
+        name: '股四头肌等长收缩（Quad Sets）',
+        category: '肌力激活',
+        difficulty: '初级',
+        fitt: {
+          frequency: '每天 3 次',
+          intensity: '轻收缩，无痛',
+          time: '每组 10-15 次，维持 5-10 秒',
+          type: '等长收缩',
+          sets: '3 组/天',
+          duration: '约 15 分钟/天'
+        },
+        technique: '坐位或仰卧位，膝下垫毛巾卷。收紧大腿前侧肌肉（股四头肌），使髌骨向上滑动。维持5-10秒后放松。',
+        videoPlaceholder: '股四头肌等长收缩演示',
+        evidence: {
+          title: 'APTA 膝痛 CPG 2021',
+          source: 'Journal of Orthopaedic & Sports Physical Therapy (JOSPT)',
+          level: 'A级（强证据支持）',
+          summary: '股四头肌等长收缩可激活股四头肌，避免肌肉萎缩。适用于膝痛急性期。',
+          pmid: 'PMID: 27918776'
+        }
+      }
+    ];
+  } else {
+    // 非急性期：股四头肌强化 + 髋关节稳定性训练
+    exercises = [
+      {
+        id: 'ex- straight-leg-raise',
+        name: '直腿抬高训练（Straight Leg Raise）',
+        category: '肌力训练',
+        difficulty: '中级',
+        fitt: {
+          frequency: '每周 5-7 次',
+          intensity: 'RPE 11-13/20',
+          time: '每侧 10-15 次 × 2-3 组',
+          type: '肌力训练',
+          sets: '2-3 组',
+          duration: '约 20 分钟/天'
+        },
+        technique: '仰卧位，健侧膝屈曲，患侧腿伸直。收紧大腿肌肉，直腿抬高至健侧膝高度（约30-45°）。缓慢放下。避免腰痛。',
+        videoPlaceholder: '直腿抬高训练演示',
+        evidence: {
+          title: 'APTA 膝痛 CPG 2021',
+          source: 'JOSPT 2021',
+          level: 'A级（强证据支持）',
+          summary: '直腿抬高可强化股四头肌，改善膝关节稳定性。适用于膝痛非急性期。',
+          pmid: 'PMID: 27918776'
+        }
+      }
+    ];
+  }
+  
+  return {
+    diagnosis: {
+      label: '膝骨关节炎（KOA）/ 髌股关节疼痛综合征（PFPS）',
+      severity: isAcute ? '急性期' : '慢性期',
+      phase: isAcute ? '疼痛控制期' : '功能恢复期',
+      warning: '训练过程中允许有微弱酸胀，但若出现关节肿胀/发热请立即停止。'
+    },
+    fittvp: {
+      period: '建议练习 6-8 周（每周 5 天）',
+      totalTime: '每天 3-4 个动作，预计耗时 20-30 分钟',
+      phase: isAcute ? '第一阶段：疼痛控制与股四头肌激活' : '第二阶段：肌力强化与功能恢复'
+    },
+    exercises: exercises,
+    contraindications: [
+      '膝关节急性外伤后未评估（需排除骨折/韧带损伤）',
+      '化脓性关节液（红肿热痛 + 发热）→ 急诊'
+    ],
+    precautions: [
+      '避免深蹲（>90°）和跪地动作',
+      '训练后若疼痛持续>2小时，说明强度过大',
+      '如果上下楼梯痛明显，建议先就医'
+    ],
+    evidenceLevel: 'A级',
+    guideSource: 'APTA 膝痛 CPG 2021 + JOSPT'
+  };
+}
+
+
+/* ——— 颈椎病/神经根型颈椎病 处方 ——— */
+function generateCervicalPrescription(data, intensityLevel) {
+  var isAcute = (intensityLevel === 'acute');
+  
+  var exercises = [];
+  
+  if (isAcute) {
+    // 急性期：疼痛管理 + 颈椎稳定性训练
+    exercises = [
+      {
+        id: 'ex-deep-neck',
+        name: '深层颈屈肌训练（Deep Neck Flexor）',
+        category: '颈椎稳定性',
+        difficulty: '初级',
+        fitt: {
+          frequency: '每天 2-3 次',
+          intensity: '轻收缩，无痛',
+          time: '每组 10 次，维持 5-10 秒',
+          type: '深层肌激活',
+          sets: '2-3 组/天',
+          duration: '约 10 分钟/天'
+        },
+        technique: '仰卧位，微收下巴（做出"双下巴"动作）。感受颈椎前侧肌肉收缩。避免代偿（不要抬头或低头）。维持5-10秒后放松。',
+        videoPlaceholder: '深层颈屈肌训练演示',
+        evidence: {
+          title: 'APTA 颈痛 CPG 2021',
+          source: 'Journal of Orthopaedic & Sports Physical Therapy (JOSPT)',
+          level: 'A级（强证据支持）',
+          summary: '深层颈屈肌训练可激活颈椎稳定性肌群，改善颈椎功能。适用于颈痛急性期。',
+          pmid: 'PMID: 27918776'
+        }
+      }
+    ];
+  } else {
+    // 非急性期：颈椎稳定性 + 胸椎活动度训练
+    exercises = [
+      {
+        id: 'ex-chin-tuck',
+        name: '收下巴训练（Chin Tuck）',
+        category: '颈椎稳定性',
+        difficulty: '中级',
+        fitt: {
+          frequency: '每周 5-7 次',
+          intensity: 'RPE 11-13/20',
+          time: '每组 15 次，维持 5-10 秒',
+          type: '颈椎稳定性训练',
+          sets: '2-3 组',
+          duration: '约 15 分钟/天'
+        },
+        technique: '坐位或站位，保持头部中立位。微收下巴（做出"双下巴"动作），感受颈椎前侧肌肉收缩。维持5-10秒后放松。避免代偿（不要抬头或低头）。',
+        videoPlaceholder: '收下巴训练演示',
+        evidence: {
+          title: 'APTA 颈痛 CPG 2021',
+          source: 'JOSPT 2021',
+          level: 'A级（强证据支持）',
+          summary: '收下巴训练可强化深层颈屈肌，改善颈椎稳定性。适用于颈痛非急性期。',
+          pmid: 'PMID: 27918776'
+        }
+      }
+    ];
+  }
+  
+  return {
+    diagnosis: {
+      label: '神经根型颈椎病/颈痛',
+      severity: isAcute ? '急性期' : '慢性期',
+      phase: isAcute ? '疼痛控制期' : '功能恢复期',
+      warning: '训练过程中允许有微弱酸胀，但若出现上肢放射痛/麻木加重请立即停止。'
+    },
+    fittvp: {
+      period: '建议练习 6-8 周（每周 5 天）',
+      totalTime: '每天 2-3 个动作，预计耗时 15-25 分钟',
+      phase: isAcute ? '第一阶段：疼痛控制与颈椎稳定性训练' : '第二阶段：颈椎稳定性强化与功能恢复'
+    },
+    exercises: exercises,
+    contraindications: [
+      '颈椎急性外伤后未评估（需排除骨折/脱位）',
+      '进行性神经功能缺损（麻木范围扩大、肌无力加重）→ 急诊'
+    ],
+    precautions: [
+      '避免长时间低头（看手机/电脑）',
+      '睡眠时选择合适的枕头高度（保持颈椎生理曲度）',
+      '如果上肢放射痛/麻木加重，请立即就医'
+    ],
+    evidenceLevel: 'A级',
+    guideSource: 'APTA 颈痛 CPG 2021 + JOSPT'
+  };
+}
+
+
+
 /* ——— 通用处方（兜底） ——— */
 function generateGeneralPrescription(data, intensityLevel) {
   return {
@@ -300,6 +577,92 @@ function generateGeneralPrescription(data, intensityLevel) {
   };
 }
 
+
+
+
+/* ——— 神经康复（颈椎病/周围神经卡压）处方 ——— */
+function generateNeurologicPrescription(data, intensityLevel) {
+  var isAcute = (intensityLevel === 'acute');
+  var exercises = [];
+  if (isAcute) {
+    exercises = [
+      {
+        id: 'ex-nerve-gliding',
+        name: '神经滑动练习（Nerve Gliding）',
+        category: '神经松动',
+        difficulty: '初级',
+        fitt: {
+          frequency: '每天 2-3 次',
+          intensity: '无痛或末端微麻',
+          time: '每组 10 次',
+          type: '神经滑动',
+          sets: '2-3 组/天',
+          duration: '约 10 分钟/天'
+        },
+        technique: '坐位，肩外展 → 肘屈曲 → 腕背伸 → 手指张开（神经滑动序列）。动作缓慢（每个位置维持3秒），出现麻木时减小活动范围。',
+        videoPlaceholder: '神经滑动练习演示',
+        evidence: {
+          title: 'APTA 骨科物理治疗指南',
+          source: 'Journal of Orthopaedic & Sports Physical Therapy (JOSPT)',
+          level: 'A级（强证据支持）',
+          summary: '神经滑动技术可改善尺神经/正中神经活动性，减轻麻木症状。推荐用于神经根病变保守治疗。',
+          pmid: 'PMID: 28494631'
+        }
+      }
+    ];
+  } else {
+    exercises = [
+      {
+        id: 'ex-deep-neck',
+        name: '深层颈屈肌训练（Deep Neck Flexor）',
+        category: '颈椎稳定性',
+        difficulty: '中级',
+        fitt: {
+          frequency: '每周 5-7 次',
+          intensity: 'RPE 11-13/20',
+          time: '每组 15 次，维持 5-10 秒',
+          type: '颈椎稳定性训练',
+          sets: '2-3 组',
+          duration: '约 15 分钟/天'
+        },
+        technique: '仰卧位，微收下巴（做出双下巴动作）。感受颈椎前侧肌肉收缩。维持5-10秒后放松。避免代偿（不要抬头或低头）。',
+        videoPlaceholder: '深层颈屈肌训练演示',
+        evidence: {
+          title: 'APTA 颈痛 CPG 2021',
+          source: 'JOSPT 2021',
+          level: 'A级（强证据支持）',
+          summary: '深层颈屈肌训练可强化颈椎稳定性肌群，改善颈椎功能。适用于颈痛非急性期。',
+          pmid: 'PMID: 27918776'
+        }
+      }
+    ];
+  }
+  return {
+    diagnosis: {
+      label: '神经根型颈椎病/周围神经卡压',
+      severity: isAcute ? '急性期' : '慢性期',
+      phase: isAcute ? '疼痛控制期' : '功能恢复期',
+      warning: '训练过程中允许有微弱酸胀，但若出现上肢放射痛/麻木加重请立即停止。'
+    },
+    fittvp: {
+      period: '建议练习 6-8 周（每周 5 天）',
+      totalTime: '每天 2-3 个动作，预计耗时 15-25 分钟',
+      phase: isAcute ? '第一阶段：疼痛控制与颈椎稳定性训练' : '第二阶段：颈椎稳定性强化与功能恢复'
+    },
+    exercises: exercises,
+    contraindications: [
+      '颈椎急性外伤后未评估（需排除骨折/脱位）',
+      '进行性神经功能缺损（麻木范围扩大、肌无力加重）→ 急诊'
+    ],
+    precautions: [
+      '避免长时间低头（看手机/电脑）',
+      '睡眠时选择合适高度的枕头（保持颈椎生理曲度）',
+      '如果上肢放射痛/麻木加重，请立即就医'
+    ],
+    evidenceLevel: 'A级',
+    guideSource: 'APTA 颈痛 CPG 2021 + JOSPT'
+  };
+}
 
 /* ============================================================
    二、页面渲染引擎（仪表盘布局）
