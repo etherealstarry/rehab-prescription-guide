@@ -100,28 +100,44 @@ function doSearch(keyword) {
   }
   if (!keyword) return;
 
+  // 1. 红旗症状检查（复用现有逻辑）
   var rf = checkRedFlags(keyword);
   if (rf && rf.isRedFlag) {
     showRedFlagAlert(rf);
     return;
   }
 
-  var matches = DiagnosisTree.matchSymptoms(keyword);
-  if (!matches || matches.length === 0) {
-    showResults(keyword, matches);
-    return;
+  // 2. 语义归一化：将用户输入转换为标准标签
+  var normalized = null;
+  if (window.SemanticNormalizer) {
+    normalized = SemanticNormalizer.normalize(keyword);
+    console.log('🔍 语义归一化结果：', normalized);
   }
 
-  // 检查是否有追问树（交互式鉴别诊断）
+  // 3. 获取追问树
   var tree = null;
   if (window.DifferentialEngine) {
-    tree = DifferentialEngine.getTree(keyword);
+    // 如果有语义归一化结果，使用标准标签获取追问树
+    if (normalized && normalized.standardTag) {
+      var treeKey = SemanticNormalizer.getTreeKey(normalized);
+      if (treeKey && DifferentialEngine.trees[treeKey]) {
+        tree = DifferentialEngine.trees[treeKey];
+        console.log('✅ 通过语义归一化获取追问树：', treeKey);
+      }
+    }
+    // 如果没有归一化结果，回退到原有逻辑
+    if (!tree) {
+      tree = DifferentialEngine.getTree(keyword);
+    }
   }
+
   if (tree) {
     showDifferential(tree, keyword);
     return;
   }
 
+  // 4. 兜底：显示匹配结果卡片
+  var matches = DiagnosisTree.matchSymptoms(keyword);
   showResults(keyword, matches);
 }
 

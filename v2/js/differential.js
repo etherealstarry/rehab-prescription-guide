@@ -1152,7 +1152,20 @@ const DifferentialEngine = {
 
   getTree: function(keyword) {
     var k = keyword.replace(/疼/g, '痛').replace(/\s+/g, '');
-    // 手麻/手指麻木
+    
+    // 优先使用语义归一化结果
+    if (window.SemanticNormalizer) {
+      var normalized = SemanticNormalizer.normalize(keyword);
+      if (normalized && normalized.standardTag) {
+        var treeKey = SemanticNormalizer.getTreeKey(normalized);
+        if (treeKey && this.trees[treeKey]) {
+          console.log('✅ 语义归一化匹配：', normalized.standardTag, '->', treeKey);
+          return this.trees[treeKey];
+        }
+      }
+    }
+    
+    // 兜底：原有硬编码匹配（保留作为后备）
     if (k.indexOf('手麻') !== -1 || k.indexOf('手指麻') !== -1 || k.indexOf('手掌麻') !== -1 || k.indexOf('小指') !== -1 || k.indexOf('指尖麻') !== -1) {
       return this.trees.hand_numb;
     }
