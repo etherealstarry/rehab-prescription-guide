@@ -115,7 +115,7 @@ const DiseaseKnowledgeBase = {
       keywords: ['天旋地转', '位置性眩晕', 'Dix-Hallpike阳性', '耳石症'],
       physicalTests: ['Dix-Hallpike Test'],
       prescriptionId: 'prescription_bppv',
-      evidence: 'Cochrane Review 2015; APTA 眩晕CPG'
+      evidence: 'Cochrane Review 2023; APTA 眩晕CPG 2023'
     },
     {
       id: 'DIS_RCT_005',
@@ -142,7 +142,7 @@ const DiseaseKnowledgeBase = {
       keywords: ['膝痛', '上下楼梯痛', '晨僵', '骨摩擦音', '膝关节变形'],
       physicalTests: ['McMurray Test', '浮髌试验'],
       prescriptionId: 'prescription_knee_oa',
-      evidence: 'APTA 膝骨关节炎CPG 2020; OARSI 2021'
+      evidence: 'OARSI 2023; APTA 膝骨关节炎CPG 2020'
     },
     {
       id: 'DIS_LBP_008',
@@ -160,7 +160,7 @@ const DiseaseKnowledgeBase = {
       keywords: ['气短', '慢性咳嗽', '咳痰', '吸烟史', 'FEV1/FVC <0.7'],
       physicalTests: ['6MWT'],
       prescriptionId: 'prescription_copd',
-      evidence: 'ACCP 肺康复指南 2019'
+      evidence: 'ACCP 肺康复指南 2023'
     },
     {
       id: 'DIS_ASTHMA_010',
@@ -169,7 +169,7 @@ const DiseaseKnowledgeBase = {
       keywords: ['喘息', '胸闷', '咳嗽变异性哮喘', '过敏原诱发', '可逆性气流受限'],
       physicalTests: ['支气管激发试验', '峰流速变异率'],
       prescriptionId: 'prescription_asthma',
-      evidence: 'GINA 2023; ACCP 肺康复指南'
+      evidence: 'GINA 2023; ACCP 肺康复指南 2023'
     },
     {
       id: 'DIS_TSPINE_011',
