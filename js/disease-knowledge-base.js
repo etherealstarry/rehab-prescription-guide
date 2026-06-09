@@ -28,7 +28,8 @@ const DiseaseKnowledgeBase = {
     '头晕': ['头晕', '眩晕', '头昏', '头沉', '头重', '天旋地转', '头昏沉沉', '眩晕症', '站不稳', '头昏眼花'],
     '头痛': ['头痛', '头疼', '头部疼痛', '偏头痛', '跳痛', '胀痛', '头部不适', '偏头疼'],
     '气短': ['气短', '气喘', '呼吸困难', '胸闷', '喘不上气', '活动后气短', '运动后气短', '呼吸不畅', '喘'],
-    '步态异常': ['走路不稳', '跛行', '走路一瘸一拐', '走路腿没劲', '容易绊倒', '走路慢', '小碎步', '慌张步态', '剪刀步态']
+    '步态异常': ['走路不稳', '跛行', '走路一瘸一拐', '走路腿没劲', '容易绊倒', '走路慢', '小碎步', '慌张步态', '剪刀步态'],
+    '跟痛': ['跟痛', '足跟痛', '脚跟痛', '脚后跟痛', '早起下地痛', '足底筋膜炎', '跟腱痛']
   },
 
   /* =========================================================
@@ -278,8 +279,6 @@ const DiseaseKnowledgeBase = {
       physicalTests: ['UPDRS步态评分', 'Timed Up & Go'],
       prescriptionId: 'prescription_parkinsons_gait',
       evidence: 'MDS 帕金森病康复指南 2022'
-    }
-
     },
     {
       id: 'DIS_CERVICAL_SOMATIC_023',
@@ -316,6 +315,15 @@ const DiseaseKnowledgeBase = {
       physicalTests: ['关节摩擦音检查', '关节活动度测试'],
       prescriptionId: 'prescription_hand_oa',
       evidence: 'ACR 手OA诊疗指南 2021'
+    },
+    {
+      id: 'DIS_ACHILLES_TENDINOPATHY_029',
+      name: '跟腱病变（Achilles Tendinopathy）',
+      standardTags: ['ankle_pain', 'foot_pain'],
+      keywords: ['跟痛', '足跟痛', '早起下地痛', '跟腱区压痛', '蹬地痛', '跟腱病变'],
+      physicalTests: ['Royal London Hospital Test', 'Thompson Test'],
+      prescriptionId: 'prescription_achilles_tendinopathy',
+      evidence: 'APTA 跟腱疼痛CPG 2024'
     },
     {
       id: 'DIS_MIGRAINE_027',
@@ -623,9 +631,8 @@ const DiseaseKnowledgeBase = {
         validity: '"开"期进行，长期坚持',
         progression: '从辅助步行 → 独立步行 → 复杂地形步行'
       }
-    }
-
     },
+
     'prescription_cervical_somatic': {
       acute: {
         frequency: '每日2-3次',
@@ -698,7 +705,7 @@ const DiseaseKnowledgeBase = {
         progression: '从基础抓握 → 精细操作 → 工具使用'
       }
     },
-    'prescription_migraine': {
+    'prescription_achilles_tendinopathy': {
       acute: {
         frequency: '每周2-3次（非头痛期）',
         intensity: '低（避免诱发头痛）',

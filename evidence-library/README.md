@@ -1,5 +1,5 @@
 # 康复医学证据资料库
-> 最后更新：2026-06-03
+> 最后更新：2026-06-09
 
 本资料库系统整理康复处方指南网站所依据的所有循证医学证据，按来源分类，方便随时调取。
 
@@ -23,6 +23,7 @@
 |------|-----------|----------|-----------|-------------|
 | CPG-001 | 颈痛与活动受限 | 2021 | JOSPT / APTA Orthopedics | `APTA 颈痛CPG 2021` |
 | CPG-002 | 肩痛（肩袖肌腱病变） | 2025 | JOSPT / APTA Orthopedics | `APTA 肩痛CPG 2025` |
+| CPG-002a | 跟腱疼痛、僵硬及肌力减退：中段跟腱病变（修订版） | 2024 | JOSPT / APTA Orthopedics | `APTA 跟腱疼痛CPG 2024` |
 | CPG-003 | 膝骨关节炎 | 2020 | JOSPT / APTA Orthopedics | `APTA 膝骨关节炎CPG 2020` |
 | CPG-004 | 髋痛与活动受限（髋骨关节炎，修订版） | 2025 | JOSPT / APTA Orthopedics | `APTA 髋痛CPG 2025` |
 | CPG-005 | 踝关节不稳定 | 2018 | JOSPT / APTA Orthopedics | `APTA 踝不稳CPG 2018` |

@@ -2,7 +2,7 @@
   "meta": {
     "name": "康复医学证据资料库",
     "description": "康复处方指南网站所依据的所有循证医学证据，按来源分类，方便随时调取",
-    "last_updated": "2026-06-03",
+    "last_updated": "2026-06-09",
     "version": "1.0"
   },
   "apta_cpgs": [
@@ -21,6 +21,14 @@
       "source": "JOSPT / APTA Orthopedics",
       "url": "https://www.orthopt.org/content/publications/pub-cpg",
       "site_evidence_tag": "APTA 肩痛CPG 2025"
+    },
+    {
+      "id": "CPG-002a",
+      "title": "跟腱疼痛、僵硬及肌力减退：中段跟腱病变（修订版）",
+      "year": 2024,
+      "source": "JOSPT / APTA Orthopedics",
+      "url": "https://www.jospt.org/doi/10.2519/jospt.2024.0302",
+      "site_evidence_tag": "APTA 跟腱疼痛CPG 2024"
     },
     {
       "id": "CPG-003",
