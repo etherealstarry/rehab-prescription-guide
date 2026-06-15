@@ -2,8 +2,8 @@
   "meta": {
     "name": "康复医学证据资料库",
     "description": "康复处方指南网站所依据的所有循证医学证据，按来源分类，方便随时调取",
-    "last_updated": "2026-06-09",
-    "version": "1.0"
+    "last_updated": "2026-06-15",
+    "version": "1.1"
   },
   "apta_cpgs": [
     {
@@ -43,7 +43,7 @@
       "title": "髋痛与活动受限（髋骨关节炎，修订版）",
       "year": 2025,
       "source": "JOSPT / APTA Orthopedics",
-      "url": "https://www.orthopt.org/content/publications/pub-cpg",
+      "url": "https://www.jospt.org/doi/10.2519/jospt.2025.0301",
       "site_evidence_tag": "APTA 髋痛CPG 2025"
     },
     {
@@ -193,14 +193,14 @@
       "site_evidence_tag": "Cochrane Review 2023"
     },
     {
-      "id": "CR-010",
-      "title": "跟痛症（足底筋膜炎）治疗",
-      "year": 2022,
-      "conclusion": "牵伸+离心训练最有效",
-      "url": "https://www.cochranelibrary.com/",
-      "site_evidence_tag": "Cochrane Review 2022"
+      "id": "CR-011",
+      "title": "膝骨关节炎运动治疗（BMJ 2025）",
+      "year": 2025,
+      "conclusion": "有氧运动可能是膝OA最有受益的运动方式",
+      "url": "https://www.bmj.com/content/391/bmj-2025-085242",
+      "site_evidence_tag": "BMJ 膝OA运动治疗 2025"
     }
-  ],
+  ]
   "cma_guidelines": [
     {
       "id": "CMA-001",
@@ -225,6 +225,14 @@
       "lead_unit": "中华医学会物理医学与康复学分会（多学科）",
       "url": "https://medtion-image.medtion.com/uploads/1/file/public/202411/20241122131601_nd0u85rm4y.pdf",
       "site_evidence_tag": "CMA 脊柱侧凸康复指南 2024"
+    },
+    {
+      "id": "CMA-008",
+      "title": "骨质疏松症康复治疗指南",
+      "year": 2024,
+      "lead_unit": "中华医学会物理医学与康复学分会（何成奇教授牵头）",
+      "url": "https://www.zhangqiaokeyan.com/academic-journal-cn_detail_thesis/02012158756608.html",
+      "site_evidence_tag": "CMA 骨质疏松症康复指南 2024"
     },
     {
       "id": "CMA-004",

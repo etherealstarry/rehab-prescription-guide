@@ -343,7 +343,24 @@ const DiseaseKnowledgeBase = {
       prescriptionId: 'prescription_tension_ha',
       evidence: 'ICHD-3; 中国头痛诊疗指南 2023'
     },
-  ],
+    {
+      id: 'DIS_SCOLIOSIS_030',
+      name: '青少年特发性脊柱侧凸（Adolescent Idiopathic Scoliosis）',
+      standardTags: ['thoracic_pain', 'back_pain'],
+      keywords: ['脊柱侧弯', '肩膀不等高', '肩胛骨突出', '腰部不对称', '弯腰后背部不对称', 'Adams试验阳性'],
+      physicalTests: ['Adams前屈试验', '脊柱X线Cobb角测量'],
+      prescriptionId: 'prescription_scoliosis',
+      evidence: 'CMA 青少年特发性脊柱侧凸康复诊疗指南 2024'
+    },
+    {
+      id: 'DIS_OP_031',
+      name: '骨质疏松症（Osteoporosis）',
+      standardTags: ['back_pain', 'thoracic_pain'],
+      keywords: ['骨密度降低', '脆性骨折', '腰背酸痛', '身高变矮', 'T值≤-2.5', 'DXA检查'],
+      physicalTests: ['骨密度DXA检查', '骨折风险评估（FRAX）'],
+      prescriptionId: 'prescription_osteoporosis',
+      evidence: 'CMA 骨质疏松症康复治疗指南 2024'
+    },
 
   /* =========================================================
      5. 物理测试库（用于RAG生成追问）
@@ -707,20 +724,20 @@ const DiseaseKnowledgeBase = {
     },
     'prescription_achilles_tendinopathy': {
       acute: {
-        frequency: '每周2-3次（非头痛期）',
-        intensity: '低（避免诱发头痛）',
+        frequency: '每周2-3次',
+        intensity: '低（疼痛VAS <4/10）',
         time: '每次10-15分钟',
-        type: '放松训练 + 有氧运动（低强度）+ 睡眠卫生教育',
-        validity: '头痛间歇期',
-        progression: '从放松训练 → 规律有氧运动'
+        type: '跟腱保护 + 冰敷（前48h）+ 离心训练（无痛范围内）',
+        validity: '急性期（<2周）',
+        progression: '疼痛耐受后增加离心负荷'
       },
       chronic: {
         frequency: '每周3-5次',
-        intensity: '中（无头痛诱发）',
-        time: '每次20-30分钟',
-        type: '有氧运动 + 颈肩稳定性训练 + 压力管理训练 + 规律作息训练',
-        validity: '头痛控制稳定后',
-        progression: '从低强度有氧 → 中等强度有氧 + 力量训练'
+        intensity: '中（无疼痛）',
+        time: '每次15-20分钟',
+        type: '跟腱离心训练（Hémidand et al. 2024方案）+ 渐进性负荷训练 + 运动专项训练',
+        validity: '疼痛消失后开始',
+        progression: '从离心训练 → 能量储存训练 → 运动回归'
       }
     },
     'prescription_tension_ha': {
@@ -741,6 +758,42 @@ const DiseaseKnowledgeBase = {
         progression: '从放松训练 → 规律运动 → 心理干预整合'
       }
     },
+    'prescription_scoliosis': {
+      acute: {
+        frequency: '每周2-3次（医师指导）',
+        intensity: '低（Cobb角<20°）',
+        time: '每次20-30分钟',
+        type: '脊柱侧弯特定运动训练（PSSE）+ 呼吸训练',
+        validity: 'Cobb角10-20°（轻度）',
+        progression: '姿势控制改善后增加训练强度'
+      },
+      chronic: {
+        frequency: '每周3-5次',
+        intensity: '中（Cobb角20-40°）',
+        time: '每次30-45分钟',
+        type: 'PSSE + 支具治疗（如适用）+ 核心稳定性训练 + 有氧运动',
+        validity: 'Cobb角20-40°（中度，生长潜力仍存在）',
+        progression: '从基础训练 → 功能性训练 → 运动专项训练'
+      }
+    },
+    'prescription_osteoporosis': {
+      acute: {
+        frequency: '每周2-3次（骨折后）',
+        intensity: '低（疼痛VAS <4/10）',
+        time: '每次10-15分钟',
+        type: '骨折后保护 + 早期活动（避免跌倒）+ 疼痛管理',
+        validity: '骨折急性期',
+        progression: '骨折愈合后增加负重训练'
+      },
+      chronic: {
+        frequency: '每周3-5次',
+        intensity: '中（无骨折风险）',
+        time: '每次30-45分钟',
+        type: '负重运动（步行/慢跑）+ 抗阻训练（渐进性）+ 平衡训练（防跌倒）+ 钙/维生素D补充',
+        validity: '骨折愈合后，长期维持',
+        progression: '从低冲击负重 → 高冲击负重 → 抗阻训练'
+      }
+    }
   }
 };
 
