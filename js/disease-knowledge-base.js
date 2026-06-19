@@ -361,6 +361,15 @@ const DiseaseKnowledgeBase = {
       prescriptionId: 'prescription_osteoporosis',
       evidence: 'CMA 骨质疏松症康复治疗指南 2024'
     },
+    {
+      id: 'DIS_CHD_032',
+      name: '冠心病康复治疗（Coronary Heart Disease Rehab）',
+      standardTags: ['dyspnea'],
+      keywords: ['胸痛', '胸闷', '气短', '运动后诱发', 'PCI术后', 'CABG术后', '心肌梗死后', '冠心病危险因素'],
+      physicalTests: ['心肺运动试验（CPET）', '6分钟步行试验', '心电图运动试验'],
+      prescriptionId: 'prescription_chd',
+      evidence: 'CMA 冠心病康复指南 2024'
+    },
 
   /* =========================================================
      5. 物理测试库（用于RAG生成追问）
@@ -792,6 +801,24 @@ const DiseaseKnowledgeBase = {
         type: '负重运动（步行/慢跑）+ 抗阻训练（渐进性）+ 平衡训练（防跌倒）+ 钙/维生素D补充',
         validity: '骨折愈合后，长期维持',
         progression: '从低冲击负重 → 高冲击负重 → 抗阻训练'
+      }
+    },
+    'prescription_chd': {
+      acute: {
+        frequency: '每周2-3次（医师指导）',
+        intensity: '低（RPE <3/10，心率<100次/分）',
+        time: '每次10-15分钟',
+        type: '急性期保护 + 床边活动（避免跌倒）+ 疼痛管理',
+        validity: 'AMI后24-48h或PCI/CABG术后',
+        progression: '病情稳定后增加活动强度'
+      },
+      chronic: {
+        frequency: '每周3-5次',
+        intensity: '中（RPE 3-6/10，心率储备40-59%）',
+        time: '每次30-60分钟',
+        type: '有氧运动（步行/固定单车）+ 抗阻训练（渐进性）+ 心脏危险因素管理 + 心理支持',
+        validity: '病情稳定后，长期维持',
+        progression: '从低强度有氧 → 中等强度有氧 → 抗阻训练 + 运动回归'
       }
     }
   }

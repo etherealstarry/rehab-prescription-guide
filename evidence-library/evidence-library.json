@@ -2,8 +2,8 @@
   "meta": {
     "name": "康复医学证据资料库",
     "description": "康复处方指南网站所依据的所有循证医学证据，按来源分类，方便随时调取",
-    "last_updated": "2026-06-15",
-    "version": "1.1"
+    "last_updated": "2026-06-19",
+    "version": "1.2"
   },
   "apta_cpgs": [
     {
@@ -117,6 +117,14 @@
       "source": "APTA OBPT / Womens Health",
       "url": "https://www.apta.org/patient-care/evidence-based-practice-resources/cpgs",
       "site_evidence_tag": "APTA 骨盆带痛CPG 2023"
+    },
+    {
+      "id": "CPG-016",
+      "title": "远程康复（Telerehabilitation）",
+      "year": 2024,
+      "source": "APTA",
+      "url": "https://www.apta.org/patient-care/evidence-based-practice-resources/cpgs/telerehabilitation-pt-practice-apta-cpg",
+      "site_evidence_tag": "APTA 远程康复CPG 2024"
     }
   ],
   "cochrane_reviews": [
@@ -233,6 +241,14 @@
       "lead_unit": "中华医学会物理医学与康复学分会（何成奇教授牵头）",
       "url": "https://www.zhangqiaokeyan.com/academic-journal-cn_detail_thesis/02012158756608.html",
       "site_evidence_tag": "CMA 骨质疏松症康复指南 2024"
+    },
+    {
+      "id": "CMA-009",
+      "title": "中国冠心病康复循证实践指南",
+      "year": 2024,
+      "lead_unit": "中华医学会物理医学与康复学分会 / 四川大学华西医院",
+      "url": "https://cjpmr.tjh.com.cn/ch/reader/issue_list.aspx?year_id=2024&quarter_id=7",
+      "site_evidence_tag": "CMA 冠心病康复指南 2024"
     },
     {
       "id": "CMA-004",
