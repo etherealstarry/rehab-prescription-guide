@@ -2,8 +2,8 @@
   "meta": {
     "name": "康复医学证据资料库",
     "description": "康复处方指南网站所依据的所有循证医学证据，按来源分类，方便随时调取",
-    "last_updated": "2026-06-19",
-    "version": "1.2"
+    "last_updated": "2026-06-23",
+    "version": "1.3"
   },
   "apta_cpgs": [
     {
@@ -125,6 +125,14 @@
       "source": "APTA",
       "url": "https://www.apta.org/patient-care/evidence-based-practice-resources/cpgs/telerehabilitation-pt-practice-apta-cpg",
       "site_evidence_tag": "APTA 远程康复CPG 2024"
+    },
+    {
+      "id": "CPG-017",
+      "title": "肩袖损伤（Rotator Cuff Injuries）",
+      "year": 2025,
+      "source": "AAOS / APTA Orthopedics",
+      "url": "https://www.apta.org/patient-care/evidence-based-practice-resources/cpgs/management-of-rotator-cuff-injuries-clinical-practice-guideline",
+      "site_evidence_tag": "APTA 肩袖损伤CPG 2025"
     }
   ],
   "cochrane_reviews": [
@@ -289,6 +297,14 @@
       "lead_unit": "中华医学会物理医学与康复学分会",
       "url": "https://www.sinomed.ac.cn/",
       "site_evidence_tag": "CMA 中枢感染康复指南 2023"
+    },
+    {
+      "id": "CMA-010",
+      "title": "中国腰椎间盘突出症诊疗指南",
+      "year": 2025,
+      "lead_unit": "中华医学会骨科学分会 / 中国康复医学会脊柱脊髓专业委员会",
+      "url": "https://medtion-image.medtion.com/uploads/1/file/public/202601/20260108162411_9u47jwmdqv.pdf",
+      "site_evidence_tag": "CMA 腰椎间盘突出症诊疗指南 2025"
     }
   ],
   "international_guidelines": {
