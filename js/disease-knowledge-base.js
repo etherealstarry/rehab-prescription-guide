@@ -369,7 +369,8 @@ const DiseaseKnowledgeBase = {
       physicalTests: ['心肺运动试验（CPET）', '6分钟步行试验', '心电图运动试验'],
       prescriptionId: 'prescription_chd',
       evidence: 'CMA 冠心病康复指南 2024'
-    },
+    }
+  ],
 
   /* =========================================================
      5. 物理测试库（用于RAG生成追问）

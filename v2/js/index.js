@@ -110,7 +110,7 @@ function doSearch(keyword) {
   // 2. 语义归一化：将用户输入转换为标准标签
   var normalized = null;
   if (window.SemanticNormalizer) {
-    normalized = window.SemanticNormalizer.normalize(keyword);
+    normalized = SemanticNormalizer.normalize(keyword);
     console.log('🔍 语义归一化结果：', normalized);
   }
 
@@ -119,15 +119,15 @@ function doSearch(keyword) {
   if (window.DifferentialEngine) {
     // 如果有语义归一化结果，使用标准标签获取追问树
     if (normalized && normalized.standardTag) {
-      var treeKey = window.SemanticNormalizer.getTreeKey(normalized);
-      if (treeKey && window.DifferentialEngine.trees[treeKey]) {
-        tree = window.DifferentialEngine.trees[treeKey];
+      var treeKey = SemanticNormalizer.getTreeKey(normalized);
+      if (treeKey && DifferentialEngine.trees[treeKey]) {
+        tree = DifferentialEngine.trees[treeKey];
         console.log('✅ 通过语义归一化获取追问树：', treeKey);
       }
     }
     // 如果没有归一化结果，回退到原有逻辑
     if (!tree) {
-      tree = window.DifferentialEngine.getTree(keyword);
+      tree = DifferentialEngine.getTree(keyword);
     }
   }
 

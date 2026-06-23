@@ -201,6 +201,14 @@
       "site_evidence_tag": "Cochrane Review 2023"
     },
     {
+      "id": "CR-010",
+      "title": "跟痛症（足底筋膜炎）治疗",
+      "year": 2022,
+      "conclusion": "牵伸+离心训练最有效",
+      "url": "https://www.cochranelibrary.com/",
+      "site_evidence_tag": "Cochrane Review 2022"
+    },
+    {
       "id": "CR-011",
       "title": "膝骨关节炎运动治疗（BMJ 2025）",
       "year": 2025,
