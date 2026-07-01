@@ -89,7 +89,7 @@ const DiseaseKnowledgeBase = {
       keywords: ['大拇指麻', '食指麻', '中指麻', '夜间麻醒', '鱼际肌萎缩', '屈腕试验阳性', '叩击试验阳性'],
       physicalTests: ['Phalen Test', 'Tinel Sign'],
       prescriptionId: 'prescription_cts',
-      evidence: 'APTA 腕管综合征临床实践指南 2021'
+      evidence: 'APTA 腕管综合征临床实践指南 2026（Revision 2026）'
     },
     {
       id: 'DIS_CUBITAL_002',

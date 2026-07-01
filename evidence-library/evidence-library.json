@@ -2,8 +2,8 @@
   "meta": {
     "name": "康复医学证据资料库",
     "description": "康复处方指南网站所依据的所有循证医学证据，按来源分类，方便随时调取",
-    "last_updated": "2026-06-23",
-    "version": "1.3"
+    "last_updated": "2026-07-01",
+    "version": "1.4"
   },
   "apta_cpgs": [
     {
@@ -104,11 +104,11 @@
     },
     {
       "id": "CPG-014",
-      "title": "腕管综合征",
-      "year": 2019,
+      "title": "腕管综合征（修订版）",
+      "year": 2026,
       "source": "APTA Hand & Upper Extremity",
-      "url": "https://www.apta.org/patient-care/evidence-based-practice-resources/cpgs",
-      "site_evidence_tag": "APTA 腕管CPG 2019"
+      "url": "https://www.orthopt.org/content/publications/pub-cpg",
+      "site_evidence_tag": "APTA 腕管CPG 2026"
     },
     {
       "id": "CPG-015",
@@ -224,7 +224,7 @@
       "url": "https://www.bmj.com/content/391/bmj-2025-085242",
       "site_evidence_tag": "BMJ 膝OA运动治疗 2025"
     }
-  ]
+  ],
   "cma_guidelines": [
     {
       "id": "CMA-001",
@@ -305,6 +305,14 @@
       "lead_unit": "中华医学会骨科学分会 / 中国康复医学会脊柱脊髓专业委员会",
       "url": "https://medtion-image.medtion.com/uploads/1/file/public/202601/20260108162411_9u47jwmdqv.pdf",
       "site_evidence_tag": "CMA 腰椎间盘突出症诊疗指南 2025"
+    },
+    {
+      "id": "CMA-011",
+      "title": "运动训练防治老年认知障碍的中国专家共识",
+      "year": 2026,
+      "lead_unit": "中华医学会物理医学与康复学分会，中山大学附属第三医院",
+      "url": "https://cjpmr.tjh.com.cn/ch/reader/view_abstract.aspx?file_no=2026060481&flag=1",
+      "site_evidence_tag": "CMA 运动训练防治老年认知障碍共识 2026"
     }
   ],
   "international_guidelines": {
